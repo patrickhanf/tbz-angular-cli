@@ -1,4 +1,20 @@
 <h1>
   {{title}}
-  <b>Welcome to my first A2 APP!</b>
+
 </h1>
+<md-toolbar>
+  Our Planets - Using Angular 2 Material  
+</md-toolbar>
+
+<md-grid-list cols="4" rowHeight="100px" >
+      <md-grid-tile *ngFor="let planet of planetsList" >
+          <h3 md-line>{{planet.name}}</h3>
+          <button md-icon-button (click)="showPlanetInfo(planet)">
+            <md-icon>info</md-icon>
+          </button>         
+        
+      </md-grid-tile>
+</md-grid-list>
+  <button md-button>FLAT</button>
+<button md-raised-button>RAISED</button>
+<div (click)="myClick()">What's up with my CODE!???</div>
