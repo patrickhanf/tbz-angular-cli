@@ -8,13 +8,17 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
- // directives: [MD_BUTTON_DIRECTIVES],
- // template: '<button md-raised-button color=’primary’>this is a magical button</button>'
+  styleUrls: ['./app.component.css']
+
 })
 
 export class AppComponent {
-   title = 'Trail Blazer go!';
+   title = 'Trail Blazer go hello!';
+
+   myClick ()
+   {
+   this.title = "changed?";
+   }
   /*
   // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
   planetsList: Planets[] = ['what','goes','here'];
