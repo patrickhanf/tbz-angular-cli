@@ -8,6 +8,11 @@ import { CanDeactivateGuard }       from './can-deactivate-guard.service';
 import { AuthGuard }                from './auth-guard.service';
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 
+import { ContactsComponent }  from './contacts/contacts.component';
+
+// ROuting explained
+// https://vsavkin.com/angular-router-declarative-lazy-loading-7071d1f203ee#.qlmrtmbic
+
 const appRoutes: Routes = [
   {
     path: 'compose',
@@ -19,13 +24,14 @@ const appRoutes: Routes = [
     loadChildren: 'app/admin/admin.module#AdminModule',
     canLoad: [AuthGuard]
   },
-  { path: 'dashboard',   redirectTo: '/dashboard', pathMatch: 'full' },
-//   {
-    
-//     path: 'dashboard',
-//     loadChildren: 'app/dashboard/dashboard.module',
-//     data: { preload: false }
-//   },
+  {
+    path: 'contacts', component: ContactsComponent
+  },
+  //{ path: 'dashboard',   redirectTo: '/dashboard', pathMatch: 'full' },
+  // {
+  //   path: 'contacts',
+  //   loadChildren: 'app/contacts/contacts.module'
+  // },
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, // default route 
   { path: '**', component: PageNotFoundComponent }
 ];

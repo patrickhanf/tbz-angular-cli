@@ -13,8 +13,9 @@ import { PageNotFoundComponent }   from './not-found.component';
 //import { AdminComponent } from './admin/admin.component';
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
+import { ContactsComponent } from './contacts/contacts.component';
 //import { DashboardComponent }          from './dashboard/dashboard.component';
-//import { DashboardComponent } from './dashboard/dashboard.component';
+
 
 // https://angular.io/docs/ts/latest/guide/router.html
 
@@ -32,8 +33,8 @@ import { LoginComponent }          from './login/login.component';
     ComposeMessageComponent,
     //AdminComponent,
     LoginComponent,
-    PageNotFoundComponent//,
-    //DashboardComponent
+    PageNotFoundComponent,
+    ContactsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

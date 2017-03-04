@@ -31,7 +31,9 @@
 <nav>
       <a routerLink="/admin" routerLinkActive="active">Admin</a>
       <a routerLink="/login" routerLinkActive="active">Login</a>
-      <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
+      <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
     </nav>
     <router-outlet>
       <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'--> 
@@ -39,6 +41,7 @@
     </md-card-content>
   </md-card>
   </md-sidenav-container>
+ 
   <!-- Content -->
 
 
