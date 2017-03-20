@@ -19,7 +19,7 @@ const adminRoutes: Routes = [
         canActivateChild: [AuthGuard]
         ,
         children: [
-          { path: '/contacts', component: ContactsComponent },
+          { path: 'contacts', component: ContactsComponent },
            { path: '', component: DashboardComponent } //default route
         ]
       }

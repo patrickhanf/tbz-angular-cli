@@ -10,6 +10,7 @@ import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 
 import { ContactsComponent }  from './contacts/contacts.component';
 
+
 // ROuting explained
 // https://vsavkin.com/angular-router-declarative-lazy-loading-7071d1f203ee#.qlmrtmbic
 
@@ -28,10 +29,10 @@ const appRoutes: Routes = [
     path: 'contacts', component: ContactsComponent
   },
   //{ path: 'dashboard',   redirectTo: '/dashboard', pathMatch: 'full' },
-  // {
-  //   path: 'contacts',
-  //   loadChildren: 'app/contacts/contacts.module'
-  // },
+  //  {
+  //    path: 'contacts'//,
+  //   // loadChildren: 'app/contacts/contacts.module'
+  //  },
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, // default route 
   { path: '**', component: PageNotFoundComponent }
 ];

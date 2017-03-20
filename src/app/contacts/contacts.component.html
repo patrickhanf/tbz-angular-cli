@@ -1,10 +1,14 @@
 <p>
   contacts works!
 </p>
-
+<!--
     <div>
         Contacts from secure api end point:
+            <input [ngFormControl]="searchBox" placeholder="Search Contacts" />
         <ul>
             <li *ngFor="let contact of contacts">{{contact.firstName}} {{contact.lastName}}</li>
         </ul>
     </div>
+-->
+
+<router-outlet><!-- subroutes of contacts go here --> </router-outlet>
