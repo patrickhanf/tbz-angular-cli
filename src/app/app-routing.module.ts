@@ -25,14 +25,14 @@ const appRoutes: Routes = [
     loadChildren: 'app/admin/admin.module#AdminModule',
     canLoad: [AuthGuard]
   },
-  {
-    path: 'contacts', component: ContactsComponent
-  },
+  // {
+  //   path: 'contacts', component: ContactsComponent
+  // },
   //{ path: 'dashboard',   redirectTo: '/dashboard', pathMatch: 'full' },
-  //  {
-  //    path: 'contacts'//,
-  //   // loadChildren: 'app/contacts/contacts.module'
-  //  },
+   {
+     path: 'contacts',
+     loadChildren: 'app/contacts/contacts.module#ContactsModule'  //lazy loading this will only download the .js when load when called
+   },
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, // default route 
   { path: '**', component: PageNotFoundComponent }
 ];

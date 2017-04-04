@@ -1,7 +1,8 @@
 import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
+import { HttpModule, JsonpModule } from '@angular/http';
 
-import { ContactsComponent }  from './contacts.component';
+//import { ContactsComponent }  from './contacts.component';
 
 
 
@@ -10,7 +11,7 @@ import { ContactsComponent }  from './contacts.component';
     CommonModule
   ],
   declarations: [
-    ContactsComponent
+    //ContactsComponent
   ]
 })
 export class ContactsModule {}

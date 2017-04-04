@@ -4,6 +4,7 @@ import { AuthService }      from '../auth.service';
 
 @Component({
   template: `
+    <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
     <h2>LOGIN</h2>
     <p>{{message}}</p>
     <p>

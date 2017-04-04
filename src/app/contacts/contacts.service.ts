@@ -8,39 +8,45 @@ import { Contact } from '../_models/contact';
 
 @Injectable()
 export class ContactsService {
+
+    //private data: Observable;
+    //private dataObserver: Observer;
+
     // constructor(private http: Http, private authenticationService: AuthenticationService) {
     // }
     // http://stackoverflow.com/questions/38058141/how-can-a-mock-a-http-observable-in-angular2-for-when-no-api-is-written
-    private dummyData = {
-        json: function () {
-            alert("Hello Date");
-            return [{ firstName: "Johnny", lastName: "Rocket" }, { firstName: "Silver", lastname: "Hi-ho" }];
-        }
-    }
+    // private dummyData = {
+    //     json: function () {
+    //         alert("Hello Date");
+    //         return [{ firstName: "Johnny", lastName: "Rocket" }, { firstName: "Silver", lastname: "Hi-ho" }];
+    //     }
+    //}
 
-    constructor(private http: Http) {
+    // constructor(private http: Http) {
+    //    // this.data = new Observable(observer => this.dataObserver = observer);
+    // }
 
-    }
+//    public getContacts(): Observable<Contact[]> {
 
-    public getContacts(): Observable<Contact[]> {
-        // get users from api
-        // http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=pa&lastname=ha
-        //
-        return Observable.create(() => { return this.dummyData })
+//    }
 
-        //var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=pa&lastname=ha"
+    // public getContacts(): Observable<Contact[]> {
+    //     // get users from api
+    //     // http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=pa&lastname=ha
+    //     // http://testingdatabase.oneadvocacy.com/apis/v1/EventApi
+    //     //
+    //     return Observable.create(() => { return this.dummyData })
 
-        //return this.http.get(urls).map((response: Response) => response.json());
+    //     //var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=pa&lastname=ha"
 
-        // add authorization header with jwt token
-        // let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-        // let options = new RequestOptions({ headers: headers });
+    //     //return this.http.get(urls).map((response: Response) => response.json());
 
-        // // get users from api
-        // return this.http.get('/api/users', options)
-        //     .map((response: Response) => response.json());
-    }
+    //     // add authorization header with jwt token
+    //     // let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+    //     // let options = new RequestOptions({ headers: headers });
 
-
-
+    //     // // get users from api
+    //     // return this.http.get('/api/users', options)
+    //     //     .map((response: Response) => response.json());
+    // }
 }

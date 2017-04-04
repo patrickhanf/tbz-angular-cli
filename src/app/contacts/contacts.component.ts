@@ -5,11 +5,12 @@ import { ContactsService } from './contacts.service';
 
 // Spotify example, good but not 100%
 // http://blog.rangle.io/observables-and-reactive-programming-in-angular-2/
+// https://coryrylan.com/blog/angular-2-observable-data-services
 
 @Component({
   selector: 'app-contacts',
-  //templateUrl: './contacts.component.html',
-  template: 'Hello Contacts',
+ // templateUrl: './contacts.component.html',
+  template: 'Hello Contacts.Component.ts',
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit {

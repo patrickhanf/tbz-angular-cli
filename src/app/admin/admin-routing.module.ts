@@ -6,21 +6,23 @@ import { DashboardComponent }  from '../dashboard/dashboard.component';
 import { ContactsComponent }  from '../contacts/contacts.component';
 
 
-import { AuthGuard }                from '../auth-guard.service';
+import { AuthGuard }           from '../auth-guard.service';
+
+// http://stackoverflow.com/questions/34331478/angular2-redirect-to-login-page/38369948#38369948
 
 const adminRoutes: Routes = [
   {
-    path: '',
+    path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: '',
-        canActivateChild: [AuthGuard]
-        ,
+        canActivateChild: [AuthGuard],
         children: [
           { path: 'contacts', component: ContactsComponent },
-           { path: '', component: DashboardComponent } //default route
+          { path: 'heroes', component: ContactsComponent },
+          { path: '', component: ContactsComponent }
         ]
       }
     ]

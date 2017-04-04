@@ -13,7 +13,7 @@ import { PageNotFoundComponent }   from './not-found.component';
 //import { AdminComponent } from './admin/admin.component';
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
-import { ContactsComponent } from './contacts/contacts.component';
+//import { ContactsComponent } from './contacts/contacts.component';
 //import { DashboardComponent }          from './dashboard/dashboard.component';
 
 
@@ -33,8 +33,8 @@ import { ContactsComponent } from './contacts/contacts.component';
     ComposeMessageComponent,
     //AdminComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    ContactsComponent
+    PageNotFoundComponent//,
+   // ContactsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -42,6 +42,6 @@ import { ContactsComponent } from './contacts/contacts.component';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    //debug console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 }
