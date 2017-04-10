@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../_models/contact';
-import { ContactsService } from './contacts.service';
+//import { ContactsService } from './contacts.service';
 
 // Spotify example, good but not 100%
 // http://blog.rangle.io/observables-and-reactive-programming-in-angular-2/
@@ -9,13 +10,27 @@ import { ContactsService } from './contacts.service';
 
 @Component({
   selector: 'app-contacts',
- // templateUrl: './contacts.component.html',
-  template: 'Hello Contacts.Component.ts',
+  templateUrl: './contacts.component.html',
+ // template: 'Hello Contacts.Component.ts',
   styleUrls: ['./contacts.component.css']
 })
+
 export class ContactsComponent implements OnInit {
 
-contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];
+
+constructor(  
+    private router: Router, 
+    // private contactService: ContactsService 
+)
+{
+//
+}
+
+// onSelectContact(contact: Contact) {
+//     this.router.navigate(['/contact', contact.idx]);
+//   }
+
+//contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];
  
    // constructor(private contactService: ContactsService) { }
  

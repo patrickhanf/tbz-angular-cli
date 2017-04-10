@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-   title = 'Trail Blazer go hello!';
+   title = 'parentime.org';
 
    myClick ()
    {

@@ -10,12 +10,10 @@ import { AppRoutingModule }        from './app-routing.module';
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
-//import { AdminComponent } from './admin/admin.component';
+import { HomeComponent } from './home/home.component';
+import { ContactsComponent }    from './contacts/contacts.component'; 
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
-//import { ContactsComponent } from './contacts/contacts.component';
-//import { DashboardComponent }          from './dashboard/dashboard.component';
-
 
 // https://angular.io/docs/ts/latest/guide/router.html
 
@@ -31,10 +29,10 @@ import { LoginComponent }          from './login/login.component';
   declarations: [
     AppComponent,
     ComposeMessageComponent,
-    //AdminComponent,
+    HomeComponent,
+    ContactsComponent,
     LoginComponent,
-    PageNotFoundComponent//,
-   // ContactsComponent
+    PageNotFoundComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -42,6 +40,6 @@ import { LoginComponent }          from './login/login.component';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    //debug console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
+   // console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 }

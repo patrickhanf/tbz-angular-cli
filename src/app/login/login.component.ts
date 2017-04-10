@@ -3,14 +3,20 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AuthService }      from '../auth.service';
 
 @Component({
+  styleUrls: ['./login.component.css'],
   template: `
-    <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
-    <h2>LOGIN</h2>
+   <md-card class="login-card">
+   <md-toolbar>
+    LOGIN
+    </md-toolbar>
+     <md-card-content>
     <p>{{message}}</p>
-    <p>
-      <button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-      <button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-    </p>`
+     </md-card-content>
+    <md-card-actions>
+      <button md-button md-raised-button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
+      <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
+    </md-card-actions>
+    <md-card>`
 })
 export class LoginComponent {
   message: string;
@@ -31,7 +37,7 @@ export class LoginComponent {
       if (this.authService.isLoggedIn) {
         // Get the redirect URL from our auth service
         // If no redirect has been set, use the default
-        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/admin';
+        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
 
         // Set our navigation extras object
         // that passes on our global query params and fragment
@@ -39,8 +45,9 @@ export class LoginComponent {
           preserveQueryParams: true,
           preserveFragment: true
         };
-
+        //alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
         // Redirect the user
+        console.log('login.component.ts redirect='+redirect);
         this.router.navigate([redirect], navigationExtras);
       }
     });

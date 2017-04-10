@@ -8,32 +8,19 @@ import { CanDeactivateGuard }       from './can-deactivate-guard.service';
 import { AuthGuard }                from './auth-guard.service';
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 
-import { ContactsComponent }  from './contacts/contacts.component';
 
+import { HomeComponent }    from './home/home.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
+import { ContactsComponent }    from './contacts/contacts.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
 
 // ROuting explained
 // https://vsavkin.com/angular-router-declarative-lazy-loading-7071d1f203ee#.qlmrtmbic
 
 const appRoutes: Routes = [
-  {
-    path: 'compose',
-    component: ComposeMessageComponent,
-    outlet: 'popup'
-  },
-  {
-    path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule',
-    canLoad: [AuthGuard]
-  },
-  // {
-  //   path: 'contacts', component: ContactsComponent
-  // },
-  //{ path: 'dashboard',   redirectTo: '/dashboard', pathMatch: 'full' },
-   {
-     path: 'contacts',
-     loadChildren: 'app/contacts/contacts.module#ContactsModule'  //lazy loading this will only download the .js when load when called
-   },
-  { path: '',   redirectTo: '/login', pathMatch: 'full' }, // default route 
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard] },
+  { path: 'compose', component: ComposeMessageComponent },
+  // { path: '',   redirectTo: '/register', pathMatch: 'full' },
+  { path: '',   redirectTo: '/login', pathMatch: 'full' }, // default route redirects to login screen
   { path: '**', component: PageNotFoundComponent }
 ];
 

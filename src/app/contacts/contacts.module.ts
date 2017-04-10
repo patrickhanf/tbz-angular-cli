@@ -1,18 +1,27 @@
 import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { FormsModule }    from '@angular/forms';
 
-//import { ContactsComponent }  from './contacts.component';
+import { ContactsComponent }  from './contacts.component';
+import { ContactDetailComponent } from '../contactdetail/contactdetail.component';
+
+import { ContactsService }  from './contacts.service';
+
+import { ContactsRoutingModule } from './contacts.module.routing';
 
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ContactsRoutingModule
   ],
   declarations: [
-    //ContactsComponent
-  ]
+    ContactsComponent,
+    ContactDetailComponent
+  ],
+  providers: [ContactsService]
 })
 export class ContactsModule {}
 
