@@ -1,5 +1,5 @@
 export class Contact {
-    idx: number;
+    id: number;
     firstName: string;
     lastName: string;
 }

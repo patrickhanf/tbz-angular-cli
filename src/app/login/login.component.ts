@@ -1,6 +1,6 @@
-import { Component }        from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { AuthService }      from '../auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   styleUrls: ['./login.component.css'],
@@ -10,13 +10,14 @@ import { AuthService }      from '../auth.service';
     LOGIN
     </md-toolbar>
      <md-card-content>
-    <p>{{message}}</p>
+      <p>{{message}}</p>
+
      </md-card-content>
     <md-card-actions>
       <button md-button md-raised-button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
       <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
     </md-card-actions>
-    <md-card>`
+    </md-card>`
 })
 export class LoginComponent {
   message: string;
@@ -47,7 +48,7 @@ export class LoginComponent {
         };
         //alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
         // Redirect the user
-        console.log('login.component.ts redirect='+redirect);
+        console.log('login.component.ts redirect=' + redirect);
         this.router.navigate([redirect], navigationExtras);
       }
     });
