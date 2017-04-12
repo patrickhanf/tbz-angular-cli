@@ -1,5 +1,5 @@
 <p>
-    contacts works!
+    Contacts works!
 </p>
 
 <div>
@@ -7,9 +7,9 @@
     <!--<input [ngFormControl]="searchBox" placeholder="Search Contacts" />-->
     <!--<button (click)="onSelectContact(contact)"></button>-->
     <ul class="items">
-        <li *ngFor="let contact of contacts | async" (click)="onSelectContact(contact)">
-            <span class="badge">{{ contact.idx }} </span>
-            {{contact.firstName}} {{contact.lastName}}
+        <li *ngFor="let c of contacts" (click)="onSelectContact(contact)">
+            <span class="badge">{{ c.id }} </span>
+            {{c.firstName}} {{c.lastName}}
             </li>
     </ul>
 </div>
