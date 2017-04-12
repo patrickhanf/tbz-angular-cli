@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 //import { HttpModule, JsonpModule } from '@angular/http';
-//import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { ContactsComponent } from './contacts.component';
 import { ContactDetailComponent } from '../contactdetail/contactdetail.component';
@@ -14,6 +14,7 @@ import { ContactsService } from './contacts.service';
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
    // ContactsRoutingModule
   ],

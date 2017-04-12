@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../_models/contact';
+import { ContactVM } from '../_models/contact';
 import { ContactsService } from './contacts.service';
 
 //import { Http, Headers, RequestOptions, Response } from '@angular/http';
@@ -21,8 +21,8 @@ import { ContactsService } from './contacts.service';
 })
 
 export class ContactsComponent implements OnInit {
-  //private thedata: Observable<any>;
-  public contacts: Contact[];
+  //private contacts: Observable<any>;
+  public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService) {
     // constructor
@@ -31,8 +31,8 @@ export class ContactsComponent implements OnInit {
   // onSearch(event) {
   // }
 
-  onSelectContact(contact: Contact) {
-      this.router.navigate(['/contact', contact.id]);
+  onSelectContact(contact: ContactVM) {
+      this.router.navigate(['/contact', contact.ContactId]);
     }
 
   //Contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];
@@ -43,7 +43,8 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     console.log('loading contacts..');
 
-    this.contacts = this.contactService.getContacts();
+    this.contacts = this.contactService.getContacts(); // working 4-12-17
+    //this.contactService.getAPIContacts(); 
 
     //   this.thedata = this.http.get("./test.data.json").map((response: Response) => response.json());
 
