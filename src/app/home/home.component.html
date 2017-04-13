@@ -1,46 +1,13 @@
-
-  <md-sidenav-container fullscreen>
-      <md-toolbar layout="row"  color="primary">
-    <button md-button (click)="start.open()">Open start sidenav</button> <h1> {{title}} </h1>
-   
-      <!--<button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-      <button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>-->
-
-  </md-toolbar>
-    <md-sidenav #start (open)="closeStartButton.focus()" fullscreen >
-      Start Sidenav.
-   
-      <button md-button #closeStartButton (click)="start.close()">Close</button>
- <md-nav-list>
-      </md-nav-list>
-      <a [routerLink]="['/dashboard']" class="btn btn-primary">Dashboard</a>
-      <a [routerLink]="['/contacts']" class="btn btn-primary">Contacts</a>
-     
-    </md-sidenav>
-
-    <md-sidenav #end align="end">
-      End Sidenav.
-      <button md-button (click)="end.close()">Close</button>
-      
-    </md-sidenav>
-
-    
-    <button md-button (click)="end.open()">Open end sidenav</button>
-
-    <!--<md-toolbar color="primary">Basic</md-toolbar>-->
-
 <nav>
-      <a routerLink="/home" routerLinkActive="active">home</a>
-      <a routerLink="/login" routerLinkActive="active">Login</a>
-      <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/compose" routerLinkActive="active">Compose</a>
-      <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
-    </nav>
+  <a routerLink="/home" routerLinkActive="active">home</a>
+  <a routerLink="/login" routerLinkActive="active">Login</a>
+  <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
+  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a routerLink="/compose" routerLinkActive="active">Compose</a>
+  <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
+</nav>
 
-
-  </md-sidenav-container>
-     <router-outlet>
-      <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'--> 
-    </router-outlet>
-  <!-- Content -->
+<router-outlet>
+  <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'-->
+</router-outlet>
+<!-- Content -->

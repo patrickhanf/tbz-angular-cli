@@ -13,27 +13,11 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-   title = 'parentime.org';
+   title = 'Trail Blazer';
 
    myClick ()
    {
    this.title = "changed?";
    }
-  /*
-  // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
-  planetsList: Planets[] = ['what','goes','here'];
-  selectedPlanet: Planets;
-  constructor(
-    private _planetservice: PlanetsService) {}
- 
-  ngOnInit() {
-    this._planetservice.getPlanets().then(planets => this.planetsList = planets);
-    this.selectedPlanet = new Planets();
-  }
- 
-  showPlanetInfo(selplanet)
-  {
-    this.selectedPlanet = selplanet;
-  }
-  */
+
 }

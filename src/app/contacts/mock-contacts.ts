@@ -4,14 +4,14 @@
 import { ContactVM } from '../_models/contact';
 
 export const CONTACTS: ContactVM[] = [
-  { ContactId: 11, FirstName: 'Mr. Nice', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 12, FirstName: 'Narco', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 13, FirstName: 'Bombasto', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 14, FirstName: 'Celeritas', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 15, FirstName: 'Magneta', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 16, FirstName: 'RubberMan', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 17, FirstName: 'Dynama', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 18, FirstName: 'Dr IQ', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 19, FirstName: 'Magma', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] },
-  { ContactId: 20, FirstName: 'Tornado', LastName: "Guy", Address: [{ "AddressId": 0, "Street": "SSS" }] }
+  { contactId: 11, firstName: 'Mr. Nice', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { ContactId: 12, firstName: 'Narco', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 13, firstName: 'Bombasto', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 14, firstName: 'Celeritas', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 15, firstName: 'Magneta', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 16, firstName: 'RubberMan', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 17, firstName: 'Dynama', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 18, firstName: 'Dr IQ', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 19, firstName: 'Magma', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] },
+  { contactId: 20, firstName: 'Tornado', lastName: "Guy", address: [{ "addressId": 0, "street": "SSS" }] }
 ];

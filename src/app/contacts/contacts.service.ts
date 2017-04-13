@@ -17,32 +17,27 @@ export class ContactsService {
   getContacts(): ContactVM[] { return CONTACTS; } // working 4-12-17
 
   //getAPIContacts(): Observable<ContactVM> {
-  getAPIContacts(): Observable<any[]> {
+  //getAPIContacts(): Observable<any> {
+  //getAPIContacts(): Observable<ContactVM> {
+  getAPIContacts(): Observable<any> {
 
-    //   //     // get users from api
-    //   //     // http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=pa&lastname=ha
-    //   //     // http://testingdatabase.oneadvocacy.com/apis/v1/EventApi
-    //   //     //
-    //   //     return Observable.create(() => { return this.dummyData })
+    //var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
 
-    //   // test data in video, see 13:15 mins
-    //   // https://coursetro.com/posts/code/29/Working-with-Angular-2-Material
-    //   //
-    var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
+    var urls = "http://oneadvocacy.com/api/v1/Contact?FirstName=jam&LastName=gibso";
 
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
 
 
     console.log('1 url=' + urls);
-    var text = "";
-    this.http.get(urls)
-      .map((res: Response) => res.text())
-      .subscribe(
-      data => {
-        text = data;
-        console.log(text);
-      });
+    // var text = "";
+    // this.http.get(urls)
+    //   .map((res: Response) => res.text())
+    //   .subscribe(
+    //   data => {
+    //     text = data;
+    //     console.log(text);
+    //   });
 
     //
     // https://enable-cors.org/server_iis7.html
@@ -53,17 +48,19 @@ export class ContactsService {
     // get users from api
     //    return this.http.get('/api/users', options)
     //        .map((response: Response) => response.json());
-    var summary: any[];
-    var c = this.http.get(urls)
-      .map((response: Response) => <any[]>response.json())
-      .do(data => console.log("Data received: " + JSON.stringify(data))) // debugging 
-      .catch(error => {
-        console.log(error);
-        return Observable.throw(error);
-      });
+   // var summary: any[];
+      //  let response = this.http.get(urls)
+      // .map((response: Response) => response.json())
+      // .catch(error => {
+      //   console.log(error);
+      //   return Observable.throw(error);
+      // });
+    let response = this.http.get(urls)
+        .map((response: Response) => <any>response.json());
+     //   .do(x => console.log(x)); // debug line working. 4-13-17
 
-  //console.log(c);
-  return c;
+  console.log("Done loading Hello...");
+  return response;
 
   }
 }

@@ -21,8 +21,8 @@ import { ContactsService } from './contacts.service';
 })
 
 export class ContactsComponent implements OnInit {
-  //private contacts: Observable<any>;
-  public contacts: ContactVM[];
+  private contacts: Observable<any>;
+ // public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService) {
     // constructor
@@ -32,7 +32,7 @@ export class ContactsComponent implements OnInit {
   // }
 
   onSelectContact(contact: ContactVM) {
-      this.router.navigate(['/contact', contact.ContactId]);
+      this.router.navigate(['/contact', contact.contactId]);
     }
 
   //Contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];
@@ -43,8 +43,13 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     console.log('loading contacts..');
 
-    this.contacts = this.contactService.getContacts(); // working 4-12-17
-    //this.contactService.getAPIContacts(); 
+    //this.contacts = this.contactService.getContacts(); // working 4-12-17
+
+    // http://stackoverflow.com/questions/38850560/call-web-api-controller-using-angular-2
+     this.contactService.getAPIContacts()
+     .subscribe(data => this.contacts = data,
+        error => console.log(error),
+        () => console.log('Get all complete'));
 
     //   this.thedata = this.http.get("./test.data.json").map((response: Response) => response.json());
 
