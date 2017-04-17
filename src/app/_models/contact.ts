@@ -11,5 +11,5 @@ export class ContactVM {
     latitude: number;
     longitude: number;
     addressDefaultDisplayID: number;
-    //public address: AddressVM [];
+    public address: AddressVM [];
     }
