@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { AuthenticationService } from '../_auth/authentication.service';
-//import { AuthService } from '../auth.service';
+//import { AuthenticationService } from '../_auth/authentication.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   styleUrls: ['./login.component.css'],
-   templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html'
   // template: `
   //  <md-card class="login-card">
   //  <md-toolbar>
@@ -14,57 +14,65 @@ import { AuthenticationService } from '../_auth/authentication.service';
   //    <md-card-content>
   //     <p>{{message}}</p>
 
-  //    </md-card-content>
-  //   <md-card-actions>
-  //     <button md-button md-raised-button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-  //     <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-  //   </md-card-actions>
-  //   </md-card>`
+  //  </md-card-content>
+  // <md-card-actions>
+  //   <button md-button md-raised-button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
+  //   <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
+  // </md-card-actions>
+  // </md-card>`
 })
 export class LoginComponent implements OnInit {
   message: string;
-  model: any = {};
+  loading = false;
+  model: any = { username: "TEST", password: "TEST123" };
   returnUrl: string;
 
-  constructor(public authService: AuthenticationService, public router: Router) {
+  constructor(public authService: AuthService, public router: Router) {
     this.setMessage();
   }
   ngOnInit() {
-        // reset login status
-        this.authService.logout();
+    // reset login status
+    this.authService.logout();
 
-        // get return url from route parameters or default to '/'
-        // TODO: this.returnUrl = this.router.snapshot.queryParams['returnUrl'] || '/';
-         this.returnUrl = '/';
-    }
+    // get return url from route parameters or default to '/'
+    // TODO: this.returnUrl = this.router.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = '/';
+  }
 
   setMessage() {
     this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
   }
 
   login() {
+    this.loading = true;
     // NEW http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
     this.message = 'Trying to log in ...';
 
-    this.authService.login(this.model.username, this.model.password).subscribe(() => {
-      this.setMessage();
-      // if (this.authService.isLoggedIn) {
-      //   // Get the redirect URL from our auth service
-      //   // If no redirect has been set, use the default
-      //   let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
+    this.authService.login(this.model.username, this.model.password)
+      .subscribe(
+      data => {
+        this.loading = false;
+        this.setMessage();
+        if (this.authService.isLoggedIn) {
+          // Get the redirect URL from our auth service
+          // If no redirect has been set, use the default
+          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
 
-      //   // Set our navigation extras object
-      //   // that passes on our global query params and fragment
-      //   let navigationExtras: NavigationExtras = {
-      //     preserveQueryParams: true,
-      //     preserveFragment: true
-      //   };
-      //   //alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
-      //   // Redirect the user
-      //   console.log('login.component.ts redirect=' + redirect);
-      //   this.router.navigate([redirect], navigationExtras);
-      // }
-    });
+          // Set our navigation extras object
+          // that passes on our global query params and fragment
+          let navigationExtras: NavigationExtras = {
+            preserveQueryParams: true,
+            preserveFragment: true
+          };
+          //alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
+          // Redirect the user
+          console.log('login.component.ts redirect=' + redirect);
+          this.router.navigate([redirect], navigationExtras);
+        }
+      },
+      error => {
+        this.loading = false;
+      });
   }
 
   logout() {

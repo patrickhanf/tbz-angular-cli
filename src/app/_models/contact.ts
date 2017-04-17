@@ -8,8 +8,8 @@ export class ContactVM {
     firstName: string;
     lastName: string;
     street: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
     addressDefaultDisplayID: number;
-    address: AddressVM [];
+    //public address: AddressVM [];
     }
