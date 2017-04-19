@@ -3,20 +3,22 @@
 http://stackoverflow.com/questions/40915277/change-build-in-colors-angular-2-material 
 https://www.youtube.com/watch?v=rRiV_b3WsoY&feature=youtu.be&t=6m40s
 -->
+<!--https://jperrott-material2.firebaseapp.com/sidenav-->
 
+<md-sidenav-container fullscreen  >
 
-<md-sidenav-container fullscreen>
   <md-sidenav #start>
-<md-nav-list>
-  <a md-list-item routerLink="/home" routerLinkActive="active">home</a>
-  <a md-list-item  routerLink="/login" routerLinkActive="active">Login</a>
-  <a md-list-item  routerLink="/contacts" routerLinkActive="active">Contacts</a>
-  <a md-list-item  routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-  <a md-list-item  routerLink="/compose" routerLinkActive="active">Compose</a>
-  <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
-</md-nav-list>
+    <md-nav-list>
+      <a md-list-item routerLink="/home" routerLinkActive="active">home</a>
+      <a md-list-item routerLink="/login" routerLinkActive="active">Login</a>
+      <a md-list-item routerLink="/contacts" routerLinkActive="active">Contacts</a>
+      <a md-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a md-list-item routerLink="/compose" routerLinkActive="active">Compose</a>
+      <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
+    </md-nav-list>
   </md-sidenav>
-  <md-toolbar layout="row" color="primary">
+
+  <md-toolbar color="primary" scroll>
 
     <button [hidden]="true" md-icon-button (click)="start.open()">
     <md-icon>menu</md-icon>
@@ -43,11 +45,16 @@ https://www.youtube.com/watch?v=rRiV_b3WsoY&feature=youtu.be&t=6m40s
 
   </md-toolbar>
 
+  <div flex layout-column layout="column" style="border-style: dotted; height:inherit">
 
+    <!--;height: 100vh-->
 
-  <router-outlet>
-    <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'-->
-  </router-outlet>
+    <router-outlet>
+      <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'-->
+    </router-outlet>
 
+  </div>
+  <div flex></div>
 </md-sidenav-container>
+
 <!-- Content -->

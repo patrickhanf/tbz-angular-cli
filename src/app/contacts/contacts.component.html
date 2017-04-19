@@ -1,24 +1,18 @@
-<p>
-    Contacts works!
-</p>
+<!-- 
+    https://github.com/angular/material/issues/1053
+    http://codepen.io/jbltx/pen/KwQxBX 
+    -->
 
-<div flex>
-    Contacts from secure api end point:
-
-    <!--<input [ngFormControl]="searchBox" placeholder="Search Contacts" />-->
-    <!--<button (click)="onSelectContact(contact)"></button>-->
-    <!-- be careful: nothing between md-toolbar and md-content -->
-Hello
-        <md-list class="make-scrollable">
-            <md-list-item *ngFor="let c of contacts" (click)="onSelectContact(contact)" class="repeated-item noselect" md-ink-ripple="#03A9F4">
-                <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
-                <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
-                <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
-            </md-list-item>
-        </md-list>
+<md-toolbar layout="row">Contacts </md-toolbar>
+<div flex style="height:inherit;overflow:scroll;">
+<md-list>
+    <md-list-item *ngFor="let c of contacts" (click)="onSelectContact(contact)" class="repeated-item noselect" md-ink-ripple="#03A9F4">
+        <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
+        <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
+        <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
+    </md-list-item>
+</md-list>
 <router-outlet>
     <!-- subroutes of contacts go here -->
 </router-outlet>
 </div>
-
-
