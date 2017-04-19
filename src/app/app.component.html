@@ -1,36 +1,60 @@
 <!-- Page Content -->
-<!-- http://stackoverflow.com/questions/40915277/change-build-in-colors-angular-2-material -->
+<!-- 
+http://stackoverflow.com/questions/40915277/change-build-in-colors-angular-2-material 
+https://www.youtube.com/watch?v=rRiV_b3WsoY&feature=youtu.be&t=6m40s
+-->
+<!--https://jperrott-material2.firebaseapp.com/sidenav-->
 
-<div fullscreen>
-  <md-toolbar layout="row" color="primary">
-    <button [hidden]="true" md-button (click)="start.open()">Open start sidenav</button>
+<md-sidenav-container fullscreen  >
+
+  <md-sidenav #start>
+    <md-nav-list>
+      <a md-list-item routerLink="/home" routerLinkActive="active">home</a>
+      <a md-list-item routerLink="/login" routerLinkActive="active">Login</a>
+      <a md-list-item routerLink="/contacts" routerLinkActive="active">Contacts</a>
+      <a md-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a md-list-item routerLink="/compose" routerLinkActive="active">Compose</a>
+      <!--<a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>-->
+    </md-nav-list>
+  </md-sidenav>
+
+  <md-toolbar color="primary" scroll>
+
+    <button [hidden]="true" md-icon-button (click)="start.open()">
+    <md-icon>menu</md-icon>
+  </button>
+
     <span><h1> {{title}} </h1></span>
     <span class="spacer"></span>
 
-    <button md-icon-button [md-menu-trigger-for]="menu" >
+    <button md-icon-button [md-menu-trigger-for]="menu">
       <md-icon>more_vert</md-icon>
     </button>
 
-    <md-menu x-position="before" #menu="mdMenu" >
-    
-        <button routerLink="/home" routerLinkActive="active" md-menu-item> 
+    <md-menu x-position="before" #menu="mdMenu">
+
+      <button routerLink="/home" routerLinkActive="active" md-menu-item> 
         <md-icon>dialpad</md-icon>
         <span>Home</span>
-        </button>
-      
-        
-        <button routerLink="/login" routerLinkActive="active" md-menu-item>
+      </button>
+      <button routerLink="/login" routerLinkActive="active" md-menu-item>
         <md-icon>fingerprint</md-icon>
         <span>Login</span>
-        </button>
+      </button>
     </md-menu>
 
   </md-toolbar>
 
+  <div flex layout-column layout="column" style="border-style: dotted; height:inherit">
 
+    <!--;height: 100vh-->
 
-     <router-outlet>
-        <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'-->
-      </router-outlet>
-</div>
+    <router-outlet>
+      <!-- router-outlet needed here or get error: Angular2 Router: Cannot find primary outlet to load '...Component'-->
+    </router-outlet>
+
+  </div>
+  <div flex></div>
+</md-sidenav-container>
+
 <!-- Content -->

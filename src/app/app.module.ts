@@ -12,6 +12,7 @@ import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { HomeComponent } from './home/home.component';
 import { ContactsComponent }    from './contacts/contacts.component'; 
+import { DashboardComponent }    from './dashboard/dashboard.component';
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
 
@@ -29,6 +30,7 @@ import { LoginComponent }          from './login/login.component';
   declarations: [
     AppComponent,
     ComposeMessageComponent,
+    DashboardComponent,
     HomeComponent,
     ContactsComponent,
     LoginComponent,

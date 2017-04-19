@@ -3,3 +3,6 @@
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
 }
+.custom-content {
+  background-color: #C7C7C7;
+}
