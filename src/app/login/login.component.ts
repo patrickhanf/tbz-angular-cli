@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
     // reset login status
-    this.authService.logout();
+    // this.authService.logout(); //Not sure we want to automatically logout when the page loads?
 
     // get return url from route parameters or default to '/'
     // TODO: this.returnUrl = this.router.snapshot.queryParams['returnUrl'] || '/';
