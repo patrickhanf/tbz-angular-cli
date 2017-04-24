@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
+//http://angularjs.blogspot.com.au/2017/03/angular-400-now-available.html
+
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
@@ -20,6 +23,7 @@ import { LoginComponent }          from './login/login.component';
 
 @NgModule({
     imports: [
+    FlexLayoutModule,
     BrowserModule,
     FormsModule,
     HttpModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 //import { Planets, PlanetsService } from './shared';
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 // https://www.sitepoint.com/angular-2-tutorial/
@@ -9,11 +9,14 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-
 })
 
 export class AppComponent {
    title = 'Trail Blazer';
+
+    ngOnInit(): void {
+       // $('body').addClass("fullscreen");
+    }
 
    myClick ()
    {

@@ -3,7 +3,7 @@
     http://codepen.io/jbltx/pen/KwQxBX 
     -->
 
-<md-toolbar layout="row">Contacts </md-toolbar>
+<!--<md-toolbar layout="row">Contacts </md-toolbar>
 <div flex style="height:inherit;overflow:scroll;">
 <md-list>
     <md-list-item *ngFor="let c of contacts" (click)="onSelectContact(contact)" class="repeated-item noselect" md-ink-ripple="#03A9F4">
@@ -13,6 +13,33 @@
     </md-list-item>
 </md-list>
 <router-outlet>
-    <!-- subroutes of contacts go here -->
+ 
 </router-outlet>
-</div>
+</div>-->
+
+    <div fxFlexFill fxLayout="column" >
+      <header>Using Flex-Layout with Router-Outlets</header>
+      
+      <div class="content" fxFlex> 
+Hello
+<md-list>
+    <md-list-item *ngFor="let c of contacts" (click)="onSelectContact(contact)" class="repeated-item noselect" md-ink-ripple="#03A9F4">
+        <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
+        <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
+        <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
+    </md-list-item>
+</md-list>
+
+
+      </div>
+    
+      
+      <footer>
+        <div class="version">
+          Using @angular/flex-layout (current HEAD on Github Master)
+            http://david-kerwick.github.io/2017/01/14/material-2-flex-layout-making-a-sticky-footer.html
+        </div>
+      </footer>
+    </div>
+
+    <router-outlet></router-outlet>

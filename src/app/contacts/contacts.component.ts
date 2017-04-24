@@ -22,6 +22,7 @@ import { ContactsService } from './contacts.service';
 
 export class ContactsComponent implements OnInit {
   private contacts: Observable<any>;
+     direction = "row";
  // public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService) {
@@ -30,6 +31,9 @@ export class ContactsComponent implements OnInit {
 
   // onSearch(event) {
   // }
+ 
+
+
 
   onSelectContact(contact: ContactVM) {
       this.router.navigate(['/contact', contact.contactId]);
