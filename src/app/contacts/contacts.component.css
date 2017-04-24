@@ -5,7 +5,7 @@ http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
 
 
       header, footer {
-        display : flex;
+        xdisplay : flex;
         height : 100px;
         min-height : 100px;
         background-color: #fffbda;
@@ -16,7 +16,7 @@ http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
     height: calc(100vh - 100px);
     }
 .mat-sidenav-content {
-    overflow:hidden !important;
+    overflow-y:hidden !important;
 }
 
 /* end plnkr.co */
