@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
 //http://angularjs.blogspot.com.au/2017/03/angular-400-now-available.html
 
@@ -25,6 +26,7 @@ import { LoginComponent }          from './login/login.component';
     imports: [
     FlexLayoutModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     LoginRoutingModule,
