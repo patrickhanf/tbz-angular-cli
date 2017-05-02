@@ -1,3 +1,4 @@
+
 <!-- 
     https://github.com/angular/material/issues/1053
     http://codepen.io/jbltx/pen/KwQxBX 
@@ -17,29 +18,64 @@
 </router-outlet>
 </div>-->
 
-    <div fxFlexFill fxLayout="column" >
-      <header>Using Flex-Layout with Router-Outlets</header>
-      
-      <div class="content" fxFlex> 
-Hello
-<md-list>
-    <md-list-item *ngFor="let c of contacts" (click)="onSelectContact(contact)" class="repeated-item noselect" md-ink-ripple="#03A9F4">
-        <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
-        <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
-        <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
-    </md-list-item>
-</md-list>
+<md-sidenav align="end" #sidenavright mode="side" opened="true" style="width:350px">
+    <md-toolbar color="primary" scroll style="height:65px">
+        TOOLBOX
+    </md-toolbar>
+</md-sidenav>
 
+<md-tab-group fxFlexFill fxLayout="column">
+    <md-tab label="Contacts">
 
-      </div>
-    
-      
-      <footer>
-        <div class="version">
-          Using @angular/flex-layout (current HEAD on Github Master)
-            http://david-kerwick.github.io/2017/01/14/material-2-flex-layout-making-a-sticky-footer.html
+        <md-list fxFlexFill fxLayout="column" >
+            <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
+            <md-list-item *ngFor="let c of contacts; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
+                md-ink-ripple="#03A9F4" [class.odd]="isOdd" [class.even]="isEven">
+                <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
+                <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
+                <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
+            </md-list-item>
+        </md-list>
+    </md-tab>
+    <md-tab label="Map View">
+
+        <div flex layout="row">
+            <!-- https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/tree/088fffbe5c52c41474e33c2074944fcf170b571e -->
+            <!-- THIS IS WHAT NEEDS TO FILL THE REMAINING SPACE -->
+            <div #myMap id='bingmap' style='width: 100vw; height: 100vh;'>Map goes here :)</div>
+            <!--<script type='text/javascript'>
+                function loadMapScenario() {
+                    var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                        credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
+                    });
+                    var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+                    var layer = new Microsoft.Maps.Layer();
+                    layer.add(pushpin);
+                    map.layers.insert(layer);
+                }
+
+            </script>-->
         </div>
-      </footer>
+
+
+
+    </md-tab>
+</md-tab-group>
+
+<!--<div fxFlexFill fxLayout="column">
+    <header>Using Flex-Layout with Router-Outlets</header>
+
+    <div class="content" fxFlex>
+        Hello
+
     </div>
 
-    <router-outlet></router-outlet>
+
+    <footer>
+        <div class="version">
+            Using @angular/flex-layout (current HEAD on Github Master) http://david-kerwick.github.io/2017/01/14/material-2-flex-layout-making-a-sticky-footer.html
+        </div>
+    </footer>
+</div>-->
+
+<router-outlet></router-outlet>

@@ -19,6 +19,7 @@ import { ContactsComponent }    from './contacts/contacts.component';
 import { DashboardComponent }    from './dashboard/dashboard.component';
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
+import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 // https://angular.io/docs/ts/latest/guide/router.html
 
@@ -40,7 +41,8 @@ import { LoginComponent }          from './login/login.component';
     HomeComponent,
     ContactsComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ContactDetailComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

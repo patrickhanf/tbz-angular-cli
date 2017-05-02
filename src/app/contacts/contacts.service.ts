@@ -62,5 +62,16 @@ export class ContactsService {
   console.log("Done loading Hello...");
   return response;
 
-  }
 }
+
+
+
+}
+
+// var map = new Microsoft.Maps.Map("myMap", {
+//   credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
+// });
+
+// map.setView({ center: new Microsoft.Maps.Location(0,0),
+//   mapTypeId: Microsoft.Maps.MapTypeId.road
+// });

@@ -2,19 +2,23 @@
 /*
 http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
 */
-
-
-      header, footer {
-        xdisplay : flex;
-        height : 100px;
-        min-height : 100px;
-        background-color: #fffbda;
+md-tab-group { height: 100%; }
+md-tab{
+height: 100vh !important;
+}
+header, footer {
+    height : 100px;
+     min-height : 100px;
+        background-color: #fff;
       }
-    .content {
-      background-color : #ffc4c4;
-      overflow-y: scroll;
-    height: calc(100vh - 100px);
-    }
+.content {
+   background-color : #666;
+   overflow-y: scroll;
+   height: calc(100vh - 100px);
+   }
+.even { background-color : #EDEDED;color: #666 }
+.odd { background-color : #fff;color: #666  }
+
 .mat-sidenav-content {
     overflow-y:hidden !important;
 }

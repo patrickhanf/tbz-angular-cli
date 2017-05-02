@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ContactsComponent } from '../contacts/contacts.component';
-import { ContactDetailComponent } from '../contactdetail/contactdetail.component';
+import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 
 import { AuthGuard } from '../auth-guard.service';
 

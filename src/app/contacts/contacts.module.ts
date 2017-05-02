@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ContactsComponent } from './contacts.component';
-import { ContactDetailComponent } from '../contactdetail/contactdetail.component';
+//import { ContactDetailComponent } from '../contactdetail/contactdetail.component';
 
 import { ContactsService } from './contacts.service';
 
@@ -20,7 +20,7 @@ import { ContactsService } from './contacts.service';
   ],
   declarations: [
     ContactsComponent,
-    ContactDetailComponent
+  //  ContactDetailComponent
   ],
   providers: [
     ContactsService
