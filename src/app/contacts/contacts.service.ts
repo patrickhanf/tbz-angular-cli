@@ -55,6 +55,11 @@ export class ContactsService {
       //   console.log(error);
       //   return Observable.throw(error);
       // });
+
+    // Caching data!!!
+    // http://stackoverflow.com/questions/36271899/what-is-the-correct-way-to-share-the-result-of-an-angular-2-http-network-call-in
+    // https://plnkr.co/edit/WpDtCkS4gslYwousZlmi?p=preview
+
     let response = this.http.get(urls)
         .map((response: Response) => <any>response.json());
      //   .do(x => console.log(x)); // debug line working. 4-13-17

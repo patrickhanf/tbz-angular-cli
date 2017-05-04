@@ -11,21 +11,20 @@ header, footer {
      min-height : 100px;
         background-color: #fff;
       }
-.content {
+/*.content {
    background-color : #666;
    overflow-y: scroll;
    height: calc(100vh - 100px);
-   }
+   }*/
 .even { background-color : #EDEDED;color: #666 }
 .odd { background-color : #fff;color: #666  }
 
-.mat-sidenav-content {
+/*.mat-sidenav-content {
     overflow-y:hidden !important;
-}
+}*/
 
 /* end plnkr.co */
 
-xxmd-list.make-scrollable{ height : 100; overflow-y: scroll; }
 .circle
     {
     width:26px;
@@ -54,7 +53,7 @@ a {
 }
 .repeated-item {
         border-bottom: 1px solid #ddd;
-        padding-left: 16px;
-        padding-bottom: 20px;
-        padding-top: 20px;
+        zpadding-left: 16px;
+        zpadding-bottom: 20px;
+        zpadding-top: 20px;
     }

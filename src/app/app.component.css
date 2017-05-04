@@ -7,6 +7,11 @@
   background-color: #C7C7C7;
 }
 
+/*
+Testing 
+http://plnkr.co/edit/YViydOX9msbd8GJCGcm7?p=preview
+*/
+
 html, body {
   height: 100%;
   min-height:100vh !important;
@@ -16,3 +21,23 @@ html, body {
 .mat-list, .mat-nav-list {
     padding-top: 0;
 }
+
+
+
+md-sidenav {
+  width: 250px;
+  height: 100%;
+  padding: 0;
+  background-color: lightgray;
+}
+
+/*
+THIS IS THE KEY TO MAKE SCROLLING WORK WITHIN THE CENTER BODY!
+*/
+.app-content {
+  padding: 0px;
+  height: calc(100% - 65px);
+  overflow: auto;
+}
+
+

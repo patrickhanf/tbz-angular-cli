@@ -1,4 +1,54 @@
-<h1> contact-detail works! {{ id }} </h1>
-<p>
- 
+<h1> new contact-detail works! {{ id }} </h1>
+<p style="margin:20px;">
+  <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
+  
+      <button md-raised-button  color="primary" routerLink="/contacts" routerLinkActive="active">
+      <md-icon class="md-24">arrow</md-icon> Back
+    </button>
+      <button md-raised-button  color="primary" [md-menu-trigger-for]="contactactionmenu">
+      Actions
+    </button>
+
+    <md-menu x-position="before" #contactactionmenu="mdMenu">
+
+      <button routerLink="/home" routerLinkActive="active" md-menu-item> 
+        <md-icon>dialpad</md-icon>
+        <span>Home</span>
+      </button>
+      <button routerLink="/login" routerLinkActive="active" md-menu-item>
+        <md-icon>fingerprint</md-icon>
+        <span>Login</span>
+      </button>
+    </md-menu>
+
+  <md-grid-list cols="4" rowHeight="100px">
+    <md-grid-tile colspan="4" style="background-color: lightblue">
+
+      <md-card>
+
+        <md-list>
+          <md-list-item *ngFor="let c of contact; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
+            md-ink-ripple="#03A9F4" [class.odd]="isOdd" [class.even]="isEven">
+            <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
+            <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
+            <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
+          </md-list-item>
+        </md-list>
+
+      </md-card>
+
+
+    </md-grid-tile>
+    <md-grid-tile colpan="3" rowspan="2" style="background-color: lightgreen">
+      <md-card>
+        Dan card
+      </md-card>
+    </md-grid-tile>
+
+    <md-grid-tile rowspan="1" rowspan="3" style="background-color: lightgreen">
+      <md-card>
+        Dan card
+      </md-card>
+    </md-grid-tile>
+  </md-grid-list>
 </p>
