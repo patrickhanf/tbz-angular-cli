@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // https://github.com/telerik/kendo-angular/issues/454
+import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
+
+
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
@@ -15,12 +19,15 @@ import { ContactsComponent }    from './contacts/contacts.component';
 import { DashboardComponent }    from './dashboard/dashboard.component';
 import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
+import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 // https://angular.io/docs/ts/latest/guide/router.html
 
 @NgModule({
     imports: [
+    FlexLayoutModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     LoginRoutingModule,
@@ -34,7 +41,8 @@ import { LoginComponent }          from './login/login.component';
     HomeComponent,
     ContactsComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ContactDetailComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

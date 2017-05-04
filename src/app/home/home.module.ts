@@ -16,8 +16,8 @@ import { ContactsComponent }  from '../contacts/contacts.component';
   imports: [
     CommonModule,
     //homeRoutingModule,
-    ContactsModule, 
-    MaterialModule.forRoot()
+    ContactsModule//, 
+   // MaterialModule.forRoot()
   ],
   declarations: [
     DashboardComponent,

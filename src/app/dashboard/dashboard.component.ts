@@ -1,6 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 import { ActivatedRoute }       from '@angular/router';
 import { Observable }           from 'rxjs/Observable';
+import {MdGridListModule} from '@angular/material';
 
 //import { SelectivePreloadingStrategy } from '../selective-preloading-strategy';
 
@@ -34,4 +35,13 @@ export class DashboardComponent implements OnInit {
   //     .map(fragment => fragment || 'None');
    }
 
+}
+
+export class GridListDynamicExample {
+  tiles = [
+    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
+  ];
 }

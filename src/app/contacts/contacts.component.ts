@@ -1,9 +1,13 @@
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+//import { Microsoft } from 'bingmaps/scripts/MicrosoftMaps/Microsoft.Maps.All';
+
 import { ContactVM } from '../_models/contact';
 import { ContactsService } from './contacts.service';
+
 
 //import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -21,18 +25,31 @@ import { ContactsService } from './contacts.service';
 })
 
 export class ContactsComponent implements OnInit {
+ // @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
+     direction = "row";
  // public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService) {
     // constructor
   }
 
+  // ngAfterViewInit(){  // after the view completes initializaion, create the map
+  //   var map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+  //       credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
+  //   });
+  //   var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+  //   var layer = new Microsoft.Maps.Layer();
+  //   layer.add(pushpin);
+  //   map.layers.insert(layer);
+  // }
+
   // onSearch(event) {
   // }
 
   onSelectContact(contact: ContactVM) {
-      this.router.navigate(['/contact', contact.contactId]);
+    // alert('clicked id='+contact.contactId);
+    this.router.navigate(['/contact', contact.contactId]); // This route is handled in the  app-routing.module.ts remove when fixed
     }
 
   //Contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];

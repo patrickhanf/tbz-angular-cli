@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.30",
+    "version": "1.0.0-beta.28.3",
     "name": "tbz-angular-cli"
   },
   "apps": [
@@ -18,17 +18,14 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "theme.scss"
+        "styles.css"
       ],
-      "scripts": [
-        "../node_modules/hammerjs/hammer.min.js"
-      ],
-      "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
+      "scripts": [],
+"environmentSource": "environments/environment.ts",
+"environments": {
+  "dev": "environments/environment.ts",
+  "prod": "environments/environment.prod.ts"
+}
     }
   ],
   "e2e": {
