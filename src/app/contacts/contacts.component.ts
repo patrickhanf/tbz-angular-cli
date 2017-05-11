@@ -3,10 +3,14 @@ import { Observable } from 'rxjs/Observable';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-//import { Microsoft } from 'bingmaps/scripts/MicrosoftMaps/Microsoft.Maps.All';
+//import { Microsoft } from 'scripts/MicrosoftMaps';
+
+/// <reference path="scripts/MicrosoftMaps/Microsoft.Maps.d.ts" />
+/// <reference path="scripts/MicrosoftMaps/Microsoft.Maps.All.d.ts" />
 
 import { ContactVM } from '../_models/contact';
 import { ContactsService } from './contacts.service';
+import { MapComponent } from '../_component/map.component';
 
 
 //import { Http, Headers, RequestOptions, Response } from '@angular/http';
@@ -16,33 +20,24 @@ import { ContactsService } from './contacts.service';
 // http://blog.rangle.io/observables-and-reactive-programming-in-angular-2/
 // https://coryrylan.com/blog/angular-2-observable-data-services
 
+
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   // template: 'Hello Contacts.Component.ts',
   styleUrls: ['./contacts.component.css'],
-  providers: [ContactsService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
+  providers: [ContactsService, MapComponent] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
 })
 
 export class ContactsComponent implements OnInit {
- // @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
+  @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
      direction = "row";
  // public contacts: ContactVM[];
 
-  constructor(private router: Router, private contactService: ContactsService) {
+  constructor(private router: Router, private contactService: ContactsService, private mapComponent: MapComponent) {
     // constructor
   }
-
-  // ngAfterViewInit(){  // after the view completes initializaion, create the map
-  //   var map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
-  //       credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
-  //   });
-  //   var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
-  //   var layer = new Microsoft.Maps.Layer();
-  //   layer.add(pushpin);
-  //   map.layers.insert(layer);
-  // }
 
   // onSearch(event) {
   // }
@@ -60,17 +55,17 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     console.log('loading contacts..');
 
+   
     //this.contacts = this.contactService.getContacts(); // working 4-12-17
 
     // http://stackoverflow.com/questions/38850560/call-web-api-controller-using-angular-2
      this.contactService.getAPIContacts()
      .subscribe(data => this.contacts = data,
         error => console.log(error),
-        () => console.log('Get all complete'));
-
+        () => this.buildMap() );
+    
+    //
     //   this.thedata = this.http.get("./test.data.json").map((response: Response) => response.json());
-
-    // this.thedata = [{ firstName: "Johnny", lastName: "Rocket" }, { firstName: "Silver", lastname: "Hi-ho" }];
 
 
     // get contacts from secure api end point
@@ -78,6 +73,32 @@ export class ContactsComponent implements OnInit {
     //     .subscribe(contacts => {
     //        // this.thedata = contacts;
     //     });
+  }
+
+  buildMap()
+  {
+   this.mapComponent.setDataSourceMap(this.contacts);
+console.log('Build Map -- Get all complete');
+// for (var i in this.contacts) {
+
+//    var item = this.contacts[i];
+
+//         var feature = new ol.Feature(item);
+//         feature.set('url', item.media.m);
+//         var coordinate = transform([parseFloat(item.longitude), parseFloat(item.latitude)]);
+//         var geometry = new ol.geom.Point(coordinate);
+//         feature.setGeometry(geometry);
+//         flickrSource.addFeature(feature);
+                   
+// }
+      // this.contactService.forEach(function(item) {
+      //   var feature = new ol.Feature(item);
+      //   feature.set('url', item.media.m);
+      //   var coordinate = transform([parseFloat(item.longitude), parseFloat(item.latitude)]);
+      //   var geometry = new ol.geom.Point(coordinate);
+      //   feature.setGeometry(geometry);
+      //   flickrSource.addFeature(feature);
+      // });
   }
 
 }

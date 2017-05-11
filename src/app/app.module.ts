@@ -1,3 +1,7 @@
+
+// /// <reference path="node_modules/bingmaps/scripts/MicrosoftMaps/Microsoft.Maps.d.ts"/>
+
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +25,11 @@ import { LoginRoutingModule }      from './login/login-routing.module';
 import { LoginComponent }          from './login/login.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
+import { TitleComponent }     from './_component/title.component';
+import { MapComponent }     from './_component/map.component';
+
+
+
 // https://angular.io/docs/ts/latest/guide/router.html
 
 @NgModule({
@@ -36,6 +45,8 @@ import { ContactDetailComponent } from './contact-detail/contact-detail.componen
   ],
   declarations: [
     AppComponent,
+    TitleComponent,
+    MapComponent,
     ComposeMessageComponent,
     DashboardComponent,
     HomeComponent,

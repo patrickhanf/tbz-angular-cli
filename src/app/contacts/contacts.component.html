@@ -20,6 +20,17 @@
  
 
 <md-tab-group fxFlexFill fxLayout="column">
+        <md-tab label="Map View">
+            <div>
+                Map goes here :)
+                <app-map>
+                    Note: must declare the component in app.module.ts
+                    https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+                </app-map>
+                <br>
+                <br>
+            </div>
+    </md-tab>
     <md-tab label="Contacts">
 
         <md-list fxFlexFill fxLayout="column">
@@ -32,36 +43,8 @@
             </md-list-item>
         </md-list>
     </md-tab>
-    <md-tab label="Map View">
 
-          
-  
-  
-            <!-- https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/tree/088fffbe5c52c41474e33c2074944fcf170b571e -->
-            <!-- THIS IS WHAT NEEDS TO FILL THE REMAINING SPACE -->
-            <div #myMap id='bingmap' style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>
-                Map goes here :)
-                <br>
-                <br>
-            </div>
-            <!--<script type='text/javascript'>
-                function loadMapScenario() {
-                    var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
-                        credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
-                    });
-                    var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
-                    var layer = new Microsoft.Maps.Layer();
-                    layer.add(pushpin);
-                    map.layers.insert(layer);
-                }
-
-            </script>-->
-        
-
-
-
-    </md-tab>
-     <md-tab label="marks"> data </md-tab>
+     
 </md-tab-group>
 
 <!--<div fxFlexFill fxLayout="column">

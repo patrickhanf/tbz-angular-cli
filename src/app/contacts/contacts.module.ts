@@ -8,6 +8,11 @@ import { ContactsComponent } from './contacts.component';
 
 import { ContactsService } from './contacts.service';
 
+import { MapComponent } from '../_component/map.component'; //real map
+import { TitleComponent }     from '../_component/title.component';
+
+//import {OLMap} from '../_component/map.component';
+
 //import { ContactsRoutingModule } from './contacts.module.routing';
 
 
@@ -20,13 +25,17 @@ import { ContactsService } from './contacts.service';
   ],
   declarations: [
     ContactsComponent,
+    TitleComponent,
+    MapComponent,
   //  ContactDetailComponent
   ],
   providers: [
     ContactsService
   ]
 })
-export class ContactsModule { }
+export class ContactsModule { 
+
+}
 
 
 /*
