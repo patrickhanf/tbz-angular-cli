@@ -32,8 +32,8 @@ import { MapComponent } from '../_component/map.component';
 export class ContactsComponent implements OnInit {
   @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
-     direction = "row";
- // public contacts: ContactVM[];
+  direction = "row";
+  // public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService, private mapComponent: MapComponent) {
     // constructor
@@ -45,7 +45,7 @@ export class ContactsComponent implements OnInit {
   onSelectContact(contact: ContactVM) {
     // alert('clicked id='+contact.contactId);
     this.router.navigate(['/contact', contact.contactId]); // This route is handled in the  app-routing.module.ts remove when fixed
-    }
+  }
 
   //Contacts: Contact[]; // = [{firstName: "Johnny", lastName: "Rocket"}];
 
@@ -55,15 +55,15 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     console.log('loading contacts..');
 
-   
+
     //this.contacts = this.contactService.getContacts(); // working 4-12-17
 
     // http://stackoverflow.com/questions/38850560/call-web-api-controller-using-angular-2
-     this.contactService.getAPIContacts()
-     .subscribe(data => this.contacts = data,
-        error => console.log(error),
-        () => this.buildMap() );
-    
+    this.contactService.getAPIContacts()
+      .subscribe(data => this.contacts = data,
+      error => console.log(error),
+      () => this.buildMap());
+
     //
     //   this.thedata = this.http.get("./test.data.json").map((response: Response) => response.json());
 
@@ -75,30 +75,9 @@ export class ContactsComponent implements OnInit {
     //     });
   }
 
-  buildMap()
-  {
-   this.mapComponent.setDataSourceMap(this.contacts);
-console.log('Build Map -- Get all complete');
-// for (var i in this.contacts) {
-
-//    var item = this.contacts[i];
-
-//         var feature = new ol.Feature(item);
-//         feature.set('url', item.media.m);
-//         var coordinate = transform([parseFloat(item.longitude), parseFloat(item.latitude)]);
-//         var geometry = new ol.geom.Point(coordinate);
-//         feature.setGeometry(geometry);
-//         flickrSource.addFeature(feature);
-                   
-// }
-      // this.contactService.forEach(function(item) {
-      //   var feature = new ol.Feature(item);
-      //   feature.set('url', item.media.m);
-      //   var coordinate = transform([parseFloat(item.longitude), parseFloat(item.latitude)]);
-      //   var geometry = new ol.geom.Point(coordinate);
-      //   feature.setGeometry(geometry);
-      //   flickrSource.addFeature(feature);
-      // });
+  buildMap() {
+    this.mapComponent.setDataSourceMap(this.contacts);
+    console.log('Build Map -- Get all complete');
   }
 
 }

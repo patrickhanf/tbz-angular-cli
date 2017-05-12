@@ -9,14 +9,19 @@ declare var ol: any; // required for mapping to work;
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
+   styleUrls: ['./map.component.css']
 })
 
 export class MapComponent implements OnInit {
   //@ViewChild('map') map;
  
+
+
   ol: any;
   flickrSource = new ol.source.Vector()
   flickrVector;
+  vectorLayer;  // https://gis.stackexchange.com/questions/230912/changing-vector-layer-dynamically-using-openlayers-4
+  vectorSource;
   flickerfeatures = [];
   symbols = [];
   symbolCount;
@@ -30,42 +35,50 @@ export class MapComponent implements OnInit {
 //http://openlayersbook.github.io/ch11-creating-web-map-apps/example-11.html
   setDataSourceMap(contacts) {
 
-    //this.flickrSource.clear();
+    //this.vectorLayer.getSource().clear();
 
+    var features = []; // new Array(featureCount); 
     var feature2, geometry2;
     var current = 1;
+
+
+
     //var features2 = new Array(contacts.length);
     console.log('setDataSourceMap() loading ' + contacts.length + ' contacts');
-    for (var i in contacts) {
+    // for (var i in contacts) {
 
-      var item = contacts[i];
+    //   var item = contacts[i];
 
-     // console.log(contacts[i].firstName);
-      // console.log('loop=' + i);
+    //  // console.log(contacts[i].firstName);
+    //   // console.log('loop=' + i);
 
-      if (item.latitude == 0 || item.longitude == 0)
-        continue;
+    //   if (item.latitude == 0 || item.longitude == 0)
+    //     continue;
 
-     console.log(item.firstName + ' lon=' + item.longitude +' lat=' + item.latitude);
-     var geometry2 = new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude));
-     feature2 = new ol.Feature(geometry2);
-    // feature2.setGeometry(geo);
+    //  console.log(item.firstName + ' lon=' + item.longitude +' lat=' + item.latitude);
+    //  var geometry2 = new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude));
+    //  feature2 = new ol.Feature(geometry2);
+    // // feature2.setGeometry(geo);
 
-    //  feature2 = new ol.Feature({
-    //     labelPoint: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude)),
-    //     geometry: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude ))
-    //   });
+    // //  feature2 = new ol.Feature({
+    // //     labelPoint: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude)),
+    // //     geometry: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude ))
+    // //   });
 
-      feature2.setStyle(
-        new ol.style.Style({
-          image: this.symbols[2]
-        })
-      );
+    //   feature2.setStyle(
+    //     new ol.style.Style({
+    //       image: this.symbols[2]
+    //     })
+    //   );
 
-     this.flickrSource.addFeature(feature2);
-     // this.flickrSource.push (feature2);
+    //  features.push(feature2);
+    //  //this.flickrSource.addFeature(feature2);
+    //  // this.flickrSource.push (feature2);
+    //  // this.vectorLayer.push(feature2);
 
-    } //for end
+    //  this.vectorLayer.addFeatures (features);
+
+    // } //for end
 
   }
   getPointFromLongLat (long, lat) {
@@ -171,8 +184,10 @@ export class MapComponent implements OnInit {
         // geometry: new ol.geom.Point(this.getPointFromLongLat(-93.4965767,45.08214 ))
         //labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.49437654018402 ,45.08208920262501 )),
         //geometry: new ol.geom.Point(this.getPointFromLongLat(-93.49437654018402 ,45.08208920262501 ))
+        name: "Patrick Hanf",
         labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.49401 ,45.08203 )),
         geometry: new ol.geom.Point(this.getPointFromLongLat(-93.49401 ,45.08203 ))
+       
       });
 
       feature.setStyle(
@@ -197,19 +212,20 @@ export class MapComponent implements OnInit {
       // );
       // features[1] = feature;
 
-    var vectorSource = new ol.source.Vector({
+    this.vectorSource = new ol.source.Vector({
       features: features
     });
-    var vector = new ol.layer.Vector({
-      source: vectorSource
+
+    this.vectorLayer = new ol.layer.Vector({
+      source: this.vectorSource
     });
     //vector.setVisible(false);
 
 
-    this.flickrVector = new ol.layer.Vector({
-      source: this.flickrSource,
-      //style: flickrStyle
-    });
+    // this.flickrVector = new ol.layer.Vector({
+    //   source: this.flickrSource,
+    //   //style: flickrStyle
+    // });
 
 
     /// ORG
@@ -219,8 +235,8 @@ export class MapComponent implements OnInit {
           new ol.layer.Tile({
             source: new ol.source.OSM()
           }),
-          vector,
-          this.flickrVector
+          this.vectorLayer,
+         // this.flickrVector
         ],
         view: new ol.View({
           // center:  [44.9864688, -93.4014555],
@@ -241,13 +257,56 @@ export class MapComponent implements OnInit {
     //   evt.context.msImageSmoothingEnabled = false;
     // });
 
+/**
+ * Popup
+ **/
+  var container = document.getElementById('popup');
+  var content_element = document.getElementById('popup-content');
+  var closer = document.getElementById('popup-closer'); 
 
-map.on('click', function(evt) {
-  var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-  var lon = lonlat[0];
-  var lat = lonlat[1];
-  console.log('map.click() lon='+lon+' lat='+lat);
+var overlay = new ol.Overlay({
+    element: container,
+    autoPan: true,
+    offset: [0, -10]
 });
+map.addOverlay(overlay);
+
+map.on('click', function(evt){
+  // Popup example
+  // http://plnkr.co/edit/GvdVNE?p=preview
+  //
+
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+      function(feature, layer) {
+        return feature;
+      });
+    if (feature) {
+        var geometry = feature.getGeometry();
+        var coord = geometry.getCoordinates();
+        
+        var content = '<h3>' + feature.get('name') + '</h3>';
+      //  content += '<h5>' + feature.get('description') + '</h5>';
+
+
+        content_element.innerHTML = content;
+      //    content_element.innerHTML = "Hello";
+        overlay.setPosition(coord);
+        
+        console.info(feature.getProperties());
+    }
+    else
+    {
+      overlay.setPosition(undefined);
+    }
+});
+
+
+// map.on('click', function(evt) {
+//   var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+//   var lon = lonlat[0];
+//   var lat = lonlat[1];
+//   console.log('map.click() lon='+lon+' lat='+lat);
+// });
 
     map.getView().on('change:resolution', function (e) {
 
