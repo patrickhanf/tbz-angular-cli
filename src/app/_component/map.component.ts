@@ -1,8 +1,11 @@
 import { Component, ViewChild, Renderer, OnInit } from '@angular/core';
-//import {Component} from '@angular/core';
-//import { Component, OnInit } from '@angular/core';
+
+//import * as ol from 'openlayers';
+
 
 declare var ol: any; // required for mapping to work;
+// declare var vectorSource: any; // required for mapping to work;
+// declare var vectorLayer: any; // required for mapping to work;
 
 
 
@@ -16,17 +19,23 @@ export class MapComponent implements OnInit {
   //@ViewChild('map') map;
  
 
-
   ol: any;
-  flickrSource = new ol.source.Vector()
-  flickrVector;
-  vectorLayer;  // https://gis.stackexchange.com/questions/230912/changing-vector-layer-dynamically-using-openlayers-4
-  vectorSource;
-  flickerfeatures = [];
+  map;
+  vectorSource: any;
+  vectorLayer: any;
   symbols = [];
   symbolCount;
   constructor(public renderer: Renderer) {
     console.log('constructor app-map');
+
+    this.vectorSource = this.vectorSource = new ol.source.Vector({
+                projection: 'EPSG:4326'
+            });
+    this.vectorLayer = new ol.layer.Vector({
+      source: this.vectorSource
+    });
+
+
 
   }
 
@@ -34,20 +43,30 @@ export class MapComponent implements OnInit {
 
 //http://openlayersbook.github.io/ch11-creating-web-map-apps/example-11.html
   setDataSourceMap(contacts) {
-
-    //this.vectorLayer.getSource().clear();
-
-    var features = []; // new Array(featureCount); 
-    var feature2, geometry2;
-    var current = 1;
-
-
-
-    //var features2 = new Array(contacts.length);
+this.createFeature(-93.49401 ,45.08203);
+ // this.vectorSource.clear();
     console.log('setDataSourceMap() loading ' + contacts.length + ' contacts');
-    // for (var i in contacts) {
+ // this.createFeature(-93.4014555,44.9864688);
+                     var i, lat, lon, geom, feature, features = [];
+                for(i=0; i< 10; i++) {
+                    lat = Math.random() * 174 - 87;
+                    lon = Math.random() * 360 - 180;
 
-    //   var item = contacts[i];
+                    geom = new ol.geom.Circle(
+                        ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'), 
+                        100000
+                    );
+
+                    feature = new ol.Feature(geom);
+                   // features.push(feature);
+                    this.vectorSource.addFeatures([feature]);
+                }    
+           //     this.vectorSource.addFeatures(features);
+    //var features2 = new Array(contacts.length);
+
+    // for (var ii in contacts) {
+
+    //   var item = contacts[ii];
 
     //  // console.log(contacts[i].firstName);
     //   // console.log('loop=' + i);
@@ -55,28 +74,17 @@ export class MapComponent implements OnInit {
     //   if (item.latitude == 0 || item.longitude == 0)
     //     continue;
 
+    // var geom = new ol.geom.Circle(
+    //                     ol.proj.transform([item.longitude, item.latitude], 'EPSG:4326', 'EPSG:3857'), 
+    //                     100000
+    //                 );
+
+    //                 var feature = new ol.Feature(geom);
+    //                 features.push(feature);
+
     //  console.log(item.firstName + ' lon=' + item.longitude +' lat=' + item.latitude);
-    //  var geometry2 = new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude));
-    //  feature2 = new ol.Feature(geometry2);
-    // // feature2.setGeometry(geo);
 
-    // //  feature2 = new ol.Feature({
-    // //     labelPoint: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude)),
-    // //     geometry: new ol.geom.Point(this.getPointFromLongLat(item.longitude, item.latitude ))
-    // //   });
-
-    //   feature2.setStyle(
-    //     new ol.style.Style({
-    //       image: this.symbols[2]
-    //     })
-    //   );
-
-    //  features.push(feature2);
-    //  //this.flickrSource.addFeature(feature2);
-    //  // this.flickrSource.push (feature2);
-    //  // this.vectorLayer.push(feature2);
-
-    //  this.vectorLayer.addFeatures (features);
+    // this.vectorSource.addFeatures(features);
 
     // } //for end
 
@@ -86,157 +94,54 @@ export class MapComponent implements OnInit {
     return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857')
    }
 
+  createFeature(long, lat) {
+    var features = [];
+  
+    var feature = new ol.Feature({
+      type: 'place',
+              name: "Patrick Hanf",
+     //   labelPoint: new ol.geom.Point(this.getPointFromLongLat(long, lat)),
+        geometry:  new ol.geom.Point(this.getPointFromLongLat(long, lat))
+    });
+    //feature.setStyle(styles.icon);
+    features.push(feature);
+    this.vectorSource.addFeature(feature);
+  }
+
   ngAfterViewInit() {
-    // console.log(this.map);
-    console.log('ngOnInit app-map');
-    //      var projection = ol.proj.get('EPSG:3857');
-
-    var atlasManager = new ol.style.AtlasManager({
-      // we increase the initial size so that all symbols fit into
-      // a single atlas image
-      //initialSize: 512
-    });
-
-    var symbolInfo = [{
-      opacity: 1.0,
-      scale: 1.0,
-      fillColor: 'rgba(176, 61, 35, 0.5)', //Red
-      strokeColor: 'rgba(145, 43, 20, 0.5)'
-    }, {
-      opacity: 0.75,
-      scale: 1.25,
-      fillColor: 'rgba(70, 80, 224, 0.5)', // Blue
-      strokeColor: 'rgba(12, 21, 138, 0.5)'
-    }, {
-      opacity: 0.5,
-      scale: 1.5,
-      fillColor: 'rgba(66, 150, 79, 0.5)', //Green
-      strokeColor: 'rgba(20, 99, 32, 0.5)'
-    }];
-
-    // var radiuses = [3, 6, 9, 15, 19, 25];
-    var radiuses = [2];
-    this.symbolCount = symbolInfo.length * radiuses.length * 2;
-    this.symbols = [];
-    var i, j;
-    for (i = 0; i < symbolInfo.length; ++i) {
-      var info = symbolInfo[i];
-      for (j = 0; j < radiuses.length; ++j) {
-        // circle symbol
-        this.symbols.push(new ol.style.Circle({
-          opacity: info.opacity,
-          scale: info.scale,
-          radius: 5, //radiuses[j],
-          fill: new ol.style.Fill({
-            color: info.fillColor
-          }),
-          stroke: new ol.style.Stroke({
-            color: info.strokeColor,
-            width: 1
-          }),
-          // by passing the atlas manager to the symbol,
-          // the symbol will be added to an atlas
-          atlasManager: atlasManager
-        }));
-
-        // star symbol
-        //   symbols.push(new ol.style.RegularShape({
-        //     points: 8,
-        //     opacity: info.opacity,
-        //     scale: info.scale,
-        //     radius: radiuses[j],
-        //     radius2: radiuses[j] * 0.7,
-        //     angle: 1.4,
-        //     fill: new ol.style.Fill({
-        //       color: info.fillColor
-        //     }),
-        //     stroke: new ol.style.Stroke({
-        //       color: info.strokeColor,
-        //       width: 1
-        //     }),
-        //     atlasManager: atlasManager
-        //   }));
-      }
-    }
-
-    //var featureCount = 50000;
-    var featureCount = 1;
-
-    var features = []; // new Array(featureCount);
-    var feature, geometry;
-    var e = 25000000;
-    // for (i = 0; i < featureCount; ++i) {
-    //   geometry = new ol.geom.Point([2 * e * Math.random() - e, 2 * e * Math.random() - e]);
-    //   feature = new ol.Feature(geometry);
-    //   feature.setStyle(
-    //     new ol.style.Style({
-    //       image: this.symbols[i % this.symbolCount]
-    //     })
-    //   );
-    //   features[i] = feature;
-    // }
-    // geometry = new ol.geom.Point(this.getPointFromLongLat(-93.4670179, 45.1110388));
 
 
-
-     feature = new ol.Feature({
-        // labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.4965767,45.08214 )),
-        // geometry: new ol.geom.Point(this.getPointFromLongLat(-93.4965767,45.08214 ))
-        //labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.49437654018402 ,45.08208920262501 )),
-        //geometry: new ol.geom.Point(this.getPointFromLongLat(-93.49437654018402 ,45.08208920262501 ))
-        name: "Patrick Hanf",
-        labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.49401 ,45.08203 )),
-        geometry: new ol.geom.Point(this.getPointFromLongLat(-93.49401 ,45.08203 ))
-       
-      });
-
-      feature.setStyle(
-        new ol.style.Style({
-          image: this.symbols[1]
-        })
-      );
-      // var point = feature.getGeometry();
-      // console.log('point'+ point);
-
-      features.push(feature);
-    // geometry = 
-
-      // feature = new ol.Feature({
-      //   labelPoint: new ol.geom.Point(this.getPointFromLongLat(-93.4670179,45.1110388 )),
-      //        //   geometry: new ol.geom.Point([45.1110388, -93.4670179])
-      // });
-      // feature.setStyle(
-      //   new ol.style.Style({
-      //     image: this.symbols[1 % this.symbolCount]
-      //   })
-      // );
-      // features[1] = feature;
-
-    this.vectorSource = new ol.source.Vector({
-      features: features
-    });
-
-    this.vectorLayer = new ol.layer.Vector({
-      source: this.vectorSource
-    });
-    //vector.setVisible(false);
+// http://stackoverflow.com/questions/36139170/how-to-hide-and-show-features-in-open-layers-3-redraw
+//
+// https://gis.stackexchange.com/questions/219349/how-to-create-a-custom-tile-map-with-its-own-extent-in-openlayers-3
+//
+//
+// var tileLayer = new ol.layer.Tile({
+//     source: new ol.source.XYZ({
+//       //  projection: projection25833,
+//         url: "{z}/{x}/{-y}.png",
+//      //   extent: [364900,5791100,420900,5847100],
+//         tileSize: [256, 256],
+//         minZoom: 0,
+//         maxZoom: 4
+//     })
+// });
 
 
-    // this.flickrVector = new ol.layer.Vector({
-    //   source: this.flickrSource,
-    //   //style: flickrStyle
-    // });
-
-
-    /// ORG
-      var map = new ol.Map({
-        target: "map",
+   var mmap = this.map = new ol.Map({
+        target: 'map',
+        renderer: 'webgl', // Force the renderer to be used
         layers: [
           new ol.layer.Tile({
-            source: new ol.source.OSM()
+            //source: new ol.source.Stamen({ layer: 'watercolor' })
+            //source: new ol.source.Stamen({ layer: 'toner' })
+            //source: new ol.source.Stamen({ layer: 'toner-lines' })
+            source: new ol.source.Stamen({ layer: 'terrain' })
+            
+            //source: new ol.source.OSM()
           }),
-          this.vectorLayer,
-         // this.flickrVector
+         // tileLayer,
+          this.vectorLayer
         ],
         view: new ol.View({
           // center:  [44.9864688, -93.4014555],
@@ -248,6 +153,44 @@ export class MapComponent implements OnInit {
           maxZoom: 18,
         })
       });
+
+
+    // console.log(this.map);
+    console.log('ngOnInit app-map');
+
+
+
+   // this.createFeature(-93.49401 ,45.08203);
+
+
+    // this.vectorSource = new ol.source.Vector({
+    //   features: features
+    // });
+
+    // this.vectorLayer = new ol.layer.Vector({
+    //   source: this.vectorSource
+    // });
+    //vector.setVisible(false);
+    /// ORG
+      // var map = new ol.Map({
+      //   target: "map",
+      //   layers: [
+      //     new ol.layer.Tile({
+      //       source: new ol.source.OSM()
+      //     }),
+      //     this.vectorLayer,
+      //    // this.flickrVector
+      //   ],
+      //   view: new ol.View({
+      //     // center:  [44.9864688, -93.4014555],
+      //     center: this.getPointFromLongLat(-92.57080078125, 45.04247805089153),
+          
+      //     //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
+      //     zoom: 7,
+      //     minZoom: 4,
+      //     maxZoom: 18,
+      //   })
+      // });
 
     //http://stackoverflow.com/questions/35875270/turn-off-image-smoothing-in-openlayers-3/35877192
     //     this.map.on('precompose', function(evt) {
@@ -269,14 +212,14 @@ var overlay = new ol.Overlay({
     autoPan: true,
     offset: [0, -10]
 });
-map.addOverlay(overlay);
+this.map.addOverlay(overlay);
 
-map.on('click', function(evt){
+this.map.on('click', function(evt){
   // Popup example
   // http://plnkr.co/edit/GvdVNE?p=preview
   //
 
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
+    var feature = this.map.forEachFeatureAtPixel(evt.pixel,
       function(feature, layer) {
         return feature;
       });
@@ -308,10 +251,10 @@ map.on('click', function(evt){
 //   console.log('map.click() lon='+lon+' lat='+lat);
 // });
 
-    map.getView().on('change:resolution', function (e) {
+    mmap.getView().on('change:resolution', function (e) {
 
       // BIGGER the number the closer to the ground and roads
-      console.log(map.getView().getZoom());
+      console.log(mmap.getView().getZoom());
 
       // if (map.getView().getZoom() > 5) {
       //   vector.setVisible(true);

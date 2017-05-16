@@ -76,6 +76,10 @@ export class ContactsComponent implements OnInit {
   }
 
   buildMap() {
+console.log('Build Map -- Before clear()');
+    this.mapComponent.vectorSource.clear();
+    console.log('Build Map -- After clear()');
+    
     this.mapComponent.setDataSourceMap(this.contacts);
     console.log('Build Map -- Get all complete');
   }
