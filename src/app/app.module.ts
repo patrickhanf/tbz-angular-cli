@@ -1,7 +1,3 @@
-
-// /// <reference path="node_modules/bingmaps/scripts/MicrosoftMaps/Microsoft.Maps.d.ts"/>
-
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,26 +10,26 @@ import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/an
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
-import { AppRoutingModule }        from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
-import { PageNotFoundComponent }   from './not-found.component';
+import { PageNotFoundComponent } from './not-found.component';
 import { HomeComponent } from './home/home.component';
-import { ContactsComponent }    from './contacts/contacts.component'; 
-import { DashboardComponent }    from './dashboard/dashboard.component';
-import { LoginRoutingModule }      from './login/login-routing.module';
-import { LoginComponent }          from './login/login.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginRoutingModule } from './login/login-routing.module';
+import { LoginComponent } from './login/login.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
-import { TitleComponent }     from './_component/title.component';
-import { MapComponent }     from './_component/map.component';
+import { TitleComponent } from './_component/title.component';
+import { MapComponent } from './_component/map.component';
 
 
 
 // https://angular.io/docs/ts/latest/guide/router.html
 
 @NgModule({
-    imports: [
+  imports: [
     FlexLayoutModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -41,7 +37,7 @@ import { MapComponent }     from './_component/map.component';
     HttpModule,
     LoginRoutingModule,
     AppRoutingModule,
-    MaterialModule.forRoot()
+    MaterialModule //.forRoot() removed after upgrade 5-16-17
   ],
   declarations: [
     AppComponent,
@@ -61,6 +57,6 @@ import { MapComponent }     from './_component/map.component';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-   // console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
+    // console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 }

@@ -6,7 +6,7 @@
     "callable-types": true,
     "class-name": true,
     "comment-format": [
-      true,
+      false, // true - modifed 5-16-17 PRH
       "check-space"
     ],
     "curly": true,
@@ -21,7 +21,7 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
+      false, // true - modifed 5-16-17 PRH
       140
     ],
     "member-access": false,

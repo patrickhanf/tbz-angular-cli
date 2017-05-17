@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-//import { AuthenticationService } from '../_auth/_authentication.service'; //used for OAuth bearer token below
-//import { ContactVM } from '../_models/contact';
+// import { AuthenticationService } from '../_auth/_authentication.service'; //used for OAuth bearer token below
+// import { ContactVM } from '../_models/contact';
 
 
 // Import RxJs required methods
@@ -16,7 +16,7 @@ export class ContactDetailService {
 
   getAPIContactById(contactid: number): Observable<any> {
 
-    var urls = "http://oneadvocacy.com/api/v1/Contact/"+contactid;
+    var urls = 'http://oneadvocacy.com/api/v1/Contact/' + contactid;
 
     console.log('1 url=' + urls);
 
@@ -24,14 +24,14 @@ export class ContactDetailService {
     // http://stackoverflow.com/questions/36271899/what-is-the-correct-way-to-share-the-result-of-an-angular-2-http-network-call-in
     // https://plnkr.co/edit/WpDtCkS4gslYwousZlmi?p=preview
 
-    let response = this.http.get(urls)
-        .map((response: Response) => <any>response.json());
-     //   .do(x => console.log(x)); // debug line working. 4-13-17
+    let responsex = this.http.get(urls)
+      .map((response: Response) => <any>response.json());
+    //   .do(x => console.log(x)); // debug line working. 4-13-17
 
-  console.log("Done loading Hello...");
-  return response;
+    console.log("Done loading Hello...");
+    return responsex;
 
-}
+  }
 
 
 

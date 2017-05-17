@@ -14,13 +14,13 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent {
    title = 'Trail Blazer';
 
-    ngOnInit(): void {
-       // $('body').addClass("fullscreen");
-    }
+  //   ngOnInit(): void {
+  //      // $('body').addClass("fullscreen");
+  //   }
 
-   myClick ()
-   {
-   this.title = "changed?";
-   }
+  //  myClick ()
+  //  {
+  //  this.title = "changed?";
+  //  }
 
 }

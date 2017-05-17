@@ -1,23 +1,23 @@
 import { Component, HostBinding } from '@angular/core';
-import { Router }                 from '@angular/router';
+import { Router } from '@angular/router';
 
-//import { slideInDownAnimation }   from './animations';
+// import { slideInDownAnimation }   from './animations';
 
 @Component({
   moduleId: module.id,
   templateUrl: './compose-message.component.html',
-  styles: [ ':host { position: relative; bottom: 10%; }' ],
-  //animations: [ slideInDownAnimation ]
+  styles: [':host { position: relative; bottom: 10%; }'],
+  // animations: [ slideInDownAnimation ]
 })
 export class ComposeMessageComponent {
- // @HostBinding('@routeAnimation') routeAnimation = true;
-  @HostBinding('style.display')   display = 'block';
-  @HostBinding('style.position')  position = 'absolute';
+  // @HostBinding('@routeAnimation') routeAnimation = true;
+  @HostBinding('style.display') display = 'block';
+  @HostBinding('style.position') position = 'absolute';
 
   details: string;
   sending: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   send() {
     this.sending = true;
@@ -36,7 +36,7 @@ export class ComposeMessageComponent {
   closePopup() {
     // Providing a `null` value to the named outlet
     // clears the contents of the named outlet
-    this.router.navigate([{ outlets: { popup: null }}]);
+    this.router.navigate([{ outlets: { popup: null } }]);
   }
 }
 

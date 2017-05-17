@@ -5,6 +5,20 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Depenencies
+
+Check for npn updates
+npm i -g npm-check-updates (https://www.npmjs.com/package/npm-check-updates)
+
+Check Angular-cli version: ng version
+
+(https://www.npmjs.com/package/@angular/flex-layout)
+npm i @angular/flex-layout
+
+npm install @angular/common@latest @angular/compiler@latest @angular/compiler-cli@latest @angular/core@latest @angular/forms@latest @angular/http@latest @angular/platform-browser@latest @angular/platform-browser-dynamic@latest @angular/platform-server@latest @angular/router@latest @angular/animations@latest typescript@latest --save
+
+npm i @angular/flex-layout
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.

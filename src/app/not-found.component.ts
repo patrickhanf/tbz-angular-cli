@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
     <div><a routerLink="/home" routerLinkActive="active">home</a></div>
      </md-card-content>
     </md-card>`
-    
+
 })
-export class PageNotFoundComponent {}
+export class PageNotFoundComponent { }
 
 
 /*

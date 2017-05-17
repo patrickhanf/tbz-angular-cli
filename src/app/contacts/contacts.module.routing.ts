@@ -15,8 +15,8 @@ import { AuthGuard } from '../auth-guard.service';
 // https://angular.io/docs/ts/latest/guide/router.html
 // this is following the heros example
 const contactsRoutes: Routes = [
-  { path: 'contact',  component: ContactsComponent },
-  { path: 'contact/:id', component: ContactDetailComponent }
+    { path: 'contact', component: ContactsComponent },
+    { path: 'contact/:id', component: ContactDetailComponent }
 ];
 
 @NgModule({

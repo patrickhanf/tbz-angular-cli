@@ -9,11 +9,11 @@ import { ContactsComponent } from './contacts.component';
 import { ContactsService } from './contacts.service';
 
 import { MapComponent } from '../_component/map.component'; //real map
-import { TitleComponent }     from '../_component/title.component';
+import { TitleComponent } from '../_component/title.component';
 
-//import {OLMap} from '../_component/map.component';
+// import {OLMap} from '../_component/map.component';
 
-//import { ContactsRoutingModule } from './contacts.module.routing';
+// import { ContactsRoutingModule } from './contacts.module.routing';
 
 
 
@@ -21,19 +21,19 @@ import { TitleComponent }     from '../_component/title.component';
   imports: [
     FormsModule,
     CommonModule,
-   // ContactsRoutingModule
+    // ContactsRoutingModule
   ],
   declarations: [
     ContactsComponent,
     TitleComponent,
     MapComponent,
-  //  ContactDetailComponent
+    //  ContactDetailComponent
   ],
   providers: [
     ContactsService
   ]
 })
-export class ContactsModule { 
+export class ContactsModule {
 
 }
 

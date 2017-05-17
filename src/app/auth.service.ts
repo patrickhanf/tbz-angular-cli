@@ -18,21 +18,21 @@ export class AuthService {
 
   constructor(private http: Http) {
     // set token if saved in local storage
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
-    this.baseurl = "http://oneadvocacy.com";
+    this.baseurl = 'http://oneadvocacy.com';
   }
 
   login(username: string, password: string) {
-    //      this.isLoggedIn = true; // temp until we get OAuth to run.
+    // this.isLoggedIn = true; // temp until we get OAuth to run.
 
-    console.log('clicked _login user=' + username + " pass=" + password);
-    var creds = "grant_type=password&username=" + username + "&password=" + password;
+    console.log('clicked _login user=' + username + ' pass=' + password);
+    let creds = 'grant_type=password&username=' + username + '&password=' + password;
 
     // add authorization header with jwt token
-    var headers = new Headers();
+    let headers = new Headers();
     headers.append('Content-Type', 'application/X-www-form-urlencoded');
-    //return new Promise((resolve) => {
+    // return new Promise((resolve) => {
     return this.http.post(this.baseurl + '/token', creds, { headers: headers }).map((response: Response) => {
       // login successful if there's a jwt token in the response, status 400 is Invalid username or password.
       if (response.status == 400) {
@@ -47,7 +47,7 @@ export class AuthService {
           // store username and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
           console.log('set currentUser logon() = ' + localStorage.getItem('currentUser'));
-          //  this.userId = data.json().userId;      
+          // this.userId = data.json().userId;      
           this.isLoggedIn = true;
         }
 

@@ -32,7 +32,7 @@ import { MapComponent } from '../_component/map.component';
 export class ContactsComponent implements OnInit {
   @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
-  direction = "row";
+  direction = 'row';
   // public contacts: ContactVM[];
 
   constructor(private router: Router, private contactService: ContactsService, private mapComponent: MapComponent) {

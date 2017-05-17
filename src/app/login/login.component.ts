@@ -24,7 +24,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
   message: string;
   loading = false;
-  model: any = { username: "TEST", password: "TEST123" };
+  model: any = { username: 'TEST', password: 'TEST123' };
   returnUrl: string;
 
   constructor(public authService: AuthService, public router: Router) {
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
             queryParamsHandling: "merge",
             preserveFragment: true
           };
-          //alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
+          // alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
           // Redirect the user
           console.log('login.component.ts redirect=' + redirect);
           //this.router.navigate([redirect], navigationExtras);
