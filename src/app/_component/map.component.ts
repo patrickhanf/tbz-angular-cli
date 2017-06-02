@@ -43,9 +43,13 @@ export class MapComponent implements OnInit {
 
 //http://openlayersbook.github.io/ch11-creating-web-map-apps/example-11.html
   setDataSourceMap(contacts) {
-this.createFeature(-93.49401 ,45.08203);
+
+
+
  // this.vectorSource.clear();
-    console.log('setDataSourceMap() loading ' + contacts.length + ' contacts');
+    console.log('hide - setDataSourceMap() loading ' + contacts.length + ' contacts');
+    this.vectorSource.setVisible(false);
+this.createFeature(-93.49401 ,45.08203);
  // this.createFeature(-93.4014555,44.9864688);
                      var i, lat, lon, geom, feature, features = [];
                 for(i=0; i< 10; i++) {
@@ -87,7 +91,8 @@ this.createFeature(-93.49401 ,45.08203);
     // this.vectorSource.addFeatures(features);
 
     // } //for end
-
+this.vectorSource.setVisible(true);
+console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts');
   }
   getPointFromLongLat (long, lat) {
     //console.log('getPointFromLongLat() = '+long);
@@ -130,15 +135,15 @@ this.createFeature(-93.49401 ,45.08203);
 
    var mmap = this.map = new ol.Map({
         target: 'map',
-        renderer: 'webgl', // Force the renderer to be used
+       // renderer: 'webgl', // Force the renderer to be used
         layers: [
           new ol.layer.Tile({
             //source: new ol.source.Stamen({ layer: 'watercolor' })
             //source: new ol.source.Stamen({ layer: 'toner' })
             //source: new ol.source.Stamen({ layer: 'toner-lines' })
-            source: new ol.source.Stamen({ layer: 'terrain' })
-            
-            //source: new ol.source.OSM()
+            //source: new ol.source.Stamen({ layer: 'terrain' })
+            //source: ol.source.BingMaps({}),
+            source: new ol.source.OSM()
           }),
          // tileLayer,
           this.vectorLayer
@@ -149,8 +154,8 @@ this.createFeature(-93.49401 ,45.08203);
           
           //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
           zoom: 7,
-          minZoom: 4,
-          maxZoom: 18,
+        //  minZoom: 4,
+        //  maxZoom: 18,
         })
       });
 
@@ -160,7 +165,7 @@ this.createFeature(-93.49401 ,45.08203);
 
 
 
-   // this.createFeature(-93.49401 ,45.08203);
+    this.createFeature(-93.49401 ,45.08203);
 
 
     // this.vectorSource = new ol.source.Vector({
@@ -254,6 +259,7 @@ this.map.on('click', function(evt){
     mmap.getView().on('change:resolution', function (e) {
 
       // BIGGER the number the closer to the ground and roads
+      // LARGER the number the closer to space you are!
       console.log(mmap.getView().getZoom());
 
       // if (map.getView().getZoom() > 5) {

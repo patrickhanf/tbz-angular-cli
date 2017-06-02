@@ -1,0 +1,14 @@
+<h1>
+  {{title}}
+</h1>
+
+before map
+<app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+  Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+</app-map>
+:: after map
+
+
+
+<span>opacity:</span><button (click)="increaseOpacity()">+</button><button (click)="decreaseOpacity()">-</button><br>
+<span>zoom:</span><button (click)="increaseZoom()">+</button><button (click)="decreaseZoom()">-</button><br>

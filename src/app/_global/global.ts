@@ -1,7 +1,8 @@
 // global.ts
 
  export const GlobalVariable = Object.freeze({
-     BASE_API_URL: 'http://example.com/',
+   //  BASE_API_URL: 'http://oneadvocacy.com/api/v1/',
+     BASE_API_URL: 'http://localhost:8080/api/v1/',
      //... more of your variables
  });
 

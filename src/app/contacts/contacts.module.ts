@@ -1,5 +1,7 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http';
 //import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
@@ -8,38 +10,35 @@ import { ContactsComponent } from './contacts.component';
 
 import { ContactsService } from './contacts.service';
 
-import { MapComponent } from '../_component/map.component'; //real map
+//import { MapComponent } from '../_component/map.component'; //real map
 import { TitleComponent } from '../_component/title.component';
-
-// import {OLMap} from '../_component/map.component';
 
 // import { ContactsRoutingModule } from './contacts.module.routing';
 
+import { OlService } from '../_component/ol/ol.service'; // global
+import { OlComponent } from '../_component/ol/ol.component';
 
 
 @NgModule({
   imports: [
+    BrowserModule,
     FormsModule,
-    CommonModule,
+    HttpModule,
+   // CommonModule
     // ContactsRoutingModule
   ],
   declarations: [
     ContactsComponent,
     TitleComponent,
-    MapComponent,
+    OlComponent,
+   // MapComponent,
     //  ContactDetailComponent
   ],
   providers: [
-    ContactsService
+    ContactsService,
+    OlService
   ]
 })
 export class ContactsModule {
 
 }
-
-
-/*
-Copyright 2017 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

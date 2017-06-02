@@ -5,7 +5,7 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Depenencies
+## Dependencies
 
 Check for npn updates
 npm i -g npm-check-updates (https://www.npmjs.com/package/npm-check-updates)
@@ -14,6 +14,16 @@ Check Angular-cli version: ng version
 
 (https://www.npmjs.com/package/@angular/flex-layout)
 npm i @angular/flex-layout
+
+(https://www.npmjs.com/package/@types/openlayers) <= Not sure if we need this at all 6-1-17ng 
+npm i @types/openlayers
+
+(https://www.npmjs.com/package/openlayers)
+npm install openlayers
+
+(https://material.angular.io/guide/getting-started)
+npm install --save hammerjs 
+npm install --save-dev @types/hammerjs
 
 npm install @angular/common@latest @angular/compiler@latest @angular/compiler-cli@latest @angular/core@latest @angular/forms@latest @angular/http@latest @angular/platform-browser@latest @angular/platform-browser-dynamic@latest @angular/platform-server@latest @angular/router@latest @angular/animations@latest typescript@latest --save
 
