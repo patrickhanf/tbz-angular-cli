@@ -9,7 +9,7 @@ import { AuthGuard } from './auth-guard.service';
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 
 
-import { TestComponent } from './test/test.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
+import { GeomapComponent } from './geomap/geomap.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
 import { HomeComponent } from './home/home.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
 import { ContactsComponent } from './contacts/contacts.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
 import { DashboardComponent } from './dashboard/dashboard.component';  // you must declare this in @NgModule of app.module.ts or you'll get an error
@@ -19,7 +19,7 @@ import { ContactDetailComponent } from './contact-detail/contact-detail.componen
 // https://vsavkin.com/angular-router-declarative-lazy-loading-7071d1f203ee#.qlmrtmbic
 
 const appRoutes: Routes = [
-  { path: 'test', component: TestComponent, canActivate: [AuthGuard] }, // Temp
+  { path: 'world', component: GeomapComponent, canActivate: [AuthGuard] }, // Temp
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard] },
   { path: 'contact/:id', component: ContactDetailComponent, canActivate: [AuthGuard] },

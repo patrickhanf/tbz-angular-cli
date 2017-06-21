@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { TestComponent } from './test.component';
+import { GeomapComponent } from './geomap.component';
 //import { OlComponent } from './_component/ol/ol.component';
 import { OlService } from '../_component/ol/ol.service'; // global
 
@@ -18,7 +18,7 @@ import { OlComponent } from '../_component/ol/ol.component';
     HttpModule
   ],
   declarations: [
-    TestComponent,
+    GeomapComponent,
     OlComponent
   ],
 

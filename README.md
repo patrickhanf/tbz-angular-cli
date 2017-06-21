@@ -21,6 +21,13 @@ npm i @types/openlayers
 (https://www.npmjs.com/package/openlayers)
 npm install openlayers
 
+https://www.npmjs.com/package/d3  <= This is the actual javascript reference d3.js
+npm install d3 --save
+
+https://www.npmjs.com/package/@types/d3
+npm install --save-dev @types/d3 
+npm install --save @types/d3
+
 (https://material.angular.io/guide/getting-started)
 npm install --save hammerjs 
 npm install --save-dev @types/hammerjs

@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent } from './not-found.component';
-import { TestComponent } from './test/test.component';
+import { GeomapComponent } from './geomap/geomap.component';
 import { HomeComponent } from './home/home.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -44,7 +44,7 @@ import { OlService } from './_component/ol/ol.service'; // global
     AppComponent,
     TitleComponent,
     OlComponent,
-    TestComponent,
+    GeomapComponent,
     ComposeMessageComponent,
     DashboardComponent,
     HomeComponent,
