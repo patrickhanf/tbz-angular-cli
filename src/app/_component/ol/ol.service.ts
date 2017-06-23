@@ -13,6 +13,9 @@ import 'rxjs/add/operator/catch';
 var popupmap;
 var vectorGeoJson;
 var vectorGeoPng;
+var vectorGeoDraw;
+// make interactions global so they can later be removed
+var select_interaction, draw_interaction, modify_interaction;
 
 @Injectable()
 export class OlService {
@@ -32,8 +35,8 @@ export class OlService {
         this.foo = "ol service map";
 
         let ol = this.get();
-       // this._vectorSource = new ol.source.Vector();
-      //  this._vectorSourceGeoJson = new ol.source.Vector();
+        // this._vectorSource = new ol.source.Vector();
+        //  this._vectorSourceGeoJson = new ol.source.Vector();
 
     }
 
@@ -76,6 +79,38 @@ export class OlService {
                 })
             });
 
+            var customStyleFunction = function(feature, resolution) {
+                //debug  console.log('resolution='+resolution);
+
+                 let strokecolor;
+                 let _radius =4;
+
+            //    if (resolution > 14)
+            //      _radius = 3;
+            //    else
+            //      _radius = 10;
+
+                if(feature.get('source') === 'navteq') { // black icon
+                    strokecolor = '#133277';
+                } else if(feature.get('source') === '') { // blue
+                    strokecolor = '#f61212';
+                } else {
+                    strokecolor = '#198cff';
+                }
+
+                return [new ol.style.Style({
+                    image: new ol.style.Circle({
+                    // fill: new ol.style.Fill({
+                    //     color: '#1b465a'
+                    // }),
+                    stroke: new ol.style.Stroke({
+                        color: strokecolor,
+                        width: 1
+                    }),
+                    radius: _radius
+                    })
+                })];
+                };
 
             let OSM = new ol.layer.Tile({
                 //source: new ol.source.Stamen({ layer: 'watercolor' })
@@ -83,136 +118,95 @@ export class OlService {
                 //source: new ol.source.Stamen({ layer: 'toner-lines' })
                 //source: new ol.source.Stamen({ layer: 'terrain' })
                 //source: ol.source.BingMaps({}),
-                source: new ol.source.OSM()
+                source: new ol.source.OSM(),
+                // maxResolution: 50, // was 20 
             });
 
-
-            // var customStyleFunction = function(feature, resolution) {
-
-            //      let strokecolor;
-            //      let _radius =3;
-
-            //    // console.log(resolution);
-
-            //    if (resolution > 14)
-            //      _radius = 3;
-            //    else
-            //      _radius = 10;
-
-            //     if(feature.get('source') === 'navteq') { // black icon
-            //         strokecolor = '#020815';
-            //     } else if(feature.get('source') === '') { // blue
-            //         strokecolor = '#f61212';
-            //     } else {
-            //         strokecolor = '#198cff';
-            //     }
-
-            //     return [new ol.style.Style({
-            //         image: new ol.style.Circle({
-            //         fill: new ol.style.Fill({
-            //             color: '#1b465a'
-            //         }),
-            //         stroke: new ol.style.Stroke({
-            //             color: strokecolor,
-            //             width: 3
-            //         }),
-            //         radius: _radius
-            //         })
-            //     })];
-            //     };
-
-            let tiledSource = new ol.layer.VectorTile({
-
-                // style: customStyleFunction, // <= working style from above
+            let geoJsonSource = new ol.layer.VectorTile({
+                // style: function(feature, resolution) {
+                //    console.log('resolution='+resolution);
+                // },
+                style: customStyleFunction, // <= working style from above
+                // minResolution: 1, // was 0
+                maxResolution: 9, // was 20 
                 source: new ol.source.VectorTile({
+
                     projection: 'EPSG:3857',
                     name: "homes",
                     format: new ol.format.GeoJSON({ defaultProjection: 'EPSG:4326' }),
-                    //  format: new ol.format.GeoJSON(),
-                    tilePixelRatio: 16,
+                   // tilePixelRatio: 16,
                     tileGrid: ol.tilegrid.createXYZ({
-                        //  tileSize: [256, 256],
+                        tileSize: [256, 256],
                         extent: ol.proj.get('EPSG:3857').getExtent(),
-                        maxZoom: 18,
-                        minResolution: 15, // was 0
-                        maxResolution: 18, // was 20 
-                        // tileUrlFunction: function (tileCoord) {
-                        //     // create a simplified url for use in the tileLoadFunction
-                        //     console.log('z=' + tileCoord);
-                        //     return tileCoord.toString();
-                        // },
-                        // tileLoadFunction: function (tileCoord) {
-                        //     console.log('z=' + tileCoord);
-                        //     //https://openlayers.org/en/latest/examples/mapbox-vector-tiles-advanced.html
-                        //     return ('http://geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json')
-                        //         .replace('{z}', String(tileCoord[0] * 2 - 1))
-                        //         .replace('{x}', String(tileCoord[1]))
-                        //         .replace('{y}', String(-tileCoord[2] - 1));
-                        // }
-
                     }),
                     url: 'http://geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json'
+
                 })
             });
 
+
             //Only show if 
             //tiledSource.setVisible(false);
-
-            // // var tiledVectorOSM = new ol.layer.Vector({
-            // //     source: tiledSource,
-            // //     style: vectorStyle
-            // // });
-
-
-            // let vector = new ol.layer.Vector({
-            //     source: this._vectorSource,
-            //     style: vectorStyle
-            // });
-
-
-            // // var clusterSource = new ol.source.Cluster({
-            // //     distance: 10,
-            // //     source: this._vectorSourceGeoJson
-            // // });
-
-
-            let vectorgeojson = new ol.layer.Vector({
-                //  maxZoom: 18,
-                //  minResolution: 15,  // hides or shows based on zoom
-                //  maxResolution: 18,
-                source: this._vectorSourceGeoJson,
-                style: vectorStyle
-            });
-
-            this._vectorLayerGeoJson = vectorgeojson.setVisible(false);
-
+            // this._vectorLayerGeoJson = vectorgeojson.setVisible();
             // this._vectorLayerGeoJson = new ol.layer.Vector();
 
             // 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
-            let pngSource = new ol.layer.Tile({
+            let geoPngSource = new ol.layer.Tile({
+                
+                   minResolution: 6,  // hides or shows based on zoom
+                  // maxResolution: 10,
                 source: new ol.source.XYZ({
-                    maxZoom: 14,
-                    minResolution: 5,  // hides or shows based on zoom
-                    maxResolution: 14,
-                    url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
-                    })
-                });
 
-            this._vectorSource = pngSource;
+                    url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
+                })
+            });
+
+            // https://codepen.io/barbalex/pen/fBpyb
+            // create a vector layer used for editing
+
+
+
+            let geoDrawSource = new ol.layer.Vector({
+                name: 'my_vectorlayer',
+                source: new ol.source.Vector(),
+                style: new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#3393ff', // #ffcc33',
+                        width: 4
+                    }),
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: '#ffcc33'
+                        })
+                    })
+                })
+            });
+
+            //
+            // Move vectors to global
+            //
+            vectorGeoJson = geoJsonSource;
+            vectorGeoPng = geoPngSource;
+            vectorGeoDraw = geoDrawSource;
 
             this._map = new ol.Map({
                 target: 'map',
+                interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                //    vector,
-                    vectorgeojson,
-                //    tiledSource,
-                    pngSource,
+                    geoJsonSource,
+                    geoPngSource,
+                    geoDrawSource, // Polygon drawing
 
                 ],
-                renderer: 'canvas', // required for vector tiles
+                //renderer: 'canvas', // required for vector tiles
                 view: new ol.View({
+
                     center: ol.proj.fromLonLat(this.lnglat),
                     zoom: 10, // this.zoom,
                     minZoom: 5,
@@ -247,6 +241,25 @@ export class OlService {
             var fullscreen = new ol.control.FullScreen();
             this._map.addControl(fullscreen);
 
+            // change mouse cursor when over marker
+            // http://jsfiddle.net/jonataswalker/r6f3s6r0/
+            this._map.on('pointermove', function(e) {
+            // if (e.dragging) {
+            //     $(element).popover('destroy');
+            //     return;
+            // }
+            var pixel = popupmap.getEventPixel(e.originalEvent);
+            var hit = popupmap.hasFeatureAtPixel(pixel);
+            var target = popupmap.getTarget();
+
+            target = typeof target === "string" ?
+                document.getElementById(target) : target;
+
+            target.style.cursor = hit ? 'pointer' : '';
+
+           // popupmap.getTarget().style.cursor = hit ? 'pointer' : '';
+            });
+
             this._map.on('click', function (evt) {
                 // Popup example
                 // http://plnkr.co/edit/GvdVNE?p=preview
@@ -262,7 +275,7 @@ export class OlService {
                     var geometry = feature.getGeometry();
                     var coord = geometry.getCoordinates();
 
-                    var content = '<h3>' + feature.get('name') + '</h3>';
+                    var content = '<h3>' + feature.get('id') + '</h3>';
                     content += '<h5>' + feature.get('address') + '</h5>';
                     content += '<br><h5>' + feature.get('source') + '</h5>';
 
@@ -279,21 +292,23 @@ export class OlService {
             });
 
 
-            // this._map.getView().on('change:resolution', function (e) {
+            this._map.getView().on('change:resolution', function (e) {
 
-            //     // BIGGER the number the closer to the ground and roads
-            //     // LARGER the number the closer to space you are!
-            //     console.log(popupmap.getView().getZoom());
+                // BIGGER the number the closer to the ground and roads
+                // LARGER the number the closer to space you are!
+                console.log(popupmap.getView().getZoom());
 
-            //     if (popupmap.getView().getZoom() > 5) {
-            //       this._vectorLayerGeoJson.setVisible(false);
-            //       this._vectorSource.setVisible(true);
-            //     }
-            //     else {
-            //       this._vectorSource.setVisible(true);
-            //       this._vectorLayerGeoJson.setVisible(true);
-            //     }
-            // });
+                // if (popupmap.getView().getZoom() > 5) {
+                //   this._vectorLayerGeoJson.setVisible(false);
+                //   this._vectorSource.setVisible(true);
+                // }
+                // else {
+                //   this._vectorSource.setVisible(true);
+                //   this._vectorLayerGeoJson.setVisible(true);
+                // }
+            });
+
+           // this.addDrawInteraction();
 
             resolve(true); // or false
 
@@ -302,41 +317,6 @@ export class OlService {
         }); // end promise
     }
 
-    // This cuts geojson into tiles
-    // https://github.com/mapbox/geojson-vt
-
-    // https://en.wikipedia.org/wiki/GeoJSON
-
-
-
-    placeD3(data) {
-        //  let d3 = this.getD3();
-        let width = window.innerWidth,
-            height = window.innerHeight;
-
-        let sc = Math.min(width, height) * 0.5
-
-        //let projection = d3.geoEquirectangular()
-        let projection = d3.geoMercator()
-            .scale(sc)
-            .translate([width / 2, height / 2])
-            .rotate([-180, 0]);
-
-        let path = d3.geoPath().projection(projection);
-
-        let svg = d3.select("#d3map").append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-        svg.selectAll(".geojson")
-            .data(data.features)
-            .enter()
-            .append("path")
-            .attr("class", "geojson")
-            .attr("d", path);
-
-        alert('placeD3 => done?');
-    }
 
     // https://gist.github.com/mbertrand/5218300
 
@@ -446,28 +426,96 @@ export class OlService {
 
     };
 
-    addInteraction() {
-        let ol = this.get();
-        let draw = new ol.interaction.Draw({
-            source: this._vectorSourceDraw,
+    // addInteraction() {
+    //     let ol = this.get();
+    //     let draw = new ol.interaction.Draw({
+    //         source: this._vectorSourceDraw,
+    //         type: 'Polygon',
+    //         freehand: true
+    //     });
+
+    //     this._map.addInteraction(draw);
+    //     // this.draw.on('drawend', function () {
+    //     //     //let features = this.draw.getSource().getFeatures();
+    //     //     let features = this.draw.source.getFeatures();
+    //     //     // Go through this array and get coordinates of their geometry.
+    //     //     features.forEach(function (feature) {
+    //     //         console.log(feature.getGeometry().getCoordinates());
+    //     //     });
+    //     // });
+
+    // };
+
+    // creates a draw interaction
+    addDrawInteraction() {
+
+
+
+        // remove other interactions
+        this._map.removeInteraction(select_interaction);
+        this._map.removeInteraction(modify_interaction);
+        let start_drawing = false;
+        // create the interaction
+        draw_interaction = new ol.interaction.Draw({
+            // condition: ol.events.condition.singleClick,
+            source: vectorGeoDraw.getSource(),
             type: 'Polygon',
             freehand: true
         });
+        // add it to the map
+        this._map.addInteraction(draw_interaction);
+        draw_interaction.on('drawstart', function (evt) {
+            start_drawing = true;
+            console.log('start_drawing==true');
+        });
+        // when a new feature has been drawn...
+        draw_interaction.on('drawend', function (event) {
+            start_drawing = false;
+            // create a unique id
+            // it is later needed to delete features
+            // var id = uid();
+            // give the feature this id
+            // event.feature.setId(id);
 
-        this._map.addInteraction(draw);
+            //console.log('id='+ id);
+            console.log(event.feature);
 
+            // Enable double click zoom after drawing is complete
+            // https://gis.stackexchange.com/questions/161930/problem-in-remove-interaction-after-draw-end-in-openlayers-3
+            // ol.interaction.defaults({  doubleClickZoom :false });
 
-        // this.draw.on('drawend', function () {
-        //     //let features = this.draw.getSource().getFeatures();
-        //     let features = this.draw.source.getFeatures();
-        //     // Go through this array and get coordinates of their geometry.
-        //     features.forEach(function (feature) {
-        //         console.log(feature.getGeometry().getCoordinates());
-        //     });
-        // });
-
-
-
+            // save the changed data
+            //saveData(); 
+        });
     };
 
-}
+
+
+    // // // shows data in textarea
+    // // // replace this function by what you need
+    // // saveData() {
+    // //   // get the format the user has chosen
+    // //   var data_type = 'Polygon';  // $data_type.val(),
+    // //       // define a format the data shall be converted to
+    // //  		format = new ol.format[data_type](),
+    // //       // this will be the data in the chosen format
+    // //  		data;
+    // //   try {
+    // //     // convert the data of the vector_layer into the chosen format
+    // //     data = format.writeFeatures(vector_layer.getSource().getFeatures());
+    // //   } catch (e) {
+    // //     // at time of creation there is an error in the GPX format (18.7.2014)
+    // //     $('#data').val(e.name + ": " + e.message);
+    // //     return;
+    // //   }
+    // //   if ($data_type.val() === 'GeoJSON') {
+    // //     // format is JSON
+    // //     $('#data').val(JSON.stringify(data, null, 4));
+    // //   } else {
+    // //     // format is XML (GPX or KML)
+    // //     var serializer = new XMLSerializer();
+    // //     $('#data').val(serializer.serializeToString(data));
+    // //   }
+    // // }
+
+} // end
