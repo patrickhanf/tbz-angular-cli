@@ -15,18 +15,19 @@ Check Angular-cli version: ng version
 (https://www.npmjs.com/package/@angular/flex-layout)
 npm i @angular/flex-layout
 
+Tested 6-24-17, it appears this is not needed just install openlayers package
 (https://www.npmjs.com/package/@types/openlayers) <= Not sure if we need this at all 6-1-17ng 
 npm i @types/openlayers
 
 (https://www.npmjs.com/package/openlayers)
 npm install openlayers
 
-https://www.npmjs.com/package/d3  <= This is the actual javascript reference d3.js
+<!--https://www.npmjs.com/package/d3  <= This is the actual javascript reference d3.js
 npm install d3 --save
 
 https://www.npmjs.com/package/@types/d3
 npm install --save-dev @types/d3 
-npm install --save @types/d3
+npm install --save @types/d3-->
 
 (https://material.angular.io/guide/getting-started)
 npm install --save hammerjs 

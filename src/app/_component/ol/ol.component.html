@@ -2,12 +2,13 @@
 
 <!-- http://openlayers.org/en/v3.9.0/examples/snap.html -->
   <div class="form-group">
-<md-radio-group>
-  <md-radio-button #turfaction [value]="draw" (change)="onTurfActionChange(entry)" checked=false >Draw</md-radio-button>
-  <md-radio-button #turfaction [value]="modify" (change)="onTurfActionChange(entry)">Modify</md-radio-button>
+<md-radio-group [(ngModel)]="turfActionSelected">
+  <md-radio-button *ngFor="let action of turfActions" [value]="action" [checked]="action == 'draw'">{{action}}</md-radio-button>
 </md-radio-group>
-
+<md-slide-toggle>Slide me!</md-slide-toggle>
 <button md-button (click)="onTurfActionClick()">Turf Cutter</button>
+
+{{turfActionSelected}}
     <!--<label>Draw type &nbsp;</label>
     <select name="draw-type" id="draw-type">
       <option value="Point">Point</option>

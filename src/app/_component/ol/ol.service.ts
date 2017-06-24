@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as ol from 'openlayers';
-import * as d3 from 'd3';
+
 //import * as d3 from '../d3/bundle-d3';
 
 // Import RxJs required methods
@@ -44,10 +44,6 @@ export class OlService {
         return ol;
     }
 
-    getD3(): any {
-        return d3;
-    }
-
     getMapPolygon() {
         let ol = this.get();
         var poly = popupmap.getView().calculateExtent(popupmap.getSize());
@@ -79,20 +75,20 @@ export class OlService {
                 })
             });
 
-            var customStyleFunction = function(feature, resolution) {
+            var customStyleFunction = function (feature, resolution) {
                 //debug  console.log('resolution='+resolution);
 
-                 let strokecolor;
-                 let _radius =4;
+                let strokecolor;
+                let _radius = 4;
 
-            //    if (resolution > 14)
-            //      _radius = 3;
-            //    else
-            //      _radius = 10;
+                //    if (resolution > 14)
+                //      _radius = 3;
+                //    else
+                //      _radius = 10;
 
-                if(feature.get('source') === 'navteq') { // black icon
+                if (feature.get('source') === 'navteq') { // black icon
                     strokecolor = '#133277';
-                } else if(feature.get('source') === '') { // blue
+                } else if (feature.get('source') === '') { // blue
                     strokecolor = '#f61212';
                 } else {
                     strokecolor = '#198cff';
@@ -100,17 +96,17 @@ export class OlService {
 
                 return [new ol.style.Style({
                     image: new ol.style.Circle({
-                    // fill: new ol.style.Fill({
-                    //     color: '#1b465a'
-                    // }),
-                    stroke: new ol.style.Stroke({
-                        color: strokecolor,
-                        width: 1
-                    }),
-                    radius: _radius
+                        // fill: new ol.style.Fill({
+                        //     color: '#1b465a'
+                        // }),
+                        stroke: new ol.style.Stroke({
+                            color: strokecolor,
+                            width: 1
+                        }),
+                        radius: _radius
                     })
                 })];
-                };
+            };
 
             let OSM = new ol.layer.Tile({
                 //source: new ol.source.Stamen({ layer: 'watercolor' })
@@ -134,7 +130,7 @@ export class OlService {
                     projection: 'EPSG:3857',
                     name: "homes",
                     format: new ol.format.GeoJSON({ defaultProjection: 'EPSG:4326' }),
-                   // tilePixelRatio: 16,
+                    // tilePixelRatio: 16,
                     tileGrid: ol.tilegrid.createXYZ({
                         tileSize: [256, 256],
                         extent: ol.proj.get('EPSG:3857').getExtent(),
@@ -153,9 +149,9 @@ export class OlService {
             // 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
             let geoPngSource = new ol.layer.Tile({
-                
-                   minResolution: 6,  // hides or shows based on zoom
-                  // maxResolution: 10,
+
+                minResolution: 6,  // hides or shows based on zoom
+                // maxResolution: 10,
                 source: new ol.source.XYZ({
 
                     url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
@@ -165,10 +161,8 @@ export class OlService {
             // https://codepen.io/barbalex/pen/fBpyb
             // create a vector layer used for editing
 
-
-
             let geoDrawSource = new ol.layer.Vector({
-                name: 'my_vectorlayer',
+                name: 'draw_vectorlayer',
                 source: new ol.source.Vector(),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
@@ -243,21 +237,21 @@ export class OlService {
 
             // change mouse cursor when over marker
             // http://jsfiddle.net/jonataswalker/r6f3s6r0/
-            this._map.on('pointermove', function(e) {
-            // if (e.dragging) {
-            //     $(element).popover('destroy');
-            //     return;
-            // }
-            var pixel = popupmap.getEventPixel(e.originalEvent);
-            var hit = popupmap.hasFeatureAtPixel(pixel);
-            var target = popupmap.getTarget();
+            this._map.on('pointermove', function (e) {
+                // if (e.dragging) {
+                //     $(element).popover('destroy');
+                //     return;
+                // }
+                var pixel = popupmap.getEventPixel(e.originalEvent);
+                var hit = popupmap.hasFeatureAtPixel(pixel);
+                var target = popupmap.getTarget();
 
-            target = typeof target === "string" ?
-                document.getElementById(target) : target;
+                target = typeof target === "string" ?
+                    document.getElementById(target) : target;
 
-            target.style.cursor = hit ? 'pointer' : '';
+                target.style.cursor = hit ? 'pointer' : '';
 
-           // popupmap.getTarget().style.cursor = hit ? 'pointer' : '';
+                // popupmap.getTarget().style.cursor = hit ? 'pointer' : '';
             });
 
             this._map.on('click', function (evt) {
@@ -308,7 +302,7 @@ export class OlService {
                 // }
             });
 
-           
+
 
             resolve(true); // or false
 
@@ -319,11 +313,11 @@ export class OlService {
 
 
     // https://gist.github.com/mbertrand/5218300
-    
-    getTurfCutter()
-     {
-         this.addDrawInteraction();
-     }
+
+    getTurfCutter() {
+        //https://codepen.io/barbalex/pen/fBpyb
+        this.addDrawInteraction();
+    }
 
 
     getTitle() {
@@ -381,7 +375,7 @@ export class OlService {
 
     addLayerSwitcher = (layers: [any]) => {
 
-    //    this.layers = layers;
+        //    this.layers = layers;
 
     }
     toggleLayer = (layer, evt) => {
@@ -470,11 +464,8 @@ export class OlService {
     // };
 
     // creates a draw interaction
-    //addDrawInteraction(select_interaction: string , modify_interaction: string) {
     addDrawInteraction() {
-
-
-
+        //https://codepen.io/barbalex/pen/fBpyb
         // remove other interactions
         popupmap.removeInteraction(select_interaction);
         popupmap.removeInteraction(modify_interaction);
@@ -541,5 +532,67 @@ export class OlService {
     // //     $('#data').val(serializer.serializeToString(data));
     // //   }
     // // }
+
+    // build up modify interaction
+    // needs a select and a modify interaction working together
+    addModifyInteraction() {
+        // remove draw interaction
+        popupmap.removeInteraction(draw_interaction);
+        // create select interaction
+        select_interaction = new ol.interaction.Select({
+            // make sure only the desired layer can be selected
+            layers: function (vector_layer) {
+                return vector_layer.get('name') === 'draw_vectorlayer';
+            }
+        });
+        popupmap.addInteraction(select_interaction);
+
+        //   // grab the features from the select interaction to use in the modify interaction
+        let selected_features = select_interaction.getFeatures();
+        //   // when a feature is selected...
+        //   selected_features.on('add', function(event) {
+        //     // grab the feature
+        //     var feature = event.element;
+        //     // ...listen for changes and save them
+        //     feature.on('change', saveData);
+        //     // listen to pressing of delete key, then delete selected features
+        //     $(document).on('keyup', function(event) {
+        //       if (event.keyCode == 46) {
+        //         // remove all selected features from select_interaction and draw_vectorlayer
+        //         selected_features.forEach(function(selected_feature) {
+        //           var selected_feature_id = selected_feature.getId();
+        //           // remove from select_interaction
+        //           selected_features.remove(selected_feature);
+        //           // features aus vectorlayer entfernen
+        //           var vectorlayer_features = vector_layer.getSource().getFeatures();
+        //           vectorlayer_features.forEach(function(source_feature) {
+        //             var source_feature_id = source_feature.getId();
+        //             if (source_feature_id === selected_feature_id) {
+        //               // remove from draw_vectorlayer
+        //               vector_layer.getSource().removeFeature(source_feature);
+        //               // save the changed data
+        //               saveData();
+        //             }
+        //           });
+        //         });
+        //         // remove listener
+        //         $(document).off('keyup');
+        //       }
+        //     });
+        //   });
+        // create the modify interaction
+        modify_interaction = new ol.interaction.Modify({
+            features: selected_features,
+            // delete vertices by pressing the SHIFT key
+            deleteCondition: function (event) {
+                return ol.events.condition.shiftKeyOnly(event) &&
+                    ol.events.condition.singleClick(event);
+            }
+        });
+        // add it to the map
+        popupmap.addInteraction(modify_interaction);
+    }
+
+
 
 } // end
