@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 
 import { AddressService } from './geomap.service';
 
@@ -12,21 +12,21 @@ import { OlService } from '../_component/ol/ol.service';
   templateUrl: './geomap.component.html',
   styleUrls: ['./geomap.component.css'],
   // This is unnecessary when installing MyService within Root NgModule -- http://mean.expert/2016/05/21/angular-2-component-communication/
- // providers: [OlService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value:
+  // providers: [OlService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value:
   providers: [AddressService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value:  
 })
 
 export class GeomapComponent implements OnInit {
   title = 'test works!';
-  // vector;
+ 
 
   constructor(private olservice: OlService, private addressservice: AddressService) {
     // constructor
   }
 
- ngOnInit() {
-   console.log("test.component.ngOnInit()");
- }
+  ngOnInit() {
+    console.log("test.component.ngOnInit()");
+  }
 
   ngAfterContentInit() {
 
@@ -40,7 +40,7 @@ export class GeomapComponent implements OnInit {
     else
       console.log("app.component.ngAfterContentInit() vector ready");
 
-this.olservice.placeMap();
+    this.olservice.placeMap();
 
     //  this.olservice.placeMap().then(() => {
 

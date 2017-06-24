@@ -308,7 +308,7 @@ export class OlService {
                 // }
             });
 
-           // this.addDrawInteraction();
+           
 
             resolve(true); // or false
 
@@ -319,6 +319,12 @@ export class OlService {
 
 
     // https://gist.github.com/mbertrand/5218300
+    
+    getTurfCutter()
+     {
+         this.addDrawInteraction();
+     }
+
 
     getTitle() {
         return this.foo;
@@ -373,6 +379,21 @@ export class OlService {
 
     }
 
+    addLayerSwitcher = (layers: [any]) => {
+
+    //    this.layers = layers;
+
+    }
+    toggleLayer = (layer, evt) => {
+        evt.target.blur();
+        if (layer.getVisible()) {
+            layer.setVisible(false);
+
+        } else {
+            layer.setVisible(true);
+        }
+
+    }
 
     addMarker(coords: [number, number], name: string, id: string) {
         let ol = this.get();
@@ -426,6 +447,8 @@ export class OlService {
 
     };
 
+
+
     // addInteraction() {
     //     let ol = this.get();
     //     let draw = new ol.interaction.Draw({
@@ -447,13 +470,14 @@ export class OlService {
     // };
 
     // creates a draw interaction
+    //addDrawInteraction(select_interaction: string , modify_interaction: string) {
     addDrawInteraction() {
 
 
 
         // remove other interactions
-        this._map.removeInteraction(select_interaction);
-        this._map.removeInteraction(modify_interaction);
+        popupmap.removeInteraction(select_interaction);
+        popupmap.removeInteraction(modify_interaction);
         let start_drawing = false;
         // create the interaction
         draw_interaction = new ol.interaction.Draw({
@@ -463,7 +487,7 @@ export class OlService {
             freehand: true
         });
         // add it to the map
-        this._map.addInteraction(draw_interaction);
+        popupmap.addInteraction(draw_interaction);
         draw_interaction.on('drawstart', function (evt) {
             start_drawing = true;
             console.log('start_drawing==true');
