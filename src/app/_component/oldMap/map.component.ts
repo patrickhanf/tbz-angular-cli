@@ -12,12 +12,12 @@ declare var ol: any; // required for mapping to work;
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-   styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css']
 })
 
 export class MapComponent implements OnInit {
   //@ViewChild('map') map;
- 
+
 
   ol: any;
   map;
@@ -29,8 +29,8 @@ export class MapComponent implements OnInit {
     console.log('constructor app-map');
 
     this.vectorSource = this.vectorSource = new ol.source.Vector({
-                projection: 'EPSG:4326'
-            });
+      projection: 'EPSG:4326'
+    });
     this.vectorLayer = new ol.layer.Vector({
       source: this.vectorSource
     });
@@ -41,31 +41,31 @@ export class MapComponent implements OnInit {
 
   ngOnInit() { }
 
-//http://openlayersbook.github.io/ch11-creating-web-map-apps/example-11.html
+  //http://openlayersbook.github.io/ch11-creating-web-map-apps/example-11.html
   setDataSourceMap(contacts) {
 
 
 
- // this.vectorSource.clear();
+    // this.vectorSource.clear();
     console.log('hide - setDataSourceMap() loading ' + contacts.length + ' contacts');
     this.vectorSource.setVisible(false);
-this.createFeature(-93.49401 ,45.08203);
- // this.createFeature(-93.4014555,44.9864688);
-                     var i, lat, lon, geom, feature, features = [];
-                for(i=0; i< 10; i++) {
-                    lat = Math.random() * 174 - 87;
-                    lon = Math.random() * 360 - 180;
+    this.createFeature(-93.49401, 45.08203);
+    // this.createFeature(-93.4014555,44.9864688);
+    var i, lat, lon, geom, feature, features = [];
+    for (i = 0; i < 10; i++) {
+      lat = Math.random() * 174 - 87;
+      lon = Math.random() * 360 - 180;
 
-                    geom = new ol.geom.Circle(
-                        ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'), 
-                        100000
-                    );
+      geom = new ol.geom.Circle(
+        ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'),
+        100000
+      );
 
-                    feature = new ol.Feature(geom);
-                   // features.push(feature);
-                    this.vectorSource.addFeatures([feature]);
-                }    
-           //     this.vectorSource.addFeatures(features);
+      feature = new ol.Feature(geom);
+      // features.push(feature);
+      this.vectorSource.addFeatures([feature]);
+    }
+    //     this.vectorSource.addFeatures(features);
     //var features2 = new Array(contacts.length);
 
     // for (var ii in contacts) {
@@ -91,22 +91,22 @@ this.createFeature(-93.49401 ,45.08203);
     // this.vectorSource.addFeatures(features);
 
     // } //for end
-this.vectorSource.setVisible(true);
-console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts');
+    this.vectorSource.setVisible(true);
+    console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts');
   }
-  getPointFromLongLat (long, lat) {
+  getPointFromLongLat(long, lat) {
     //console.log('getPointFromLongLat() = '+long);
     return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857')
-   }
+  }
 
   createFeature(long, lat) {
     var features = [];
-  
+
     var feature = new ol.Feature({
       type: 'place',
-              name: "Patrick Hanf",
-     //   labelPoint: new ol.geom.Point(this.getPointFromLongLat(long, lat)),
-        geometry:  new ol.geom.Point(this.getPointFromLongLat(long, lat))
+      name: "Patrick Hanf",
+      //   labelPoint: new ol.geom.Point(this.getPointFromLongLat(long, lat)),
+      geometry: new ol.geom.Point(this.getPointFromLongLat(long, lat))
     });
     //feature.setStyle(styles.icon);
     features.push(feature);
@@ -116,48 +116,48 @@ console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts'
   ngAfterViewInit() {
 
 
-// http://stackoverflow.com/questions/36139170/how-to-hide-and-show-features-in-open-layers-3-redraw
-//
-// https://gis.stackexchange.com/questions/219349/how-to-create-a-custom-tile-map-with-its-own-extent-in-openlayers-3
-//
-//
-// var tileLayer = new ol.layer.Tile({
-//     source: new ol.source.XYZ({
-//       //  projection: projection25833,
-//         url: "{z}/{x}/{-y}.png",
-//      //   extent: [364900,5791100,420900,5847100],
-//         tileSize: [256, 256],
-//         minZoom: 0,
-//         maxZoom: 4
-//     })
-// });
+    // http://stackoverflow.com/questions/36139170/how-to-hide-and-show-features-in-open-layers-3-redraw
+    //
+    // https://gis.stackexchange.com/questions/219349/how-to-create-a-custom-tile-map-with-its-own-extent-in-openlayers-3
+    //
+    //
+    // var tileLayer = new ol.layer.Tile({
+    //     source: new ol.source.XYZ({
+    //       //  projection: projection25833,
+    //         url: "{z}/{x}/{-y}.png",
+    //      //   extent: [364900,5791100,420900,5847100],
+    //         tileSize: [256, 256],
+    //         minZoom: 0,
+    //         maxZoom: 4
+    //     })
+    // });
 
 
-   var mmap = this.map = new ol.Map({
-        target: 'map',
-       // renderer: 'webgl', // Force the renderer to be used
-        layers: [
-          new ol.layer.Tile({
-            //source: new ol.source.Stamen({ layer: 'watercolor' })
-            //source: new ol.source.Stamen({ layer: 'toner' })
-            //source: new ol.source.Stamen({ layer: 'toner-lines' })
-            //source: new ol.source.Stamen({ layer: 'terrain' })
-            //source: ol.source.BingMaps({}),
-            source: new ol.source.OSM()
-          }),
-         // tileLayer,
-          this.vectorLayer
-        ],
-        view: new ol.View({
-          // center:  [44.9864688, -93.4014555],
-          center: this.getPointFromLongLat(-92.57080078125, 45.04247805089153),
-          
-          //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
-          zoom: 7,
+    var mmap = this.map = new ol.Map({
+      target: 'map',
+      // renderer: 'webgl', // Force the renderer to be used
+      layers: [
+        new ol.layer.Tile({
+          //source: new ol.source.Stamen({ layer: 'watercolor' })
+          //source: new ol.source.Stamen({ layer: 'toner' })
+          //source: new ol.source.Stamen({ layer: 'toner-lines' })
+          //source: new ol.source.Stamen({ layer: 'terrain' })
+          //source: ol.source.BingMaps({}),
+          source: new ol.source.OSM()
+        }),
+        // tileLayer,
+        this.vectorLayer
+      ],
+      view: new ol.View({
+        // center:  [44.9864688, -93.4014555],
+        center: this.getPointFromLongLat(-92.57080078125, 45.04247805089153),
+
+        //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
+        zoom: 7,
         //  minZoom: 4,
         //  maxZoom: 18,
-        })
-      });
+      })
+    });
 
 
     // console.log(this.map);
@@ -165,7 +165,7 @@ console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts'
 
 
 
-    this.createFeature(-93.49401 ,45.08203);
+    this.createFeature(-93.49401, 45.08203);
 
 
     // this.vectorSource = new ol.source.Vector({
@@ -177,25 +177,25 @@ console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts'
     // });
     //vector.setVisible(false);
     /// ORG
-      // var map = new ol.Map({
-      //   target: "map",
-      //   layers: [
-      //     new ol.layer.Tile({
-      //       source: new ol.source.OSM()
-      //     }),
-      //     this.vectorLayer,
-      //    // this.flickrVector
-      //   ],
-      //   view: new ol.View({
-      //     // center:  [44.9864688, -93.4014555],
-      //     center: this.getPointFromLongLat(-92.57080078125, 45.04247805089153),
-          
-      //     //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
-      //     zoom: 7,
-      //     minZoom: 4,
-      //     maxZoom: 18,
-      //   })
-      // });
+    // var map = new ol.Map({
+    //   target: "map",
+    //   layers: [
+    //     new ol.layer.Tile({
+    //       source: new ol.source.OSM()
+    //     }),
+    //     this.vectorLayer,
+    //    // this.flickrVector
+    //   ],
+    //   view: new ol.View({
+    //     // center:  [44.9864688, -93.4014555],
+    //     center: this.getPointFromLongLat(-92.57080078125, 45.04247805089153),
+
+    //     //  center: ol.proj.transform([-93.4014555, 44.9864688 ], 'EPSG:900913'),
+    //     zoom: 7,
+    //     minZoom: 4,
+    //     maxZoom: 18,
+    //   })
+    // });
 
     //http://stackoverflow.com/questions/35875270/turn-off-image-smoothing-in-openlayers-3/35877192
     //     this.map.on('precompose', function(evt) {
@@ -205,56 +205,55 @@ console.log('show = setDataSourceMap() loading ' + contacts.length + ' contacts'
     //   evt.context.msImageSmoothingEnabled = false;
     // });
 
-/**
- * Popup
- **/
-  var container = document.getElementById('popup');
-  var content_element = document.getElementById('popup-content');
-  var closer = document.getElementById('popup-closer'); 
+    /**
+     * Popup
+     **/
+    var container = document.getElementById('popup');
+    var content_element = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
 
-var overlay = new ol.Overlay({
-    element: container,
-    autoPan: true,
-    offset: [0, -10]
-});
-this.map.addOverlay(overlay);
+    var overlay = new ol.Overlay({
+      element: container,
+      autoPan: true,
+      offset: [0, -10]
+    });
+    this.map.addOverlay(overlay);
 
-this.map.on('click', function(evt){
-  // Popup example
-  // http://plnkr.co/edit/GvdVNE?p=preview
-  //
+    this.map.on('click', function (evt) {
+      // Popup example
+      // http://plnkr.co/edit/GvdVNE?p=preview
+      //
 
-    var feature = this.map.forEachFeatureAtPixel(evt.pixel,
-      function(feature, layer) {
-        return feature;
-      });
-    if (feature) {
+      var feature = this.map.forEachFeatureAtPixel(evt.pixel,
+        function (feature, layer) {
+          return feature;
+        });
+      if (feature) {
         var geometry = feature.getGeometry();
         var coord = geometry.getCoordinates();
-        
+
         var content = '<h3>' + feature.get('name') + '</h3>';
-      //  content += '<h5>' + feature.get('description') + '</h5>';
+        //  content += '<h5>' + feature.get('description') + '</h5>';
 
 
         content_element.innerHTML = content;
-      //    content_element.innerHTML = "Hello";
+        //    content_element.innerHTML = "Hello";
         overlay.setPosition(coord);
-        
+
         console.info(feature.getProperties());
-    }
-    else
-    {
-      overlay.setPosition(undefined);
-    }
-});
+      }
+      else {
+        overlay.setPosition(undefined);
+      }
+    });
 
 
-// map.on('click', function(evt) {
-//   var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-//   var lon = lonlat[0];
-//   var lat = lonlat[1];
-//   console.log('map.click() lon='+lon+' lat='+lat);
-// });
+    // map.on('click', function(evt) {
+    //   var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    //   var lon = lonlat[0];
+    //   var lat = lonlat[1];
+    //   console.log('map.click() lon='+lon+' lat='+lat);
+    // });
 
     mmap.getView().on('change:resolution', function (e) {
 

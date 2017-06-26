@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ol3/3.8.2/ol.min.css" type="text/css">
 
 <!-- http://openlayers.org/en/v3.9.0/examples/snap.html -->
-  <div class="form-group">
+<md-toolbar color="primary">
+
 <md-radio-group [(ngModel)]="turfActionSelected">
-  <md-radio-button *ngFor="let action of turfActions" [value]="action" [checked]="action == 'draw'">{{action}}</md-radio-button>
+  <md-radio-button *ngFor="let action of turfActions" [value]="action" >{{action}}</md-radio-button>
 </md-radio-group>
 <md-slide-toggle>Slide me!</md-slide-toggle>
 <button md-button (click)="onTurfActionClick()">Turf Cutter</button>
@@ -18,7 +19,7 @@
       <option value="Polygon">Polygon</option>
     </select>-->
 
-</div>
+</md-toolbar>
 <!-- https://github.com/tobiasahlin/SpinKit -->
 <!--<div id="map" class="map" [center]="[data.coordX.value, data.coordY.value]" style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>map here</div>-->
 <!--<div id="map" class="map" style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>map here</div>-->

@@ -10,7 +10,7 @@ import * as ol from 'openlayers';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-var popupmap;
+var mapGlobal;
 var vectorGeoJson;
 var vectorGeoPng;
 var vectorGeoDraw;
@@ -46,9 +46,9 @@ export class OlService {
 
     getMapPolygon() {
         let ol = this.get();
-        var poly = popupmap.getView().calculateExtent(popupmap.getSize());
+        var poly = mapGlobal.getView().calculateExtent(mapGlobal.getSize());
 
-        //var poly = popupmap.getExtent().toGeometry().toString();
+        //var poly = mapGlobal.getExtent().toGeometry().toString();
 
         console.log(poly);
     }
@@ -112,9 +112,9 @@ export class OlService {
                 //source: new ol.source.Stamen({ layer: 'watercolor' })
                 //source: new ol.source.Stamen({ layer: 'toner' })
                 //source: new ol.source.Stamen({ layer: 'toner-lines' })
-                //source: new ol.source.Stamen({ layer: 'terrain' })
+                source: new ol.source.Stamen({ layer: 'terrain' })
                 //source: ol.source.BingMaps({}),
-                source: new ol.source.OSM(),
+                //source: new ol.source.OSM(),
                 // maxResolution: 50, // was 20 
             });
 
@@ -135,7 +135,7 @@ export class OlService {
                         tileSize: [256, 256],
                         extent: ol.proj.get('EPSG:3857').getExtent(),
                     }),
-                    url: 'http://geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json'
+                    url: 'http://www.geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json'
 
                 })
             });
@@ -154,7 +154,7 @@ export class OlService {
                 // maxResolution: 10,
                 source: new ol.source.XYZ({
 
-                    url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
+                    url: 'http://www.geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
                 })
             });
 
@@ -210,7 +210,7 @@ export class OlService {
                 })
             });
 
-            popupmap = this._map; // Need for click popups;
+            mapGlobal = this._map; // Need for click popups;
 
             /**
              * Popup
@@ -242,26 +242,26 @@ export class OlService {
                 //     $(element).popover('destroy');
                 //     return;
                 // }
-                var pixel = popupmap.getEventPixel(e.originalEvent);
-                var hit = popupmap.hasFeatureAtPixel(pixel);
-                var target = popupmap.getTarget();
+                var pixel = mapGlobal.getEventPixel(e.originalEvent);
+                var hit = mapGlobal.hasFeatureAtPixel(pixel);
+                var target = mapGlobal.getTarget();
 
                 target = typeof target === "string" ?
                     document.getElementById(target) : target;
 
                 target.style.cursor = hit ? 'pointer' : '';
 
-                // popupmap.getTarget().style.cursor = hit ? 'pointer' : '';
+                // mapGlobal.getTarget().style.cursor = hit ? 'pointer' : '';
             });
 
             this._map.on('click', function (evt) {
                 // Popup example
                 // http://plnkr.co/edit/GvdVNE?p=preview
                 //
-                if (popupmap == null)
+                if (mapGlobal == null)
                     alert('_map is null');
 
-                var feature = popupmap.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                var feature = mapGlobal.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
                     return feature;
                 });
                 if
@@ -290,9 +290,9 @@ export class OlService {
 
                 // BIGGER the number the closer to the ground and roads
                 // LARGER the number the closer to space you are!
-                console.log(popupmap.getView().getZoom());
+                console.log(mapGlobal.getView().getZoom());
 
-                // if (popupmap.getView().getZoom() > 5) {
+                // if (mapGlobal.getView().getZoom() > 5) {
                 //   this._vectorLayerGeoJson.setVisible(false);
                 //   this._vectorSource.setVisible(true);
                 // }
@@ -350,7 +350,7 @@ export class OlService {
 
         console.log('loading GeoJson count=' + geojsonObject.features.length);
 
-        let projection = popupmap.getView().getProjection();
+        let projection = mapGlobal.getView().getProjection();
 
         //console.log('projection=');
         //console.log(projection);
@@ -467,8 +467,8 @@ export class OlService {
     addDrawInteraction() {
         //https://codepen.io/barbalex/pen/fBpyb
         // remove other interactions
-        popupmap.removeInteraction(select_interaction);
-        popupmap.removeInteraction(modify_interaction);
+        mapGlobal.removeInteraction(select_interaction);
+        mapGlobal.removeInteraction(modify_interaction);
         let start_drawing = false;
         // create the interaction
         draw_interaction = new ol.interaction.Draw({
@@ -478,7 +478,7 @@ export class OlService {
             freehand: true
         });
         // add it to the map
-        popupmap.addInteraction(draw_interaction);
+        mapGlobal.addInteraction(draw_interaction);
         draw_interaction.on('drawstart', function (evt) {
             start_drawing = true;
             console.log('start_drawing==true');
@@ -537,7 +537,7 @@ export class OlService {
     // needs a select and a modify interaction working together
     addModifyInteraction() {
         // remove draw interaction
-        popupmap.removeInteraction(draw_interaction);
+        mapGlobal.removeInteraction(draw_interaction);
         // create select interaction
         select_interaction = new ol.interaction.Select({
             // make sure only the desired layer can be selected
@@ -545,7 +545,7 @@ export class OlService {
                 return vector_layer.get('name') === 'draw_vectorlayer';
             }
         });
-        popupmap.addInteraction(select_interaction);
+        mapGlobal.addInteraction(select_interaction);
 
         //   // grab the features from the select interaction to use in the modify interaction
         let selected_features = select_interaction.getFeatures();
@@ -590,7 +590,7 @@ export class OlService {
             }
         });
         // add it to the map
-        popupmap.addInteraction(modify_interaction);
+        mapGlobal.addInteraction(modify_interaction);
     }
 
 // clears the map and the output of the data
