@@ -593,6 +593,14 @@ export class OlService {
         popupmap.addInteraction(modify_interaction);
     }
 
+// clears the map and the output of the data
+deleteTurfMap() {
+  vectorGeoDraw.getSource().clear();
+  if (select_interaction) {
+  	select_interaction.getFeatures().clear();
+  }
+ // $('#data').val('');
+}
 
 
 } // end

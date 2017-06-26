@@ -21,14 +21,6 @@ export class OlComponent implements OnInit {
     turfActionSelected: string = 'draw';
     turfActions = ['draw', 'modify'];
 
-
-    onTurfActionChange(entry) {
-        alert(entry);
-        //   this.turfAction = entry;
-        // this.doSomething(changes.categoryId.currentValue);
-
-    }
-
     onTurfActionClick() {
         console.log('clicked onTurfActionClick()' + this.turfActionSelected);
 
@@ -40,11 +32,17 @@ export class OlComponent implements OnInit {
             this.olService.addModifyInteraction();
     }
 
-    //private map;
-    public layers = [];
-    public vectorSource;
-    private vectorDraw;
-    private vectorSourceDraw;
+    onTurfActionDelete()
+    {
+        // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
+         this.olService.deleteTurfMap();
+    }
+
+    // //private map;
+    // public layers = [];
+    // public vectorSource;
+    // private vectorDraw;
+    // private vectorSourceDraw;
 
     constructor(private olService: OlService) {
 
