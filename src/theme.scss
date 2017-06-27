@@ -13,32 +13,32 @@
 
 
 // http://mcg.mbitson.com/#!?mcgpalette0=%236aa84f
-$md-trailblz: (
-    50 : #f2f8ef,
-    100 : #dfedd8,
-    200 : #c9e2be,
-    300 : #b3d6a4,
-    400 : #a3cd91,
-    500 : #93c47d,
-    600 : #8bbe75,
-    700 : #80b66a,
-    800 : #76af60,
-    900 : #64a24d,
-    A100 : #ffffff,
-    A200 : #daffcd,
-    A400 : #b4ff9a,
-    A700 : #a1ff80,
+$md-trailblzgreen: (
+    50 : #eaf6e4,
+    100 : #c9e9bc,
+    200 : #a6db90,
+    300 : #82cc63,
+    400 : #67c141,
+    500 : #4cb620,
+    600 : #45af1c,
+    700 : #3ca618,
+    800 : #339e13,
+    900 : #248e0b,
+    A100 : #c7ffbe,
+    A200 : #9bff8b,
+    A400 : #70ff58,
+    A700 : #5aff3e,
     contrast: (
         50 : #000000,
         100 : #000000,
         200 : #000000,
         300 : #000000,
         400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #000000,
-        800 : #000000,
-        900 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
         A100 : #000000,
         A200 : #000000,
         A400 : #000000,
@@ -46,11 +46,63 @@ $md-trailblz: (
     )
 );
 
+
+
+
+
+
 // Define an alternate dark theme. See: https://material.angular.io/guide/theming
-$dark-primary: mat-palette($md-trailblz);
-$dark-accent:  mat-palette($md-trailblz, A200, A100, A400);
+$green-primary: mat-palette($md-trailblzgreen, 500, 100, 900);
+$green-accent:  mat-palette($md-trailblzgreen, A200, A100, A400);
+$green-warn:    mat-palette($mat-deep-orange);
+
+$green-theme:   mat-dark-theme($green-primary, $green-accent, $green-warn); // <= theme name
+
+@include angular-material-theme($green-theme);
+
+
+$md-trailblzdark: (
+    50 : #e4e5e7,
+    100 : #bcbfc4,
+    200 : #90959d,
+    300 : #646a76,
+    400 : #424a58,
+    500 : #212a3b,
+    600 : #1d2535,
+    700 : #181f2d,
+    800 : #141926,
+    900 : #0b0f19,
+    A100 : #5b7fff,
+    A200 : #2858ff,
+    A400 : #0036f4,
+    A700 : #0031da,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
 $dark-warn:    mat-palette($mat-deep-orange);
+$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn); // <= theme name
-
-@include angular-material-theme($dark-theme);
+// Include the alternative theme styles inside of a block with a CSS class. You can make this
+// CSS class whatever you want. In this example, any component inside of an element with
+// `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme.
+.trailblz-dark-theme {
+  @include angular-material-theme($dark-theme);
+}

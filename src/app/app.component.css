@@ -28,7 +28,8 @@ md-sidenav {
   width: 250px;
   height: 100%;
   padding: 0;
-  background-color: lightgray;
+  xxbackground-color: lightgray;
+  xxcolor: #212121;
 }
 
 /*
@@ -41,3 +42,22 @@ THIS IS THE KEY TO MAKE SCROLLING WORK WITHIN THE CENTER BODY!
 }
 
 
+/*
+MOve this to a global area some day
+*/
+.toolbar-separator {
+    height: 64px;
+    width: 1px;
+    background: rgba(0,0,0,.12);
+    margin: 0 10px 0 10px;
+}
+
+
+
+.divider {
+    display: block;
+    border-top-width: 1px;
+    border-top-style: solid;
+    margin: 0;
+    border-top-color: rgba(0,0,0,.12);
+}

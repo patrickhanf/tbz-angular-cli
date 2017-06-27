@@ -19,14 +19,20 @@ export class OlComponent implements OnInit {
     private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
 
     turfActionSelected: string = 'draw';
-    turfActions = ['draw', 'modify'];
+    turfActions = [
+        { value: 'draw', icon: 'rounded_corner'},
+        { value: 'modify', icon: ''}
+        ];
 
-    onTurfActionClick() {
-        console.log('clicked onTurfActionClick()' + this.turfActionSelected);
+    onTurfActionSelected(selected: String) {
+
+        // Issue below is up because the angular model is out-of-sync with the event.
+        // https://github.com/angular/material2/issues/448
+        // console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected=='+ selected);
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
 
-        if (this.turfActionSelected == 'draw')
+        if (selected == 'draw')
             this.olService.addDrawInteraction();
         else
             this.olService.addModifyInteraction();
