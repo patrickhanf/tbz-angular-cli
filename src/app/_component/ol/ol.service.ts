@@ -2,6 +2,8 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ConfirmationDialog } from '../confirm-dialog';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
 
 //import * as d3 from '../d3/bundle-d3';
@@ -20,6 +22,8 @@ var select_interaction, draw_interaction, modify_interaction;
 @Injectable()
 export class OlService {
 
+    dialogRef: MdDialogRef<ConfirmationDialog>;
+
     private _map;
     private _vectorSource;
     private _vectorSourceDraw;
@@ -29,7 +33,7 @@ export class OlService {
     public lnglat: [number, number];
     public zoom: number;
 
-    constructor() {
+    constructor(public dialog: MdDialog) {
 
         //console.log("ol.service.constructor()");
         this.foo = "ol service map";
@@ -593,14 +597,29 @@ export class OlService {
         mapGlobal.addInteraction(modify_interaction);
     }
 
-// clears the map and the output of the data
-deleteTurfMap() {
-  vectorGeoDraw.getSource().clear();
-  if (select_interaction) {
-  	select_interaction.getFeatures().clear();
-  }
- // $('#data').val('');
-}
+    // clears the map and the output of the data
+    deleteTurfMap() {
+
+        this.dialogRef = this.dialog.open(ConfirmationDialog, {
+            disableClose: false
+        });
+        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
+
+        this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                // do confirmation actions
+                vectorGeoDraw.getSource().clear();
+                if (select_interaction) {
+                    select_interaction.getFeatures().clear();
+                }
+                // $('#data').val('');
+            }
+            this.dialogRef = null;
+        });
+
+
+
+    }
 
 
 } // end

@@ -3,22 +3,18 @@
 <!-- http://openlayers.org/en/v3.9.0/examples/snap.html -->
 <md-toolbar color="primary">
 
+<button md-button (click)="onTurfActionClick()"><i class="material-icons">rounded_corner</i>Turf Cutter</button>
+
 <md-radio-group [(ngModel)]="turfActionSelected">
-  <md-radio-button *ngFor="let action of turfActions" [value]="action" >{{action}}</md-radio-button>
+  <md-radio-button *ngFor="let action of turfActions" [value]="action">{{action}} </md-radio-button>
 </md-radio-group>
-<md-slide-toggle>Slide me!</md-slide-toggle>
-<button md-button (click)="onTurfActionClick()">Turf Cutter</button>
 
-<button md-button (click)="onTurfActionDelete()">Delete Turfs</button>
 
-{{turfActionSelected}}
-    <!--<label>Draw type &nbsp;</label>
-    <select name="draw-type" id="draw-type">
-      <option value="Point">Point</option>
-      <option value="LineString">LineString</option>
-      <option value="Polygon">Polygon</option>
-    </select>-->
+<span class="example-spacer"></span>
+<button md-button (click)="onTurfActionDelete()"><i class="material-icons">delete</i> Turf</button>
 
+<!--{{turfActionSelected}}-->
+    
 </md-toolbar>
 <!-- https://github.com/tobiasahlin/SpinKit -->
 <!--<div id="map" class="map" [center]="[data.coordX.value, data.coordY.value]" style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>map here</div>-->

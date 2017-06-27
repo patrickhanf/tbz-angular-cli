@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 import { TitleComponent } from './_component/title.component';
+import { ConfirmationDialog } from './_component/confirm-dialog';
 //import { MapComponent } from './_component/map.component';
 
 import { OlComponent } from './_component/ol/ol.component';
@@ -42,6 +43,7 @@ import { OlService } from './_component/ol/ol.service'; // global
   ],
   declarations: [
     AppComponent,
+    ConfirmationDialog,
     TitleComponent,
     OlComponent,
     GeomapComponent,
@@ -54,7 +56,8 @@ import { OlService } from './_component/ol/ol.service'; // global
     ContactDetailComponent
   ],
   providers: [OlService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialog] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
