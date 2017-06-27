@@ -7,11 +7,14 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 
+import { GlobalVariable } from './_global/global';
+
 @Injectable()
 export class AuthService {
+
   public isLoggedIn: boolean = false;
   public token: string;
-  public baseurl: string;
+  //private baseApiUrl = GlobalVariable.BASE_OAUTH_URL;
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -20,7 +23,8 @@ export class AuthService {
     // set token if saved in local storage
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
-    this.baseurl = 'http://oneadvocacy.com';
+    // this.baseurl = 'http://oneadvocacy.com';
+    //this.baseurl = 'http://localhost:8080';
   }
 
   login(username: string, password: string) {
@@ -33,7 +37,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/X-www-form-urlencoded');
     // return new Promise((resolve) => {
-    return this.http.post(this.baseurl + '/token', creds, { headers: headers }).map((response: Response) => {
+    return this.http.post(GlobalVariable.BASE_OAUTH_URL, creds, { headers: headers }).map((response: Response) => {
       // login successful if there's a jwt token in the response, status 400 is Invalid username or password.
       if (response.status == 400) {
         this.isLoggedIn = false;

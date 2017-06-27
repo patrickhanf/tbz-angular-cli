@@ -2,10 +2,11 @@
 /*
 http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
 */
-md-tab-group { height: 100%; }
-md-tab{
-height: 100vh !important;
+.content-style {
+  height:calc(100vh - 114px);
+  xbackground-color:blue;
 }
+
 header, footer {
     height : 100px;
      min-height : 100px;

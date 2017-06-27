@@ -29,18 +29,17 @@ export class OlService {
     private _vectorSourceDraw;
     private _vectorSourceGeoJson;
     private _vectorLayerGeoJson;
-    public foo: string;
+ 
     public lnglat: [number, number];
     public zoom: number;
 
     constructor(public dialog: MdDialog) {
 
-        //console.log("ol.service.constructor()");
-        this.foo = "ol service map";
+        console.log("ol.service.constructor()");
+       
 
         let ol = this.get();
-        // this._vectorSource = new ol.source.Vector();
-        //  this._vectorSourceGeoJson = new ol.source.Vector();
+
 
     }
 
@@ -61,7 +60,8 @@ export class OlService {
         return new Promise((resolve, reject) => {  // https://stackoverflow.com/questions/40126630/angular-2-waiting-for-boolean-to-be-true-before-executing-service
 
             let ol = this.get();
-
+            
+           // alert('ol.service map');
             // Both lnglat and zoom need to be set or map does not load
             this.lnglat = [-93.49401, 45.08203];
             this.zoom = 10;
@@ -144,11 +144,8 @@ export class OlService {
                 })
             });
 
-
-            //Only show if 
             //tiledSource.setVisible(false);
             // this._vectorLayerGeoJson = vectorgeojson.setVisible();
-            // this._vectorLayerGeoJson = new ol.layer.Vector();
 
             // 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
@@ -157,7 +154,6 @@ export class OlService {
                 minResolution: 6,  // hides or shows based on zoom
                 // maxResolution: 10,
                 source: new ol.source.XYZ({
-
                     url: 'http://www.geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
                 })
             });
@@ -321,11 +317,6 @@ export class OlService {
     getTurfCutter() {
         //https://codepen.io/barbalex/pen/fBpyb
         this.addDrawInteraction();
-    }
-
-
-    getTitle() {
-        return this.foo;
     }
 
     getVector() {
@@ -606,6 +597,7 @@ export class OlService {
         this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
 
         this.dialogRef.afterClosed().subscribe(result => {
+            
             if (result) {
                 // do confirmation actions
                 vectorGeoDraw.getSource().clear();
