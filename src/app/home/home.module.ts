@@ -6,8 +6,7 @@ import { MaterialModule } from '@angular/material';
 
 import { HomeComponent } from './Home.component';
 // import { homeRoutingModule }  from './home-routing.module';
-
-import { ContactsModule } from '../contacts/contacts.module';
+//import { ContactsModule } from '../contacts/contacts.module';
 
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { ContactsComponent } from '../contacts/contacts.component';
@@ -16,7 +15,7 @@ import { ContactsComponent } from '../contacts/contacts.component';
   imports: [
     CommonModule,
     // homeRoutingModule,
-    ContactsModule//, 
+ //   ContactsModule//, 
     // MaterialModule.forRoot()
   ],
   declarations: [

@@ -1,10 +1,19 @@
 
+.show{
+opacity: 1 !important;
+}
+.step{
+opacity: 0;
+transition: .3s ease-in-out all;
+}
+
 /*
 http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
 */
 .content-style {
-  height:calc(100vh - 114px);
-  xbackground-color:blue;
+  height:calc(100vh - 140px);
+  background-color:blue;
+
 }
 
 header, footer {

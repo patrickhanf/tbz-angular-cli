@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 import { TitleComponent } from './_component/title.component';
+
 import { ConfirmationDialog } from './_component/confirm-dialog';
 //import { MapComponent } from './_component/map.component';
 

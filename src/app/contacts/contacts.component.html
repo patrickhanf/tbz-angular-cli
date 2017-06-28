@@ -1,11 +1,51 @@
 <!-- 
     https://github.com/angular/material/issues/1053
     http://codepen.io/jbltx/pen/KwQxBX 
-    -->
 
-<app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+    https://stackoverflow.com/questions/42263806/angular-material-2-tabs-removing-body-transition
+    -->
+<!--<app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+            Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+        </app-map>-->
+
+<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="changeSelectedIndex($event)" [dynamicHeight]="false">
+
+    <md-tab label="Map View">
+        <div class="content-style">
+            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
                 Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
             </app-map>
+        </div>
+    </md-tab>
+    <md-tab label="Contacts">
+        <div class="content-style">
+            <md-list fxFlexFill fxLayout="column">
+                Note: http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2
+                <md-list-item *ngFor="let c of contacts; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
+                    md-ink-ripple="#03A9F4" [class.odd]="isOdd" [class.even]="isEven">
+                    <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
+                    <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
+                    <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
+                </md-list-item>
+            </md-list>
+        </div>
+    </md-tab>
+</md-tab-group>
+
+<!--<div [hidden]="selectedIndex!=0" [@fadeInOut]>-->
+<!--<div [class.show]="selectedIndex===0" class="step">
+    List contacts
+</div>
+
+<div [class.show]="selectedIndex===1" class="step">
+    List contacts
+</div>-->
+
+
+<!--
+<app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+                Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+            </app-map>-->
 <!--<div style='padding: 0px;width: 100%; height: 100%;overflow: none;'>
     <md-tab-group>
         <md-tab label="Map View">

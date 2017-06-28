@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { OlService } from './ol.service';
 import * as ol from 'openlayers';
 
@@ -18,10 +18,14 @@ var select_interaction, draw_interaction, modify_interaction;
 })
 export class OlComponent implements OnInit {
 
+
+    @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
+  
     @Input() lnglat: [number, number];
     @Input() zoom: number;
 
-    private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
+    map:any;
+    //private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
 
     turfActionSelected: string = 'draw';
     turfActions = [
@@ -31,29 +35,25 @@ export class OlComponent implements OnInit {
 
     public ols;
 
-    constructor(private olService: OlService) {
+    constructor( private olService: OlService) {
 
     this.ols = olService;
-
-        //this.vectorSource = this.olService.vector;
-        //  this.olservice.lnglat = this.lnglat; // [-93.49401, 45.08203];
-        //   this.olservice.zoom = this.zoom; // 7;
-
-        //this.olService.vectorSource = this.olService.addLayer();
-
     }
-
-
-
 
     ngOnInit() {
         console.log("ol.component.ngOnInit()");
-    }
+           }
 
     ngAfterContentInit() {
 
-        console.log("ol.component.ngAfterContentInit()");
+console.log('map#id=='+this.refMap.nativeElement.id);
+        console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
         this.placeMapFromComponent();
+        // this.map = this.createMap();
+        // this.map.setTarget(this.refMap.nativeElement);
+        // this.map.updateSize();
+      //setTimeout( function() { }, 200);
+        console.log("ol.component.ngAfterContentInit().placeMapFromComponent 2");
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
         //         alert("Map loaded by promise!");
         //     });
@@ -83,6 +83,22 @@ export class OlComponent implements OnInit {
     get(): any {
         return ol;
     }
+
+  createMap() {
+    return new ol.Map({
+      layers: [
+          new ol.layer.Tile({
+              source: new ol.source.OSM()
+          })
+      ],
+      renderer: 'canvas',
+      view: new ol.View({
+        center: [-7940419.278284204, 5716479.015326825],
+        zoom: 9,
+        rotation: 0
+      })
+    })
+  }
 
     placeMapFromComponent() {
         return new Promise((resolve, reject) => {  // https://stackoverflow.com/questions/40126630/angular-2-waiting-for-boolean-to-be-true-before-executing-service
@@ -217,12 +233,12 @@ export class OlComponent implements OnInit {
 
            
             mapGlobal = new ol.Map({
-                target: 'map',
+               // target: this.refMap.id, // 'map'
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                    geoJsonSource,
-                    geoPngSource,
+                  //  geoJsonSource,
+                  //  geoPngSource,
                     geoDrawSource, // Polygon drawing
 
                 ],
@@ -238,8 +254,8 @@ export class OlComponent implements OnInit {
                 })
             });
 
-
-alert('ol.component map');
+           mapGlobal.setTarget(this.refMap.nativeElement);
+           // alert('ol.component map');
            // mapGlobal = this._map; // Need for click popups;
 
             /**
