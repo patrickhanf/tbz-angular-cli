@@ -37,8 +37,9 @@ THIS IS THE KEY TO MAKE SCROLLING WORK WITHIN THE CENTER BODY!
 */
 .app-content {
   padding: 0px;
-  height: calc(100% - 65px);
+  height: calc(100vh = 65); 
   overflow: auto;
+   background: #999;
 }
 
 

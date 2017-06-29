@@ -7,8 +7,8 @@
 <!--<app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
             Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
         </app-map>-->
- <!--<div class="content-style"> work </div>-->
-<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="changeSelectedIndex($event)" [dynamicHeight]="false">
+<!--<div class="content-style"> work </div>-->
+<!--<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="changeSelectedIndex($event)" [dynamicHeight]="false">
 
     <md-tab label="Map View">
         <div class="content-style">
@@ -31,16 +31,37 @@
             </md-list>
         </div>
     </md-tab>
-</md-tab-group>
+</md-tab-group>-->
+
+
+<nav md-tab-nav-bar aria-label="">
+    <!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
+    <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> {{ links.label }} </a>
+</nav>
+    <div [class.show]="tabLinkActiveIndex===0" class="step">
+        <div class="content-style">
+            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+                Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+            </app-map>
+
+        </div>
+    </div>
+
+    <div [class.show]="tabLinkActiveIndex===1" class="step">
+        List contacts
+    </div>
+<!--<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="changeSelectedIndex($event)">
+
+    <md-tab label="Map View">
+    </md-tab>
+    <md-tab label="Contacts">
+    
+    </md-tab>
+
+
+</md-tab-group>-->
 
 <!--<div [hidden]="selectedIndex!=0" [@fadeInOut]>-->
-<!--<div [class.show]="selectedIndex===0" class="step">
-    List contacts
-</div>
-
-<div [class.show]="selectedIndex===1" class="step">
-    List contacts
-</div>-->
 
 
 <!--
@@ -75,4 +96,3 @@
 </div>-->
 
 
-<router-outlet></router-outlet>

@@ -42,6 +42,12 @@ export class ContactsComponent implements OnInit {
   private contacts: Observable<any>;
   direction = 'row';
   // public contacts: ContactVM[];
+
+    tabLinkActiveIndex = 0;
+    tabLinks = [
+        { label: 'Map View'},
+        { label: 'Contacts'}
+        ];
   
   @ViewChild(OlComponent) _olComponent: OlComponent;
   //constructor(private router: Router, private contactService: ContactsService, private olservice: OlService) {
@@ -76,11 +82,11 @@ changeSelectedIndex(event) {
     //  this._olComponent.map.updateSize();
     //  this._olComponent.map.invalidateSize();
 
-    let vector = this._olComponent.ols.getVector();
-    if (vector == null)
-      console.log("contacts.component.ngAfterContentInit() vector is null");
-    else
-      console.log("contacts.component.ngAfterContentInit() vector ready");
+    // let vector = this._olComponent.ols.getVector();
+    // if (vector == null)
+    //   console.log("contacts.component.ngAfterContentInit() vector is null");
+    // else
+    //   console.log("contacts.component.ngAfterContentInit() vector ready");
 
     
     // this.olservice.placeMap().then(() => {
