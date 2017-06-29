@@ -71,6 +71,11 @@ changeSelectedIndex(event) {
 
     console.log("contacts.component.ngAfterContentInit()");
  
+    //  document.getElementById('map').style.display = 'block';
+    //  this._olComponent.map.invalidateSize();
+    //  this._olComponent.map.updateSize();
+    //  this._olComponent.map.invalidateSize();
+
     let vector = this._olComponent.ols.getVector();
     if (vector == null)
       console.log("contacts.component.ngAfterContentInit() vector is null");

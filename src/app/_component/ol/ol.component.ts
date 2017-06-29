@@ -18,6 +18,7 @@ var select_interaction, draw_interaction, modify_interaction;
 })
 export class OlComponent implements OnInit {
 
+    ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
     @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
   
@@ -46,12 +47,13 @@ export class OlComponent implements OnInit {
 
     ngAfterContentInit() {
 
-console.log('map#id=='+this.refMap.nativeElement.id);
-        console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
-        this.placeMapFromComponent();
-        // this.map = this.createMap();
-        // this.map.setTarget(this.refMap.nativeElement);
-        // this.map.updateSize();
+      //  console.log('map#id=='+this.refMap.nativeElement.id);
+      //  console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
+        //this.placeMapFromComponent();
+        this.map = this.createMap();
+        //this.map.setTarget('premap');
+        this.map.setTarget(this.refMap.nativeElement);
+        //this.map.invalidateSize();
       //setTimeout( function() { }, 200);
         console.log("ol.component.ngAfterContentInit().placeMapFromComponent 2");
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
@@ -86,6 +88,7 @@ console.log('map#id=='+this.refMap.nativeElement.id);
 
   createMap() {
     return new ol.Map({
+      //target: 'map',
       layers: [
           new ol.layer.Tile({
               source: new ol.source.OSM()
