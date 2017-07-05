@@ -12,7 +12,8 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
 
 
 <md-sidenav-container fullscreen>
-  <md-toolbar color="primary" style="height:65px">
+  <!--<md-toolbar color="primary" style="height:65px" *ngIf="isLoggedIn">-->
+    <md-toolbar color="primary" >
 
     <button [hidden]="true" md-icon-button (click)="start.toggle()">
     <md-icon>menu</md-icon>
@@ -43,7 +44,7 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
   </button>
   </md-toolbar>
 
-  <md-sidenav mode="side" opened="true" #start style="width:250px">
+  <md-sidenav mode="side" opened="true" #start class="app-sidenav">
     <!--<md-toolbar color="primary" scroll style="height:65px">
       MENU
     </md-toolbar>-->
@@ -58,42 +59,31 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
     </md-nav-list>
   </md-sidenav>
 
-  <md-sidenav 
-  align="end" #sidenavright mode="over" class="app-sidenav" opened="false">
-
-
+  <md-sidenav align="end" #sidenavright mode="over" class="app-sidenav" opened="false">
       <h2>TODAY</h2>
-
       <div >
-
         <div>
-
           <h1> Monday</h1>
-
           <div class="h2 row no-gutters align-items-start">
             <span> 12</span>
             <span class="h6">th</span>
             <span> Jun</span>
           </div>
-
         </div>
       </div>
     
     <div class="divider"></div>
-    
        <h2>Events</h2>
        <div>....</div>
        <div class="divider"></div>
     <h2>Notes</h2>
        <div>....</div>
-       
   </md-sidenav>
 
 
 
-  <div class="app-content">
     <router-outlet> </router-outlet>
-  </div>
+
 
 
 </md-sidenav-container>

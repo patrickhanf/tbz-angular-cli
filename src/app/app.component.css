@@ -22,14 +22,28 @@ html, body {
     padding-top: 0;
 }
 
+.app-sidenav{
+    width:250px;
+}
 
 
-md-sidenav {
-  width: 250px;
+/*
+https://material.angular.io/components/sidenav/overview
+*/
+.example-container {
+  width: 100%;
+  height: calc(100vh - 65px);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
   height: 100%;
-  padding: 0;
-  xxbackground-color: lightgray;
-  xxcolor: #212121;
+   width: 100% !important;
+}
+
+.example-sidenav {
+  padding: 20px;
 }
 
 /*
@@ -37,11 +51,11 @@ THIS IS THE KEY TO MAKE SCROLLING WORK WITHIN THE CENTER BODY!
 */
 .app-content {
   padding: 0px;
-  height: calc(100vh = 65); 
-  overflow: auto;
+  xheight: calc(100vh - 105px); 
+   display: flex;
+  overflow:none;
    background: #999;
 }
-
 
 /*
 MOve this to a global area some day

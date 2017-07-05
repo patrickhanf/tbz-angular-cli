@@ -33,23 +33,67 @@
     </md-tab>
 </md-tab-group>-->
 
+<!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
 
-<nav md-tab-nav-bar aria-label="">
-    <!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
-    <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> {{ links.label }} </a>
-</nav>
-    <div [class.show]="tabLinkActiveIndex===0" class="step">
-        <div class="content-style">
-            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+
+<md-sidenav-container class="example-container">
+
+    <md-sidenav #sidenavs style="width:100%" mode="side" opened>
+        <nav md-tab-nav-bar aria-label="">
+
+            <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> {{ links.label }} </a>
+        </nav>
+        <div style="height: calc(100vh - 120px)">
+
+
+            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7" [class.show]="tabLinkActiveIndex===0" class="step" style=" position: absolute;top:65;width: calc(100% - 1px);height: calc(100vh - 65px)">
                 Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
             </app-map>
 
+
+
+            <div [class.show]="tabLinkActiveIndex===1" class="step" style=" position: absolute;;top:65;">
+                <button type="button" md-button (click)="sidenav.open()">
+      Open sidenav
+    </button>
+                <ul>
+                    <li *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]" style="color:black"><br>{{i}} List contacts</li>
+                </ul>
+
+            </div>
         </div>
+    </md-sidenav>
+    <md-sidenav #sidenav class="example-sidenav" align="end">
+        Jolly good!
+    </md-sidenav>
+
+
+
+</md-sidenav-container>
+
+<!--<nav md-tab-nav-bar aria-label="">
+   
+    <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> {{ links.label }} </a>
+</nav>
+<div style="height: calc(100vh - 120px)">
+    <div [class.show]="tabLinkActiveIndex===0" class="step" style=" position: absolute;width:100%;height: calc(100vh - 120px)">
+        
+            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+                Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+            </app-map>
+      
     </div>
 
-    <div [class.show]="tabLinkActiveIndex===1" class="step">
-        List contacts
+    <div [class.show]="tabLinkActiveIndex===1" class="step" style=" position: absolute;">
+            <ul>
+      <li *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]" style="color:black"><br>{{i}} List contacts</li>
+    </ul>
+    
     </div>
+</div>-->
+
+
+
 <!--<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="changeSelectedIndex($event)">
 
     <md-tab label="Map View">
@@ -68,17 +112,25 @@
 <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
                 Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
             </app-map>-->
-<!--<div style='padding: 0px;width: 100%; height: 100%;overflow: none;'>
-    <md-tab-group>
-        <md-tab label="Map View">
-            <div class="content-style">
-                <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7">
+
+<!--<div class="fullscreen">
+   
+        <md-tab-group>
+            <md-tab label="Map View">
+
+                <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="display:inline-block;width: calc(100% - 1px);height: calc(100vh - 140px)">
                     Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
                 </app-map>
-            </div>
-        </md-tab>
-        <md-tab label="Contacts">
-            <div class="content-style">
+
+            </md-tab>
+            <md-tab label="Contacts">
+                <button type="button" md-button (click)="sidenav.open()">
+                Open sidenav
+                </button>
+                <ul>
+                    <li *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]" style="color:black"><br>{{i}} List contacts</li>
+                </ul>
+
                 <md-list fxFlexFill fxLayout="column">
                     Note: http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2
                     <md-list-item *ngFor="let c of contacts; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
@@ -88,11 +140,20 @@
                         <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
                     </md-list-item>
                 </md-list>
-            </div>
-        </md-tab>
+
+            </md-tab>
 
 
-    </md-tab-group>
+        </md-tab-group>
+    
 </div>-->
 
-
+<!--<div class="fullscreen">
+  <div class="top">top</div>
+  <div class="middle">
+    <div class="left">left</div>
+    <div class="center">center</div>
+    <div class="right">right</div>
+  </div>
+  <div class="bottom">bottom</div>
+</div>-->

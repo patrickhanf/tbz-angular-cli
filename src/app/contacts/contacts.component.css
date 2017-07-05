@@ -9,11 +9,47 @@ transition: .3s ease-in-out all;
 
 }
 
+.example-container {
+  width: 100%;
+  height: calc(100vh - 64px);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+   width: 100% !important;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+/* https://codepen.io/lerouxb/pen/jIkpD */
+.fullscreen {
+  height: 100vh;
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+}
+.top, .middle, .bottom {
+  background-color: #aaa;
+  width: 100%;
+  text-align: center;
+}
+.middle {
+  flex: 1;
+  display: flex;
+  margin: 10px 0;
+}
+.center {
+  flex: 1;
+}
 /*
 http://plnkr.co/edit/GQjcrqhwB2T5ohZwC5EL?p=preview
 */
 .content-style {
-  height: calc(100vh - 120px); 
+  xheight: calc(100vh); 
   background-color:#bcc7d8;
 
 }

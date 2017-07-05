@@ -49,10 +49,10 @@ export class OlComponent implements OnInit {
 
       //  console.log('map#id=='+this.refMap.nativeElement.id);
       //  console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
-        //this.placeMapFromComponent();
-        this.map = this.createMap();
+        this.placeMapFromComponent();
+        //this.map = this.createMap();
         //this.map.setTarget('premap');
-        this.map.setTarget(this.refMap.nativeElement);
+       // this.map.setTarget(this.refMap.nativeElement);
         //this.map.invalidateSize();
       //setTimeout( function() { }, 200);
         console.log("ol.component.ngAfterContentInit().placeMapFromComponent 2");
