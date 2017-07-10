@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { OlService } from './ol.service';
+import { ConfirmationDialog } from '../confirm-dialog';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
+
 
 
 var mapGlobal;
@@ -18,6 +21,7 @@ var select_interaction, draw_interaction, modify_interaction;
 })
 export class OlComponent implements OnInit {
 
+    dialogRef: MdDialogRef<ConfirmationDialog>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
     @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
@@ -29,14 +33,11 @@ export class OlComponent implements OnInit {
     //private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
 
     turfActionSelected: string = 'draw';
-    turfActions = [
-        { value: 'draw', icon: 'rounded_corner'},
-        { value: 'modify', icon: ''}
-        ];
+    turfActions = [ { value: 'draw', icon: 'rounded_corner'}, { value: 'modify', icon: ''} ];
 
     public ols;
 
-    constructor( private olService: OlService) {
+    constructor( private olService: OlService, public dialog: MdDialog) {
 
     this.ols = olService;
     }
@@ -66,20 +67,26 @@ export class OlComponent implements OnInit {
 
         // Issue below is up because the angular model is out-of-sync with the event.
         // https://github.com/angular/material2/issues/448
-        // console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected=='+ selected);
+         console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected=='+ selected);
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
 
         if (selected == 'draw')
-            this.olService.addDrawInteraction();
+            this.addDrawInteraction();
         else
-            this.olService.addModifyInteraction();
+            this.addModifyInteraction();
+
+        // if (selected == 'draw')
+        //     this.olService.addDrawInteraction();
+        // else
+        //     this.olService.addModifyInteraction();
     }
 
     onTurfActionDelete()
     {
         // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
-         this.olService.deleteTurfMap();
+         //this.olService.deleteTurfMap();
+         this.deleteTurfMap();
     }
     
     get(): any {
@@ -162,9 +169,9 @@ export class OlComponent implements OnInit {
                 //source: new ol.source.Stamen({ layer: 'watercolor' })
                 //source: new ol.source.Stamen({ layer: 'toner' })
                 //source: new ol.source.Stamen({ layer: 'toner-lines' })
-                source: new ol.source.Stamen({ layer: 'terrain' })
+                //source: new ol.source.Stamen({ layer: 'terrain' })
                 //source: ol.source.BingMaps({}),
-                //source: new ol.source.OSM(),
+                source: new ol.source.OSM(),
                 // maxResolution: 50, // was 20 
             });
 
@@ -240,8 +247,8 @@ export class OlComponent implements OnInit {
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                  //  geoJsonSource,
-                  //  geoPngSource,
+                    geoJsonSource,
+                    geoPngSource,
                     geoDrawSource, // Polygon drawing
 
                 ],
@@ -358,7 +365,132 @@ export class OlComponent implements OnInit {
             // return this._vectorSource;
 
         }); // end promise
+    } // end placeMapFromComponent
+
+    // creates a draw interaction
+    addDrawInteraction() {
+        //https://codepen.io/barbalex/pen/fBpyb
+        // remove other interactions
+        mapGlobal.removeInteraction(select_interaction);
+        mapGlobal.removeInteraction(modify_interaction);
+        let start_drawing = false;
+        // create the interaction
+        draw_interaction = new ol.interaction.Draw({
+            // condition: ol.events.condition.singleClick,
+            source: vectorGeoDraw.getSource(),
+            type: 'Polygon',
+            freehand: true
+        });
+        // add it to the map
+        mapGlobal.addInteraction(draw_interaction);
+        draw_interaction.on('drawstart', function (evt) {
+            start_drawing = true;
+            console.log('start_drawing==true');
+        });
+        // when a new feature has been drawn...
+        draw_interaction.on('drawend', function (event) {
+            start_drawing = false;
+            // create a unique id
+            // it is later needed to delete features
+            // var id = uid();
+            // give the feature this id
+            // event.feature.setId(id);
+
+            //console.log('id='+ id);
+            console.log(event.feature);
+
+            // Enable double click zoom after drawing is complete
+            // https://gis.stackexchange.com/questions/161930/problem-in-remove-interaction-after-draw-end-in-openlayers-3
+            // ol.interaction.defaults({  doubleClickZoom :false });
+
+            // save the changed data
+            //saveData(); 
+        });
     }
 
+    // build up modify interaction
+    // needs a select and a modify interaction working together
+    addModifyInteraction() {
+        // remove draw interaction
+        mapGlobal.removeInteraction(draw_interaction);
+        // create select interaction
+        select_interaction = new ol.interaction.Select({
+            // make sure only the desired layer can be selected
+            layers: function (vector_layer) {
+                return vector_layer.get('name') === 'draw_vectorlayer';
+            }
+        });
+        mapGlobal.addInteraction(select_interaction);
+
+        //   // grab the features from the select interaction to use in the modify interaction
+        let selected_features = select_interaction.getFeatures();
+        //   // when a feature is selected...
+        //   selected_features.on('add', function(event) {
+        //     // grab the feature
+        //     var feature = event.element;
+        //     // ...listen for changes and save them
+        //     feature.on('change', saveData);
+        //     // listen to pressing of delete key, then delete selected features
+        //     $(document).on('keyup', function(event) {
+        //       if (event.keyCode == 46) {
+        //         // remove all selected features from select_interaction and draw_vectorlayer
+        //         selected_features.forEach(function(selected_feature) {
+        //           var selected_feature_id = selected_feature.getId();
+        //           // remove from select_interaction
+        //           selected_features.remove(selected_feature);
+        //           // features aus vectorlayer entfernen
+        //           var vectorlayer_features = vector_layer.getSource().getFeatures();
+        //           vectorlayer_features.forEach(function(source_feature) {
+        //             var source_feature_id = source_feature.getId();
+        //             if (source_feature_id === selected_feature_id) {
+        //               // remove from draw_vectorlayer
+        //               vector_layer.getSource().removeFeature(source_feature);
+        //               // save the changed data
+        //               saveData();
+        //             }
+        //           });
+        //         });
+        //         // remove listener
+        //         $(document).off('keyup');
+        //       }
+        //     });
+        //   });
+        // create the modify interaction
+        modify_interaction = new ol.interaction.Modify({
+            features: selected_features,
+            // delete vertices by pressing the SHIFT key
+            deleteCondition: function (event) {
+                return ol.events.condition.shiftKeyOnly(event) &&
+                    ol.events.condition.singleClick(event);
+            }
+        });
+        // add it to the map
+        mapGlobal.addInteraction(modify_interaction);
+    }
+
+    // clears the map and the output of the data
+    deleteTurfMap() {
+
+        this.dialogRef = this.dialog.open(ConfirmationDialog, {
+            disableClose: false
+        });
+        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
+
+        this.dialogRef.afterClosed().subscribe(result => {
+            
+            if (result) {
+                // do confirmation actions
+                vectorGeoDraw.getSource().clear();
+                if (select_interaction) {
+                    select_interaction.getFeatures().clear();
+                }
+                // $('#data').val('');
+            }
+            this.dialogRef = null;
+        });
+
+
+
+    }
 
 } // end file

@@ -314,10 +314,10 @@ export class OlService {
 
     // https://gist.github.com/mbertrand/5218300
 
-    getTurfCutter() {
-        //https://codepen.io/barbalex/pen/fBpyb
-        this.addDrawInteraction();
-    }
+    // getTurfCutter() {
+    //     //https://codepen.io/barbalex/pen/fBpyb
+    //     this.addDrawInteraction();
+    // }
 
     getVector() {
         return this._vectorSource;
@@ -458,46 +458,46 @@ export class OlService {
 
     // };
 
-    // creates a draw interaction
-    addDrawInteraction() {
-        //https://codepen.io/barbalex/pen/fBpyb
-        // remove other interactions
-        mapGlobal.removeInteraction(select_interaction);
-        mapGlobal.removeInteraction(modify_interaction);
-        let start_drawing = false;
-        // create the interaction
-        draw_interaction = new ol.interaction.Draw({
-            // condition: ol.events.condition.singleClick,
-            source: vectorGeoDraw.getSource(),
-            type: 'Polygon',
-            freehand: true
-        });
-        // add it to the map
-        mapGlobal.addInteraction(draw_interaction);
-        draw_interaction.on('drawstart', function (evt) {
-            start_drawing = true;
-            console.log('start_drawing==true');
-        });
-        // when a new feature has been drawn...
-        draw_interaction.on('drawend', function (event) {
-            start_drawing = false;
-            // create a unique id
-            // it is later needed to delete features
-            // var id = uid();
-            // give the feature this id
-            // event.feature.setId(id);
+    // // creates a draw interaction
+    // addDrawInteraction() {
+    //     //https://codepen.io/barbalex/pen/fBpyb
+    //     // remove other interactions
+    //     mapGlobal.removeInteraction(select_interaction);
+    //     mapGlobal.removeInteraction(modify_interaction);
+    //     let start_drawing = false;
+    //     // create the interaction
+    //     draw_interaction = new ol.interaction.Draw({
+    //         // condition: ol.events.condition.singleClick,
+    //         source: vectorGeoDraw.getSource(),
+    //         type: 'Polygon',
+    //         freehand: true
+    //     });
+    //     // add it to the map
+    //     mapGlobal.addInteraction(draw_interaction);
+    //     draw_interaction.on('drawstart', function (evt) {
+    //         start_drawing = true;
+    //         console.log('start_drawing==true');
+    //     });
+    //     // when a new feature has been drawn...
+    //     draw_interaction.on('drawend', function (event) {
+    //         start_drawing = false;
+    //         // create a unique id
+    //         // it is later needed to delete features
+    //         // var id = uid();
+    //         // give the feature this id
+    //         // event.feature.setId(id);
 
-            //console.log('id='+ id);
-            console.log(event.feature);
+    //         //console.log('id='+ id);
+    //         console.log(event.feature);
 
-            // Enable double click zoom after drawing is complete
-            // https://gis.stackexchange.com/questions/161930/problem-in-remove-interaction-after-draw-end-in-openlayers-3
-            // ol.interaction.defaults({  doubleClickZoom :false });
+    //         // Enable double click zoom after drawing is complete
+    //         // https://gis.stackexchange.com/questions/161930/problem-in-remove-interaction-after-draw-end-in-openlayers-3
+    //         // ol.interaction.defaults({  doubleClickZoom :false });
 
-            // save the changed data
-            //saveData(); 
-        });
-    };
+    //         // save the changed data
+    //         //saveData(); 
+    //     });
+    // };
 
 
 
@@ -528,90 +528,90 @@ export class OlService {
     // //   }
     // // }
 
-    // build up modify interaction
-    // needs a select and a modify interaction working together
-    addModifyInteraction() {
-        // remove draw interaction
-        mapGlobal.removeInteraction(draw_interaction);
-        // create select interaction
-        select_interaction = new ol.interaction.Select({
-            // make sure only the desired layer can be selected
-            layers: function (vector_layer) {
-                return vector_layer.get('name') === 'draw_vectorlayer';
-            }
-        });
-        mapGlobal.addInteraction(select_interaction);
+    // // build up modify interaction
+    // // needs a select and a modify interaction working together
+    // addModifyInteraction() {
+    //     // remove draw interaction
+    //     mapGlobal.removeInteraction(draw_interaction);
+    //     // create select interaction
+    //     select_interaction = new ol.interaction.Select({
+    //         // make sure only the desired layer can be selected
+    //         layers: function (vector_layer) {
+    //             return vector_layer.get('name') === 'draw_vectorlayer';
+    //         }
+    //     });
+    //     mapGlobal.addInteraction(select_interaction);
 
-        //   // grab the features from the select interaction to use in the modify interaction
-        let selected_features = select_interaction.getFeatures();
-        //   // when a feature is selected...
-        //   selected_features.on('add', function(event) {
-        //     // grab the feature
-        //     var feature = event.element;
-        //     // ...listen for changes and save them
-        //     feature.on('change', saveData);
-        //     // listen to pressing of delete key, then delete selected features
-        //     $(document).on('keyup', function(event) {
-        //       if (event.keyCode == 46) {
-        //         // remove all selected features from select_interaction and draw_vectorlayer
-        //         selected_features.forEach(function(selected_feature) {
-        //           var selected_feature_id = selected_feature.getId();
-        //           // remove from select_interaction
-        //           selected_features.remove(selected_feature);
-        //           // features aus vectorlayer entfernen
-        //           var vectorlayer_features = vector_layer.getSource().getFeatures();
-        //           vectorlayer_features.forEach(function(source_feature) {
-        //             var source_feature_id = source_feature.getId();
-        //             if (source_feature_id === selected_feature_id) {
-        //               // remove from draw_vectorlayer
-        //               vector_layer.getSource().removeFeature(source_feature);
-        //               // save the changed data
-        //               saveData();
-        //             }
-        //           });
-        //         });
-        //         // remove listener
-        //         $(document).off('keyup');
-        //       }
-        //     });
-        //   });
-        // create the modify interaction
-        modify_interaction = new ol.interaction.Modify({
-            features: selected_features,
-            // delete vertices by pressing the SHIFT key
-            deleteCondition: function (event) {
-                return ol.events.condition.shiftKeyOnly(event) &&
-                    ol.events.condition.singleClick(event);
-            }
-        });
-        // add it to the map
-        mapGlobal.addInteraction(modify_interaction);
-    }
+    //     //   // grab the features from the select interaction to use in the modify interaction
+    //     let selected_features = select_interaction.getFeatures();
+    //     //   // when a feature is selected...
+    //     //   selected_features.on('add', function(event) {
+    //     //     // grab the feature
+    //     //     var feature = event.element;
+    //     //     // ...listen for changes and save them
+    //     //     feature.on('change', saveData);
+    //     //     // listen to pressing of delete key, then delete selected features
+    //     //     $(document).on('keyup', function(event) {
+    //     //       if (event.keyCode == 46) {
+    //     //         // remove all selected features from select_interaction and draw_vectorlayer
+    //     //         selected_features.forEach(function(selected_feature) {
+    //     //           var selected_feature_id = selected_feature.getId();
+    //     //           // remove from select_interaction
+    //     //           selected_features.remove(selected_feature);
+    //     //           // features aus vectorlayer entfernen
+    //     //           var vectorlayer_features = vector_layer.getSource().getFeatures();
+    //     //           vectorlayer_features.forEach(function(source_feature) {
+    //     //             var source_feature_id = source_feature.getId();
+    //     //             if (source_feature_id === selected_feature_id) {
+    //     //               // remove from draw_vectorlayer
+    //     //               vector_layer.getSource().removeFeature(source_feature);
+    //     //               // save the changed data
+    //     //               saveData();
+    //     //             }
+    //     //           });
+    //     //         });
+    //     //         // remove listener
+    //     //         $(document).off('keyup');
+    //     //       }
+    //     //     });
+    //     //   });
+    //     // create the modify interaction
+    //     modify_interaction = new ol.interaction.Modify({
+    //         features: selected_features,
+    //         // delete vertices by pressing the SHIFT key
+    //         deleteCondition: function (event) {
+    //             return ol.events.condition.shiftKeyOnly(event) &&
+    //                 ol.events.condition.singleClick(event);
+    //         }
+    //     });
+    //     // add it to the map
+    //     mapGlobal.addInteraction(modify_interaction);
+    // }
 
-    // clears the map and the output of the data
-    deleteTurfMap() {
+    // // clears the map and the output of the data
+    // deleteTurfMap() {
 
-        this.dialogRef = this.dialog.open(ConfirmationDialog, {
-            disableClose: false
-        });
-        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
+    //     this.dialogRef = this.dialog.open(ConfirmationDialog, {
+    //         disableClose: false
+    //     });
+    //     this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
 
-        this.dialogRef.afterClosed().subscribe(result => {
+    //     this.dialogRef.afterClosed().subscribe(result => {
             
-            if (result) {
-                // do confirmation actions
-                vectorGeoDraw.getSource().clear();
-                if (select_interaction) {
-                    select_interaction.getFeatures().clear();
-                }
-                // $('#data').val('');
-            }
-            this.dialogRef = null;
-        });
+    //         if (result) {
+    //             // do confirmation actions
+    //             vectorGeoDraw.getSource().clear();
+    //             if (select_interaction) {
+    //                 select_interaction.getFeatures().clear();
+    //             }
+    //             // $('#data').val('');
+    //         }
+    //         this.dialogRef = null;
+    //     });
 
 
 
-    }
+    // }
 
 
 } // end
