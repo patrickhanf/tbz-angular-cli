@@ -10,6 +10,8 @@ import { ContactsComponent } from './contacts.component';
 
 import { ContactsService } from './contacts.service';
 
+import { SearchComponent } from '../_component/search/search.component'; //real map
+
 //import { MapComponent } from '../_component/map.component'; //real map
 // import { ContactsRoutingModule } from './contacts.module.routing';
 
@@ -25,8 +27,9 @@ import { OlService } from '../_component/ol/ol.service'; // global
    // CommonModule
     // ContactsRoutingModule
   ],
-  declarations: [
+    declarations: [
     ContactsComponent,
+    SearchComponent,
  //   OlComponent,
    // MapComponent,
     //  ContactDetailComponent

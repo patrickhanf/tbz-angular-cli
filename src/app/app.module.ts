@@ -23,9 +23,11 @@ import { LoginComponent } from './login/login.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 import { TitleComponent } from './_component/title.component';
+import { SearchComponent } from './_component/search/search.component';
+
+import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
 import { ConfirmationDialog } from './_component/confirm-dialog';
-//import { MapComponent } from './_component/map.component';
 
 import { OlComponent } from './_component/ol/ol.component';
 import { OlService } from './_component/ol/ol.service'; // global
@@ -40,7 +42,8 @@ import { OlService } from './_component/ol/ol.service'; // global
     HttpModule,
     LoginRoutingModule,
     AppRoutingModule,
-    MaterialModule //.forRoot() removed after upgrade 5-16-17
+    MaterialModule, //.forRoot() removed after upgrade 5-16-17
+    ExpansionPanelsModule
   ],
   declarations: [
     AppComponent,
@@ -54,7 +57,8 @@ import { OlService } from './_component/ol/ol.service'; // global
     ContactsComponent,
     LoginComponent,
     PageNotFoundComponent,
-    ContactDetailComponent
+    ContactDetailComponent,
+    SearchComponent
   ],
   providers: [OlService],
   bootstrap: [AppComponent],

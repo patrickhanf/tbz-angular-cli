@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {style, state, animate, transition, trigger} from '@angular/core';
+import { style, state, animate, transition, trigger } from '@angular/core';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -21,46 +21,49 @@ import { OlComponent } from '../_component/ol/ol.component';
 @Component({
   // https://stackoverflow.com/questions/36417931/angular-2-ngif-and-css-transition-animation
   animations: [
-  trigger('fadeInOut', [
-    transition(':enter', [   // :enter is alias to 'void => *'
-      style({opacity:0}),
-      animate(500, style({opacity:1})) 
-    ]),
-    transition(':leave', [   // :leave is alias to '* => void'
-      animate(500, style({opacity:0})) 
+    trigger('fadeInOut', [
+      transition(':enter', [   // :enter is alias to 'void => *'
+        style({ opacity: 0 }),
+        animate(500, style({ opacity: 1 }))
+      ]),
+      transition(':leave', [   // :leave is alias to '* => void'
+        animate(500, style({ opacity: 0 }))
+      ])
     ])
-  ])
-],
+  ],
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css'],
-  providers: [ContactsService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
+  providers: [ContactsService], // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
+
 })
 
 export class ContactsComponent implements OnInit {
   // @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
   direction = 'row';
-  // public contacts: ContactVM[];
 
-    tabLinkActiveIndex = 0;
-    tabLinks = [
-        { label: 'Map View'},
-        { label: 'Contacts'}
-        ];
-  
+  // public contacts: ContactVM[];
+  isFoo:boolean = true;
+
+  tabLinkActiveIndex = 0;
+  tabLinks = [
+    { label: 'Map View' },
+    { label: 'Contacts' }
+  ];
+
   @ViewChild(OlComponent) _olComponent: OlComponent;
   //constructor(private router: Router, private contactService: ContactsService, private olservice: OlService) {
-  constructor(private router: Router, private contactService: ContactsService) {    
+  constructor(private router: Router, private contactService: ContactsService) {
     // constructor
-    
+
   }
 
-selectedIndex: number = 0;
+  selectedIndex: number = 0;
 
-changeSelectedIndex(event) {
-  this.selectedIndex = event.index;
-}
+  changeSelectedIndex(event) {
+    this.selectedIndex = event.index;
+  }
 
   onSelectContact(contact: ContactVM) {
     // alert('clicked id='+contact.contactId);
@@ -76,7 +79,7 @@ changeSelectedIndex(event) {
   ngAfterContentInit() {
 
     console.log("contacts.component.ngAfterContentInit()");
- 
+
     //  document.getElementById('map').style.display = 'block';
     //  this._olComponent.map.invalidateSize();
     //  this._olComponent.map.updateSize();
@@ -88,7 +91,7 @@ changeSelectedIndex(event) {
     // else
     //   console.log("contacts.component.ngAfterContentInit() vector ready");
 
-    
+
     // this.olservice.placeMap().then(() => {
     //   // this.contactService.getAPIContacts()
     //   //   .subscribe(data => this.contacts = data,
@@ -116,7 +119,7 @@ changeSelectedIndex(event) {
 
       count++;
 
-     // this.olservice.addMarker([item.longitude, item.latitude], item.firstName, 'akl1');
+      // this.olservice.addMarker([item.longitude, item.latitude], item.firstName, 'akl1');
     }
 
     // this.mapComponent.vectorSource.clear();

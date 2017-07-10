@@ -9,6 +9,12 @@ transition: .3s ease-in-out all;
 
 }
 
+.example-fab {
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+}
+
 .example-container {
   width: 100%;
   height: calc(100vh - 64px);
@@ -22,7 +28,9 @@ transition: .3s ease-in-out all;
 }
 
 .example-sidenav {
-  padding: 20px;
+  xpadding: 20px;
+  width: 250px;
+  background-color: #aaa;
 }
 
 /* https://codepen.io/lerouxb/pen/jIkpD */
