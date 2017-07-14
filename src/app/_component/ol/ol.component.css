@@ -1,4 +1,19 @@
 
+.fab-stack {margin-bottom:5px;}
+
+.ol-toolbox {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    z-index: 2;
+     
+}
+/* https://codepen.io/sdthornton/pen/wBZdXq */
+.ol-toolbox-fab {
+box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+background-color: #fff;
+position:absolute;top:80px;left:50px;
+}
 
 .example-spacer {
   flex: 1 1 auto;
@@ -14,8 +29,8 @@
     padding: 15px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    bottom: 12px;
-    left: -50px;
+    bottom: -100px;
+    left: -500px;
 }
 .ol-popup:after, .ol-popup:before {
     top: 100%;

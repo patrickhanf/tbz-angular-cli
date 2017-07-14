@@ -37,7 +37,7 @@ $mat-dark-theme-background: (
 
 // http://mcg.mbitson.com/#!?mcgpalette0=%236aa84f
 $md-trailblzgreen: (
-    50 : #eaf6e4,
+    50 :  #eaf6e4, 
     100 : #c9e9bc,
     200 : #a6db90,
     300 : #82cc63,
@@ -48,7 +48,7 @@ $md-trailblzgreen: (
     800 : #339e13,
     900 : #248e0b,
     A100 : #c7ffbe,
-    A200 : #eaf6e4, //#9bff8b,
+    A200 : #F2F2F2, //#9bff8b, /* This is the color=accent toolbar */
     A400 : #70ff58,
     A700 : #5aff3e,
     contrast: (

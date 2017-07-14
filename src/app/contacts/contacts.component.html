@@ -34,9 +34,33 @@
 </md-tab-group>-->
 
 <!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
+         <nav md-tab-nav-bar aria-label="">
+            <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> 
+                <md-icon class="tab-icon">{{ links.icon }}</md-icon> {{ links.label }}</a>
+        </nav>
 
 
-<md-sidenav-container class="example-container">
+<md-sidenav-container  style="height: calc(100vh - 113px);overflow:hidden">
+
+            <div [class.show]="tabLinkActiveIndex===1" class="step" >
+                <ul style="padding:0;margin:0;height: calc(100vh - 113px);overflow-y:scroll">
+                    <li *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]" style="color:black"><br>{{i}} List contacts</li>
+                </ul>
+            </div>
+            <div [class.show]="tabLinkActiveIndex===0" class="step " >
+               
+            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="height: calc(100vh - 113px);max-height:calc(100vh - 113px)overflow:none">
+                Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
+            </app-map>
+        
+            </div>
+
+    <md-sidenav #sidenav class="example-sidenav" align="end">
+        <app-search (onSubmitFilter)='onSubmit($event)' ></app-search>
+    </md-sidenav>
+
+</md-sidenav-container>
+<!--<md-sidenav-container class="example-container">
 
     <md-sidenav #sidenavs style="width:100%" mode="side" opened>
         <nav md-tab-nav-bar aria-label="">
@@ -62,7 +86,7 @@
         <app-search></app-search>
     </md-sidenav>
 
-</md-sidenav-container>
+</md-sidenav-container>-->
 
 <!--https://rawgit.com/jefersonestevo/angular-smd/master/dist/index.html#/angular-smd/demo-fab-speed-dial-->
 <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">

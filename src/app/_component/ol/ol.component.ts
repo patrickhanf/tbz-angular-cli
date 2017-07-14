@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef ,trigger, transition, style, animate} from '@angular/core';
 import { OlService } from './ol.service';
 import { ConfirmationDialog } from '../confirm-dialog';
 import { MdDialog, MdDialogRef } from '@angular/material';
@@ -15,66 +15,89 @@ var select_interaction, draw_interaction, modify_interaction;
 
 @Component({
     selector: 'app-map',
+    animations: [
+    trigger(
+      'enterAnimationFab', [
+        transition(':enter', [
+          style({ opacity: 0}),
+          animate('300ms', style({ opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({ opacity: 1}),
+          animate('300ms', style({ opacity: 0}))
+        ])
+      ]
+    )
+  ],
     templateUrl: './ol.component.html',
     styleUrls: ['./ol.component.css'],
     providers: [OlService] // http://developer.telerik.com/topics/web-development/creating-angular-2-injectable-service/
 })
 export class OlComponent implements OnInit {
 
+    showTurfActions:boolean = false;
+    modifyTurfAction:boolean = false;
     dialogRef: MdDialogRef<ConfirmationDialog>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
     @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
-  
+
     @Input() lnglat: [number, number];
     @Input() zoom: number;
 
-    map:any;
+    map: any;
     //private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
 
     turfActionSelected: string = 'draw';
-    turfActions = [ { value: 'draw', icon: 'rounded_corner'}, { value: 'modify', icon: ''} ];
+    turfActions = [{ value: 'draw', icon: 'rounded_corner' }, { value: 'modify', icon: '' }];
 
     public ols;
 
-    constructor( private olService: OlService, public dialog: MdDialog) {
+    constructor(private olService: OlService, public dialog: MdDialog) {
 
-    this.ols = olService;
+        this.ols = olService;
     }
 
     ngOnInit() {
         console.log("ol.component.ngOnInit()");
-           }
+    }
 
     ngAfterContentInit() {
 
-      //  console.log('map#id=='+this.refMap.nativeElement.id);
-      //  console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
+        //  console.log('map#id=='+this.refMap.nativeElement.id);
+        //  console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
         this.placeMapFromComponent();
         //this.map = this.createMap();
         //this.map.setTarget('premap');
-       // this.map.setTarget(this.refMap.nativeElement);
+        // this.map.setTarget(this.refMap.nativeElement);
         //this.map.invalidateSize();
-      //setTimeout( function() { }, 200);
+        //setTimeout( function() { }, 200);
         console.log("ol.component.ngAfterContentInit().placeMapFromComponent 2");
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
         //         alert("Map loaded by promise!");
         //     });
     }
 
+    onResizeMapWindow(event) {
+        console.log("map width=" + event.target.innerWidth);
+        //mapGlobal.updateSize();
+    }
 
-    onTurfActionSelected(selected: String) {
+    onTurfActionClick() {
 
+        // First Toggle window
+        this.showTurfActions = !this.showTurfActions;
+         
         // Issue below is up because the angular model is out-of-sync with the event.
         // https://github.com/angular/material2/issues/448
-         console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected=='+ selected);
+        console.log('clicked onTurfActionClick()' + this.showTurfActions );
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
 
-        if (selected == 'draw')
+        if (this.showTurfActions)
             this.addDrawInteraction();
         else
-            this.addModifyInteraction();
+            this.removeDrawModifyInteraction();
 
         // if (selected == 'draw')
         //     this.olService.addDrawInteraction();
@@ -82,33 +105,62 @@ export class OlComponent implements OnInit {
         //     this.olService.addModifyInteraction();
     }
 
-    onTurfActionDelete()
-    {
-        // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
-         //this.olService.deleteTurfMap();
-         this.deleteTurfMap();
+    onTurfActionModifyChecked() {
+
+console.log('clicked onTurfActionModifyChecked()' + this.modifyTurfAction );
+
+
+        if (!this.modifyTurfAction)
+            this.addModifyInteraction();
+        else
+            this.addDrawInteraction();
     }
-    
+
+    // onTurfActionSelected(selected: String) {
+
+    //     // Issue below is up because the angular model is out-of-sync with the event.
+    //     // https://github.com/angular/material2/issues/448
+    //     console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected==' + selected);
+
+    //     //this.olService.getTurfCutter(select_interaction, modify_interaction);
+
+    //     if (selected == 'draw')
+    //         this.addDrawInteraction();
+    //     else
+    //         this.addModifyInteraction();
+
+    //     // if (selected == 'draw')
+    //     //     this.olService.addDrawInteraction();
+    //     // else
+    //     //     this.olService.addModifyInteraction();
+    // }
+
+    onTurfActionDelete() {
+        // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
+        //this.olService.deleteTurfMap();
+        this.deleteTurfMap();
+    }
+
     get(): any {
         return ol;
     }
 
-  createMap() {
-    return new ol.Map({
-      //target: 'map',
-      layers: [
-          new ol.layer.Tile({
-              source: new ol.source.OSM()
-          })
-      ],
-      renderer: 'canvas',
-      view: new ol.View({
-        center: [-7940419.278284204, 5716479.015326825],
-        zoom: 9,
-        rotation: 0
-      })
-    })
-  }
+    createMap() {
+        return new ol.Map({
+            //target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            renderer: 'canvas',
+            view: new ol.View({
+                center: [-7940419.278284204, 5716479.015326825],
+                zoom: 9,
+                rotation: 0
+            })
+        })
+    }
 
     placeMapFromComponent() {
         return new Promise((resolve, reject) => {  // https://stackoverflow.com/questions/40126630/angular-2-waiting-for-boolean-to-be-true-before-executing-service
@@ -241,14 +293,26 @@ export class OlComponent implements OnInit {
             vectorGeoPng = geoPngSource;
             vectorGeoDraw = geoDrawSource;
 
-           
+            //
+            // Custom Material zoom in out controls
+            // https://gis.stackexchange.com/questions/162967/zoom-in-out-on-click-in-openlayers-3
+            //
+
+            document.getElementById('fab-zoomin').addEventListener('click', function (e) {
+                mapGlobal.getView().setZoom(mapGlobal.getView().getZoom() + .5);
+            }, false);
+
+            document.getElementById('fab-zoomout').addEventListener('click', function (e) {
+                mapGlobal.getView().setZoom(mapGlobal.getView().getZoom() - .5);
+            }, false);
+
             mapGlobal = new ol.Map({
-               // target: this.refMap.id, // 'map'
+                // target: this.refMap.id, // 'map'
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                    geoJsonSource,
-                    geoPngSource,
+                    // geoJsonSource, // Working add in during production
+                    // geoPngSource, // Working add in during production
                     geoDrawSource, // Polygon drawing
 
                 ],
@@ -261,19 +325,28 @@ export class OlComponent implements OnInit {
                     maxZoom: 18,
                     projection: ol.proj.get('EPSG:3857'),
                     displayProjection: ol.proj.get("EPSG: 4326")
-                })
+                }),
+                controls: ol.control.defaults({
+                    zoom: false,
+                    attribution: true,
+                    rotate: false
+                }).extend([
+                    // xzoomOutControl
+                    //   new ol.control.Control({ element: buttonZoomOut }),
+                    //  new ol.control.Control({ element: buttonZoomIn })
+                ])
             });
 
-           mapGlobal.setTarget(this.refMap.nativeElement);
-           // alert('ol.component map');
-           // mapGlobal = this._map; // Need for click popups;
+            mapGlobal.setTarget(this.refMap.nativeElement);
+            // alert('ol.component map');
+            // mapGlobal = this._map; // Need for click popups;
 
             /**
              * Popup
              **/
-            // var container = document.getElementById('ol-popup');
-            // var content_element = document.getElementById('ol-popup-content');
-            // var closer = document.getElementById('ol-popup-closer');
+            // let container = document.getElementById('ol-popup');
+            // let content_element = document.getElementById('ol-popup-content');
+            // let closer = document.getElementById('ol-popup-closer');
 
             // closer.onclick = function () {
             //     overlay.setPosition(undefined);
@@ -281,14 +354,14 @@ export class OlComponent implements OnInit {
             //     return false;
             // };
 
-            // var overlay = new ol.Overlay({
+            // let overlay = new ol.Overlay({
             //     element: container,
             //     autoPan: true,
             //     offset: [0, -10]
             // });
             // mapGlobal.addOverlay(overlay);
 
-            // var fullscreen = new ol.control.FullScreen();
+            // let fullscreen = new ol.control.FullScreen();
             // mapGlobal.addControl(fullscreen);
 
             // // change mouse cursor when over marker
@@ -298,9 +371,9 @@ export class OlComponent implements OnInit {
             //     //     $(element).popover('destroy');
             //     //     return;
             //     // }
-            //     var pixel = mapGlobal.getEventPixel(e.originalEvent);
-            //     var hit = mapGlobal.hasFeatureAtPixel(pixel);
-            //     var target = mapGlobal.getTarget();
+            //     let pixel = mapGlobal.getEventPixel(e.originalEvent);
+            //     let hit = mapGlobal.hasFeatureAtPixel(pixel);
+            //     let target = mapGlobal.getTarget();
 
             //     target = typeof target === "string" ?
             //         document.getElementById(target) : target;
@@ -317,15 +390,15 @@ export class OlComponent implements OnInit {
             //     if (mapGlobal == null)
             //         alert('_map is null');
 
-            //     var feature = mapGlobal.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+            //     let feature = mapGlobal.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
             //         return feature;
             //     });
             //     if
             //     (feature) {
-            //         var geometry = feature.getGeometry();
-            //         var coord = geometry.getCoordinates();
+            //         let geometry = feature.getGeometry();
+            //         let coord = geometry.getCoordinates();
 
-            //         var content = '<h3>' + feature.get('id') + '</h3>';
+            //         let content = '<h3>' + feature.get('id') + '</h3>';
             //         content += '<h5>' + feature.get('address') + '</h5>';
             //         content += '<br><h5>' + feature.get('source') + '</h5>';
 
@@ -366,6 +439,15 @@ export class OlComponent implements OnInit {
 
         }); // end promise
     } // end placeMapFromComponent
+ 
+
+    removeDrawModifyInteraction()
+    {
+        // remove draw interaction
+        mapGlobal.removeInteraction(draw_interaction);
+        mapGlobal.removeInteraction(select_interaction);
+        mapGlobal.removeInteraction(modify_interaction);
+    }
 
     // creates a draw interaction
     addDrawInteraction() {
@@ -392,7 +474,7 @@ export class OlComponent implements OnInit {
             start_drawing = false;
             // create a unique id
             // it is later needed to delete features
-            // var id = uid();
+            // let id = uid();
             // give the feature this id
             // event.feature.setId(id);
 
@@ -427,7 +509,7 @@ export class OlComponent implements OnInit {
         //   // when a feature is selected...
         //   selected_features.on('add', function(event) {
         //     // grab the feature
-        //     var feature = event.element;
+        //     let feature = event.element;
         //     // ...listen for changes and save them
         //     feature.on('change', saveData);
         //     // listen to pressing of delete key, then delete selected features
@@ -435,13 +517,13 @@ export class OlComponent implements OnInit {
         //       if (event.keyCode == 46) {
         //         // remove all selected features from select_interaction and draw_vectorlayer
         //         selected_features.forEach(function(selected_feature) {
-        //           var selected_feature_id = selected_feature.getId();
+        //           let selected_feature_id = selected_feature.getId();
         //           // remove from select_interaction
         //           selected_features.remove(selected_feature);
         //           // features aus vectorlayer entfernen
-        //           var vectorlayer_features = vector_layer.getSource().getFeatures();
+        //           let vectorlayer_features = vector_layer.getSource().getFeatures();
         //           vectorlayer_features.forEach(function(source_feature) {
-        //             var source_feature_id = source_feature.getId();
+        //             let source_feature_id = source_feature.getId();
         //             if (source_feature_id === selected_feature_id) {
         //               // remove from draw_vectorlayer
         //               vector_layer.getSource().removeFeature(source_feature);
@@ -477,7 +559,7 @@ export class OlComponent implements OnInit {
         this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
 
         this.dialogRef.afterClosed().subscribe(result => {
-            
+
             if (result) {
                 // do confirmation actions
                 vectorGeoDraw.getSource().clear();

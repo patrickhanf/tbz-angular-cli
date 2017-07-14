@@ -1,3 +1,5 @@
+// http://www.buompris.co/ng2-expansion-panels/
+
 import { Directive } from '@angular/core';
 
 @Directive({selector: 'expansion-panel-title'})

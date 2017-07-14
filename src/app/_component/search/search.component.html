@@ -1,83 +1,92 @@
-
- <div class="container" fxLayout="column">
+<div class="container" fxLayout="column">
   <header>
-     
-      <button md-button (click)="searchFilter()">Apply Filter</button>
-      <button md-button (click)="searchFilter()">Clear</button>
-      
-      <!--<i class="material-icons" (click)="sidenav.toggle()">close</i>-->
-  
+ <md-toolbar color="primary">
+    <button md-button (click)="searchFilter()" mdTooltip="Apply Filters and Search">Apply Filter</button>
+
+    <!--<button md-button (click)="resetFilter()">Clear</button>-->
+    <span class="spacer"></span>
+ 
+    <button md-icon-button (click)="resetFilter()" mdTooltip="Reset Filter(s)"><md-icon>restore_page</md-icon></button>
+
+    <!--<i class="material-icons" (click)="sidenav.toggle()">close</i>-->
+</md-toolbar>
   </header>
   <div fxFlex="1">
-      <expansion-panels-container>
-    <expansion-panel>
-      <expansion-panel-title>
-        Contact
-      </expansion-panel-title>
+    <expansion-panels-container>
+      <expansion-panel>
+        <expansion-panel-title>
+          Contact
+        </expansion-panel-title>
 
-      <expansion-panel-content>
+        <expansion-panel-content>
 
-        <md-input-container class="example-full-width">
-          <input mdInput placeholder="First name">
-        </md-input-container>
-        <md-input-container class="example-full-width">
-          <input mdInput placeholder="Last Name">
-        </md-input-container>
-      </expansion-panel-content>
-    </expansion-panel>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.contact.firstName" mdInput placeholder="First name">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.contact.lastName" mdInput placeholder="Last Name">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.contact.middleName" mdInput placeholder="Middle Name">
+          </md-input-container>
+        </expansion-panel-content>
+      </expansion-panel>
 
-    <expansion-panel >
-      <expansion-panel-title>
-        Address
-      </expansion-panel-title>
+      <expansion-panel>
+        <expansion-panel-title>
+          Address
+        </expansion-panel-title>
 
-      <expansion-panel-content>
-         <md-input-container class="example-full-width">
-          <textarea mdInput placeholder="Address">1600 Amphitheatre Pkwy</textarea>
-        </md-input-container>
-        <md-input-container class="example-full-width">
-          <textarea mdInput placeholder="Address 2"></textarea>
-        </md-input-container>
+        <expansion-panel-content>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.street" mdInput placeholder="Street">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.street2" mdInput placeholder="Street 2">
+          </md-input-container>
 
-        <md-input-container class="example-full-width">
-          <input mdInput placeholder="City">
-        </md-input-container>
-        <md-input-container class="example-full-width">
-          <input mdInput placeholder="State">
-        </md-input-container>
-        <md-input-container class="example-full-width">
-          <input mdInput #postalCode maxlength="5" placeholder="Postal Code" value="94043">
-          <md-hint align="end">{{postalCode.value.length}} / 5</md-hint>
-        </md-input-container>
-      </expansion-panel-content>
-    </expansion-panel>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.city" mdInput placeholder="City">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.state" mdInput placeholder="State">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.zipcode" mdInput #postalCode maxlength="5" placeholder="Postal Code">
+            <!--<input mdInput #postalCode maxlength="5" placeholder="Postal Code" value="94043">-->
+            <md-hint align="end">{{postalCode.value.length}} / 5</md-hint>
+          </md-input-container>
+        </expansion-panel-content>
+      </expansion-panel>
 
 
-    <expansion-panel>
-      <expansion-panel-title>
-        Attributes
-      </expansion-panel-title>
+      <expansion-panel>
+        <expansion-panel-title>
+          Attributes
+        </expansion-panel-title>
 
-      <expansion-panel-content>
-        Content
-      </expansion-panel-content>
-    </expansion-panel>
+        <expansion-panel-content>
+          Content
+        </expansion-panel-content>
+      </expansion-panel>
 
-    <expansion-panel>
-      <expansion-panel-title>
-        Donations
-      </expansion-panel-title>
+      <expansion-panel>
+        <expansion-panel-title>
+          Donations
+        </expansion-panel-title>
 
-      <expansion-panel-content>
-         Min <md-slider [(ngModel)]="donationmin" [min]="0" [max]="1000"  [tick-interval]="10" [step]="step"></md-slider> $ {{ donationmin }} <br> 
-         Max <md-slider [(ngModel)]="donationmax"  [value]="donationmin" [min]="donationmin" [max]="1000"  ></md-slider> $ {{ donationmax }}
-      </expansion-panel-content>
-    </expansion-panel>
+        <expansion-panel-content>
+          Min
+          <md-slider [(ngModel)]="donationmin" [min]="0" [max]="1000" [tick-interval]="10" [step]="step"></md-slider> $ {{ donationmin }} <br> Max
+          <md-slider [(ngModel)]="donationmax" [value]="donationmin" [min]="donationmin"
+            [max]="1000"></md-slider> $ {{ donationmax }}
+        </expansion-panel-content>
+      </expansion-panel>
 
-  </expansion-panels-container>
+    </expansion-panels-container>
 
   </div>
   <footer>
-     <button md-button (click)="searchFilter()">Apply Filter</button>
+    <button md-button (click)="searchFilter()">Apply Filter</button>
   </footer>
 </div>

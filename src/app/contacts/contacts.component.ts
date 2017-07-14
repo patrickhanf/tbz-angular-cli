@@ -20,16 +20,19 @@ import { OlComponent } from '../_component/ol/ol.component';
 
 @Component({
   // https://stackoverflow.com/questions/36417931/angular-2-ngif-and-css-transition-animation
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [   // :enter is alias to 'void => *'
-        style({ opacity: 0 }),
-        animate(500, style({ opacity: 1 }))
-      ]),
-      transition(':leave', [   // :leave is alias to '* => void'
-        animate(500, style({ opacity: 0 }))
-      ])
-    ])
+animations: [
+    // trigger(
+    //   'enterAnimation', [
+    //     transition(':enter', [
+    //       style({ opacity: 0}),
+    //       animate('300ms', style({ opacity: 1}))
+    //     ]),
+    //     transition(':leave', [
+    //       style({ opacity: 1 }),
+    //       animate('300ms', style({ opacity: 0}))
+    //     ])
+    //   ]
+    // )
   ],
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -48,8 +51,8 @@ export class ContactsComponent implements OnInit {
 
   tabLinkActiveIndex = 0;
   tabLinks = [
-    { label: 'Map View' },
-    { label: 'Contacts' }
+    { label: 'Map', icon: 'room' },
+    { label: 'List', icon: 'view_list' }
   ];
 
   @ViewChild(OlComponent) _olComponent: OlComponent;
@@ -103,30 +106,35 @@ export class ContactsComponent implements OnInit {
 
   }
 
-  buildMap() {
-    console.log('Build Map -- Before clear()');
-    var count = 0;
-    for (var ii in this.contacts) {
-
-      var item = this.contacts[ii];
-
-
-      // console.log(this.contacts[ii].firstName);
-      // console.log('loop=' + i);
-
-      if (item.latitude == 0 || item.longitude == 0)
-        continue;
-
-      count++;
-
-      // this.olservice.addMarker([item.longitude, item.latitude], item.firstName, 'akl1');
-    }
-
-    // this.mapComponent.vectorSource.clear();
-    //  console.log('Build Map -- After clear()');
-
-    //this.mapComponent.setDataSourceMap(this.contacts);
-    console.log('Build Map -- Get all complete total mapped=' + count);
+onSubmit(searchVM):void {
+   // alert($event);
+    console.log(1, searchVM);
   }
+
+  // buildMap() {
+  //   console.log('Build Map -- Before clear()');
+  //   var count = 0;
+  //   for (var ii in this.contacts) {
+
+  //     var item = this.contacts[ii];
+
+
+  //     // console.log(this.contacts[ii].firstName);
+  //     // console.log('loop=' + i);
+
+  //     if (item.latitude == 0 || item.longitude == 0)
+  //       continue;
+
+  //     count++;
+
+  //     // this.olservice.addMarker([item.longitude, item.latitude], item.firstName, 'akl1');
+  //   }
+
+  //   // this.mapComponent.vectorSource.clear();
+  //   //  console.log('Build Map -- After clear()');
+
+  //   //this.mapComponent.setDataSourceMap(this.contacts);
+  //   console.log('Build Map -- Get all complete total mapped=' + count);
+  // }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SearchService } from './search.service';
+import { SearchVM } from './search.model';
 
 
 
@@ -12,13 +13,22 @@ import { SearchService } from './search.service';
 })
 export class SearchComponent implements OnInit {
 
+ // outputs
+
+
+    @Output() private onSubmitFilter: EventEmitter<SearchVM> = new EventEmitter();
+
     @Input() lnglat: [number, number];
     @Input() zoom: number;
-    @Output() myevent: EventEmitter<any> = new EventEmitter();
 
-    constructor(private olService : SearchService) {
+    searchModel = new SearchVM();
 
+    constructor(private olService : SearchService ) {
+    //this.searchModel.contact.firstName = "Patrick";
+    //this.searchModel.contact.lastName= "Hanf";
     }
+
+
 
     ngOnInit() {
     console.log("search.component.ngOnInit()");
@@ -28,6 +38,27 @@ export class SearchComponent implements OnInit {
     
         console.log("search.component.ngAfterContentInit()");
 
+    }
+
+    
+    /**
+     * @name submit
+     */
+    searchFilter() {
+    //  SOURCE: https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
+    //  TODO:  <app-search (onSubmitFilter)='onSubmit($event)'></app-search>
+    //
+        this.onSubmitFilter.emit(this.searchModel);
+    }
+
+    /**
+     * @name resubmit
+     */
+    resetFilter() {
+    //  SOURCE: https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
+    //  TODO:  <app-search (onSubmitFilter)='onSubmit($event)'></app-search>
+    //
+    this.searchModel = new SearchVM();
     }
 
 }

@@ -1,28 +1,42 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ol3/3.8.2/ol.min.css" type="text/css">
 
 <!-- http://openlayers.org/en/v3.9.0/examples/snap.html -->
-<md-toolbar color="accent">
+<!--<md-toolbar color="accent" style="margin-top:0">
 
-  <button md-button (click)="onTurfActionClick()"><i class="material-icons">rounded_corner</i>Turf Cutter</button>
+  <button color="primary" md-button (click)="onTurfActionClick()"><i class="material-icons">rounded_corner</i>Turf Cutter</button>
 
-  <md-radio-group [(ngModel)]="turfActionSelected">
-    <md-radio-button *ngFor="let action of turfActions" [value]="action.value" (change)="onTurfActionSelected($event.value)"><i class="material-icons">{{action.icon}}</i>{{action.value}} </md-radio-button>
+  <md-radio-group [(ngModel)]="turfActionSelected" >
+    <md-radio-button *ngFor="let action of turfActions" [value]="action.value" (change)="onTurfActionSelected($event.value)">{{action.value}} </md-radio-button>
   </md-radio-group>
-
-  <!--{{turfActionSelected}}-->
-
   <span class="example-spacer"></span>
   <button md-button (click)="onTurfActionDelete()"><i class="material-icons">delete</i> Turf</button>
-</md-toolbar>
+</md-toolbar>-->
 
 <!-- https://github.com/tobiasahlin/SpinKit -->
 <!--<div id="map" class="map" [center]="[data.coordX.value, data.coordY.value]" style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>map here</div>-->
-<!--<div id="map" class="map" style='padding: 0px;width: 100vw; height: calc(100% - 65px);overflow: none;'>map here</div>-->
-<!--<div id="map" class="map" style='padding: 0px;width: calc(100%); height: calc(100%);overflow: none;'></div>-->
 
-<div id="map" #mymap class="map" style='padding: 0px;width: 100%;height: 100%; overflow: none;'>
-  <div id="ol-popup" class="ol-popup">
-    <span id="ol-popup-closer" class="ol-popup-closer"></span>
-    <div id="ol-popup-content"></div>
+
+<div id="map" #mymap class="map" (window:resize)="onResizeMapWindow($event)" style="visibility: visible;">
+
+  <div class="ol-toolbox">
+    <div class="fab-stack"><button id="fab-zoomin" md-mini-fab><md-icon>add_circle_outline</md-icon></button></div>
+    <div class="fab-stack"><button id="fab-zoomout" md-mini-fab><md-icon>remove_circle_outline</md-icon></button></div>
+    <div class="fab-stack"><button id="fab-zoomout" md-mini-fab (click)="onTurfActionClick()"><md-icon>create</md-icon></button></div>
+    
+    <div *ngIf="showTurfActions" [@enterAnimationFab] class="ol-toolbox-fab">
+      <md-toolbar color="primary">
+        <md-checkbox [(ngModel)]="modifyTurfAction" (click)="onTurfActionModifyChecked()">Edit Turf</md-checkbox>
+        <!--<md-radio-group [(ngModel)]="turfActionSelected">
+          <md-radio-button *ngFor="let action of turfActions" [value]="action.value" (change)="onTurfActionSelected($event.value)">{{action.value}} </md-radio-button>
+        </md-radio-group>-->
+        <button md-button (click)="onTurfActionDelete()"><i class="material-icons">delete</i> Turf</button>
+        <!--{{turfActionSelected}}-->
+      </md-toolbar>
+     
   </div>
+</div>
+
+<div id="ol-popup" class="ol-popup">
+  <span id="ol-popup-closer" class="ol-popup-closer"></span>
+  <div id="ol-popup-content"></div>
 </div>
