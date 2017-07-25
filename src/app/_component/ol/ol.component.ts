@@ -80,7 +80,7 @@ export class OlComponent implements OnInit {
 
     onResizeMapWindow(event) {
         console.log("map width=" + event.target.innerWidth);
-        //mapGlobal.updateSize();
+        mapGlobal.updateSize();
     }
 
     onTurfActionClick() {
@@ -107,9 +107,10 @@ export class OlComponent implements OnInit {
 
     onTurfActionModifyChecked() {
 
-console.log('clicked onTurfActionModifyChecked()' + this.modifyTurfAction );
+        console.log('clicked onTurfActionModifyChecked()' + this.modifyTurfAction);
 
-
+        // For some reason the checkbox is inverted with screen, could be related to 
+        // material theme.
         if (!this.modifyTurfAction)
             this.addModifyInteraction();
         else
@@ -117,18 +118,14 @@ console.log('clicked onTurfActionModifyChecked()' + this.modifyTurfAction );
     }
 
     // onTurfActionSelected(selected: String) {
-
     //     // Issue below is up because the angular model is out-of-sync with the event.
     //     // https://github.com/angular/material2/issues/448
     //     console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected==' + selected);
-
     //     //this.olService.getTurfCutter(select_interaction, modify_interaction);
-
     //     if (selected == 'draw')
     //         this.addDrawInteraction();
     //     else
     //         this.addModifyInteraction();
-
     //     // if (selected == 'draw')
     //     //     this.olService.addDrawInteraction();
     //     // else

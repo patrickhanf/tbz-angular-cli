@@ -24,13 +24,13 @@
     <div class="fab-stack"><button id="fab-zoomout" md-mini-fab (click)="onTurfActionClick()"><md-icon>create</md-icon></button></div>
     
     <div *ngIf="showTurfActions" [@enterAnimationFab] class="ol-toolbox-fab">
-      <md-toolbar color="primary">
+      <md-toolbar color="primary" class="md-tall">
         <md-checkbox [(ngModel)]="modifyTurfAction" (click)="onTurfActionModifyChecked()">Edit Turf</md-checkbox>
         <!--<md-radio-group [(ngModel)]="turfActionSelected">
           <md-radio-button *ngFor="let action of turfActions" [value]="action.value" (change)="onTurfActionSelected($event.value)">{{action.value}} </md-radio-button>
         </md-radio-group>-->
-        <button md-button (click)="onTurfActionDelete()"><i class="material-icons">delete</i> Turf</button>
-        <!--{{turfActionSelected}}-->
+       <button md-button (click)="onTurfActionDelete()"><i class="material-icons">cloud_upload</i> Save Turf</button>
+       <button md-button (click)="onTurfActionDelete()"><i class="material-icons">delete</i> Delete</button>
       </md-toolbar>
      
   </div>
