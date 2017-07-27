@@ -11,5 +11,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 export class ConfirmationDialog {
   constructor(public dialogRef: MdDialogRef<ConfirmationDialog>) {}
 
+  public okbutton:boolean = false;
   public confirmMessage:string;
+  public confirmHeader:string = "Confirm";
 }

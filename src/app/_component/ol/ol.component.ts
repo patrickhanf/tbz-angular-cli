@@ -4,6 +4,9 @@ import { ConfirmationDialog } from '../confirm-dialog';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
 
+import { FeatureVM } from './ol.model.feature';
+import { Observable } from 'rxjs/Observable';
+
 
 
 var mapGlobal;
@@ -40,6 +43,11 @@ export class OlComponent implements OnInit {
     dialogRef: MdDialogRef<ConfirmationDialog>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
+  
+   // features: Observable<any>;
+    //features: FeatureVM[];
+    features: FeatureVM[];
+
     @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
 
     @Input() lnglat: [number, number];
@@ -56,6 +64,7 @@ export class OlComponent implements OnInit {
     constructor(private olService: OlService, public dialog: MdDialog) {
 
         this.ols = olService;
+        this.features = new Array<FeatureVM>();
     }
 
     ngOnInit() {
@@ -94,10 +103,12 @@ export class OlComponent implements OnInit {
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
 
-        if (this.showTurfActions)
+        if (this.showTurfActions) {
             this.addDrawInteraction();
-        else
-            this.removeDrawModifyInteraction();
+        }
+        else {
+            this.removeAllEditInteraction();
+        }
 
         // if (selected == 'draw')
         //     this.olService.addDrawInteraction();
@@ -132,10 +143,17 @@ export class OlComponent implements OnInit {
     //     //     this.olService.addModifyInteraction();
     // }
 
+    onTurfActionSaveSelected() {
+
+    this.saveTurfMap();
+
+    }
+
+
     onTurfActionDelete() {
         // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
         //this.olService.deleteTurfMap();
-        this.deleteTurfMap();
+        this.dialogDeleteTurfMap();
     }
 
     get(): any {
@@ -268,7 +286,8 @@ export class OlComponent implements OnInit {
                 source: new ol.source.Vector(),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.2)'
+                      //  color: 'rgba(255, 255, 255, 0.2)' // white
+                        color: 'rgba(51, 147, 255, 0.2)' // blue from #3393ff below
                     }),
                     stroke: new ol.style.Stroke({
                         color: '#3393ff', // #ffcc33',
@@ -308,8 +327,8 @@ export class OlComponent implements OnInit {
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                    // geoJsonSource, // Working add in during production
-                    // geoPngSource, // Working add in during production
+                     geoJsonSource, // Working add in during production
+                     geoPngSource, // Working add in during production
                     geoDrawSource, // Polygon drawing
 
                 ],
@@ -438,12 +457,30 @@ export class OlComponent implements OnInit {
     } // end placeMapFromComponent
  
 
-    removeDrawModifyInteraction()
+    removeAllEditInteraction()
     {
         // remove draw interaction
         mapGlobal.removeInteraction(draw_interaction);
         mapGlobal.removeInteraction(select_interaction);
         mapGlobal.removeInteraction(modify_interaction);
+
+        if (typeof draw_interaction != "undefined") {
+            //  alert("draw_interaction");
+            draw_interaction = null;
+        }
+
+        if (typeof select_interaction != "undefined") {
+            // alert("select_interaction");
+            select_interaction = null;
+        }
+
+        if (typeof modify_interaction != "undefined") {
+            // alert("modify_interaction");
+            modify_interaction = null;
+        }
+
+        this.modifyTurfAction = false;
+
     }
 
     // creates a draw interaction
@@ -458,11 +495,11 @@ export class OlComponent implements OnInit {
             // condition: ol.events.condition.singleClick,
             source: vectorGeoDraw.getSource(),
             type: 'Polygon',
-            freehand: true
+            freehand: false
         });
         // add it to the map
         mapGlobal.addInteraction(draw_interaction);
-        draw_interaction.on('drawstart', function (evt) {
+        draw_interaction.on('drawstart', function (event) {
             start_drawing = true;
             console.log('start_drawing==true');
         });
@@ -474,16 +511,19 @@ export class OlComponent implements OnInit {
             // let id = uid();
             // give the feature this id
             // event.feature.setId(id);
-
-            //console.log('id='+ id);
-            console.log(event.feature);
+            event.feature.setProperties({
+                'id': 1234,
+                'name': 'yourCustomName',
+                'more': 'work'
+            });
+            console.log(event.feature, event.feature.getProperties());
 
             // Enable double click zoom after drawing is complete
             // https://gis.stackexchange.com/questions/161930/problem-in-remove-interaction-after-draw-end-in-openlayers-3
             // ol.interaction.defaults({  doubleClickZoom :false });
 
             // save the changed data
-            //saveData(); 
+            //saveTurfMap(); 
         });
     }
 
@@ -503,8 +543,10 @@ export class OlComponent implements OnInit {
 
         //   // grab the features from the select interaction to use in the modify interaction
         let selected_features = select_interaction.getFeatures();
-        //   // when a feature is selected...
-        //   selected_features.on('add', function(event) {
+
+
+           // when a feature is selected...
+        //    selected_features.on('add', function(event) {
         //     // grab the feature
         //     let feature = event.element;
         //     // ...listen for changes and save them
@@ -547,29 +589,106 @@ export class OlComponent implements OnInit {
         mapGlobal.addInteraction(modify_interaction);
     }
 
-    // clears the map and the output of the data
-    deleteTurfMap() {
+    saveTurfMap() {
 
-        this.dialogRef = this.dialog.open(ConfirmationDialog, {
-            disableClose: false
+        var source = vectorGeoDraw.getSource();
+        if (source.getFeatures().length == 0) {
+            this.dialogRef = this.dialog.open(ConfirmationDialog, {
+                disableClose: false
+            });
+            this.dialogRef.componentInstance.okbutton = true;
+            this.dialogRef.componentInstance.confirmHeader = "No Turfs created";
+            this.dialogRef.componentInstance.confirmMessage = "Oh no, you haven't created any turfs to save.";
+              this.dialogRef = null;
+              return;
+        }
+
+       
+        // grab the features from the select interaction to use in the modify interaction
+        let source_features = source.getFeatures();
+       
+
+        console.log("Looping selected_features" + source_features);
+           
+        source_features.forEach(function (selected_feature) {
+            //let data_type = 'WKT';
+            // define a format the data shall be converted to
+            //let writer = new ol.format[data_type]();
+            let writer = new ol.format.GeoJSON();
+            // this will be the data in the chosen format
+            let data;
+            data = writer.writeFeature(selected_feature, {
+                decimals: 6,
+                rightHanded: false,  // false will ALWAYS right the polygon Clockwise
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
+
+            let val = '' + data;
+            console.log(val);
+
+            let geojson_format = new ol.format.GeoJSON();
+            let rightHandedFeatures = geojson_format.readFeature(val, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+            let wkt = new ol.format.WKT();
+            let poly = wkt.writeFeature(rightHandedFeatures, { 
+                decimals: 6,
+                rightHanded: false,  // false will ALWAYS right the polygon Clockwise
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
+            console.log("CCW WKT== rightHanded: false");
+            console.log(poly);
+            let featureAttribute =  rightHandedFeatures.getProperties();
+              
+           // let f = new FeatureVM( featureAttribute.id, featureAttribute.name, poly ); //JSON.stringify(out, null, 4)
+           // console.log(f);
+           // this.features.push( f );
         });
-        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
-
-        this.dialogRef.afterClosed().subscribe(result => {
-
-            if (result) {
-                // do confirmation actions
-                vectorGeoDraw.getSource().clear();
-                if (select_interaction) {
-                    select_interaction.getFeatures().clear();
-                }
-                // $('#data').val('');
-            }
-            this.dialogRef = null;
-        });
 
 
+    
+        console.log(this.features);
+        this.saveDataAPI();
 
     }
+
+    // shows data in textarea
+    // replace this function by what you need
+    // Source: https://codepen.io/barbalex/pen/fBpyb
+    saveDataAPI() {
+
+        // if (data_type === 'GeoJSON') {
+        //     // format is JSON
+        //     //console.log ( JSON.stringify(data, null, 4) );
+        //     console.log(data);
+        // } else {
+        //     // format is XML (GPX or KML)
+        //     // let serializer = new XMLSerializer();
+        //     console.log(data);
+        //     //  console.log ( new XMLSerializer().serializeToString(data) );
+        // }
+    }
+
+// clears the map and the output of the data
+dialogDeleteTurfMap() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialog, {
+        disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";
+
+    this.dialogRef.afterClosed().subscribe(result => {
+
+        if (result) {
+            // do confirmation actions
+            vectorGeoDraw.getSource().clear();
+            if (select_interaction) {
+                select_interaction.getFeatures().clear();
+            }
+            // $('#data').val('');
+        }
+        this.dialogRef = null;
+    });
+}
 
 } // end file
