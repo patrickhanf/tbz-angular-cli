@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef ,trigger, transition, style, animate} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, trigger, transition, style, animate } from '@angular/core';
 import { OlService } from './ol.service';
 import { ConfirmationDialog } from '../confirm-dialog';
 import { MdDialog, MdDialogRef } from '@angular/material';
@@ -19,34 +19,37 @@ var select_interaction, draw_interaction, modify_interaction;
 @Component({
     selector: 'app-map',
     animations: [
-    trigger(
-      'enterAnimationFab', [
-        transition(':enter', [
-          style({ opacity: 0}),
-          animate('300ms', style({ opacity: 1}))
-        ]),
-        transition(':leave', [
-          style({ opacity: 1}),
-          animate('300ms', style({ opacity: 0}))
-        ])
-      ]
-    )
-  ],
+        trigger(
+            'enterAnimationFab', [
+                transition(':enter', [
+                    style({ opacity: 0 }),
+                    animate('300ms', style({ opacity: 1 }))
+                ]),
+                transition(':leave', [
+                    style({ opacity: 1 }),
+                    animate('300ms', style({ opacity: 0 }))
+                ])
+            ]
+        )
+    ],
     templateUrl: './ol.component.html',
     styleUrls: ['./ol.component.css'],
     providers: [OlService] // http://developer.telerik.com/topics/web-development/creating-angular-2-injectable-service/
 })
 export class OlComponent implements OnInit {
 
-    showTurfActions:boolean = false;
-    modifyTurfAction:boolean = false;
+    showTurfActions: boolean = false;
+    modifyTurfAction: boolean = false;
     dialogRef: MdDialogRef<ConfirmationDialog>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
-  
-   // features: Observable<any>;
+
+    // features: Observable<any>;
     //features: FeatureVM[];
-    features: FeatureVM[];
+
+    // features: FeatureVM[]=[ { featureId: 1, name: '', polygon: ''  }]; // See line 572 for code
+    features: FeatureVM[] = []; // See line 572 for code
+    //features: any[]; // See line 572 for code
 
     @ViewChild('mymap') refMap: ElementRef; // this will get the element within ol.component.html
 
@@ -64,7 +67,7 @@ export class OlComponent implements OnInit {
     constructor(private olService: OlService, public dialog: MdDialog) {
 
         this.ols = olService;
-        this.features = new Array<FeatureVM>();
+        //  this.features = [];
     }
 
     ngOnInit() {
@@ -96,10 +99,10 @@ export class OlComponent implements OnInit {
 
         // First Toggle window
         this.showTurfActions = !this.showTurfActions;
-         
+
         // Issue below is up because the angular model is out-of-sync with the event.
         // https://github.com/angular/material2/issues/448
-        console.log('clicked onTurfActionClick()' + this.showTurfActions );
+        console.log('clicked onTurfActionClick()' + this.showTurfActions);
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
 
@@ -145,7 +148,7 @@ export class OlComponent implements OnInit {
 
     onTurfActionSaveSelected() {
 
-    this.saveTurfMap();
+        this.saveTurfMap();
 
     }
 
@@ -286,7 +289,7 @@ export class OlComponent implements OnInit {
                 source: new ol.source.Vector(),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                      //  color: 'rgba(255, 255, 255, 0.2)' // white
+                        //  color: 'rgba(255, 255, 255, 0.2)' // white
                         color: 'rgba(51, 147, 255, 0.2)' // blue from #3393ff below
                     }),
                     stroke: new ol.style.Stroke({
@@ -327,8 +330,8 @@ export class OlComponent implements OnInit {
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                     geoJsonSource, // Working add in during production
-                     geoPngSource, // Working add in during production
+                    geoJsonSource, // Working add in during production
+                    geoPngSource, // Working add in during production
                     geoDrawSource, // Polygon drawing
 
                 ],
@@ -455,10 +458,9 @@ export class OlComponent implements OnInit {
 
         }); // end promise
     } // end placeMapFromComponent
- 
 
-    removeAllEditInteraction()
-    {
+
+    removeAllEditInteraction() {
         // remove draw interaction
         mapGlobal.removeInteraction(draw_interaction);
         mapGlobal.removeInteraction(select_interaction);
@@ -489,7 +491,7 @@ export class OlComponent implements OnInit {
         // remove other interactions
         mapGlobal.removeInteraction(select_interaction);
         mapGlobal.removeInteraction(modify_interaction);
-        let start_drawing = false;
+
         // create the interaction
         draw_interaction = new ol.interaction.Draw({
             // condition: ol.events.condition.singleClick,
@@ -500,22 +502,46 @@ export class OlComponent implements OnInit {
         // add it to the map
         mapGlobal.addInteraction(draw_interaction);
         draw_interaction.on('drawstart', function (event) {
-            start_drawing = true;
             console.log('start_drawing==true');
         });
         // when a new feature has been drawn...
+        let mydailog = this.dialog;
         draw_interaction.on('drawend', function (event) {
-            start_drawing = false;
+
+
+            this.dialogRef = mydailog.open(ConfirmationDialog, { disableClose: true  });
+            //this.dialogRef.componentInstance.okbutton = true;
+            this.dialogRef.componentInstance.confirmHeader = "Name New Turf";
+            this.dialogRef.componentInstance.confirmMessage = "Great let's name your turf";
+
+            this.dialogRef.afterClosed().subscribe(result => {
+
+                if (result) {
+                    // Save features  properties from dialog
+                    event.feature.setProperties({
+                        'id': 1234,
+                        'name': 'yourCustomName',
+                        'more': 'work'
+                        
+                    }, this);
+                }
+                else {
+                   // .clear();
+                   //  vectorGeoDraw.removeFeature( .getSource().clear();
+                   // event.feature
+                   // this.vectorGeoDraw.removeFeature(event.feature);
+                   // draw_interaction.fea .source.feature.remove();
+                   // event.feature.remove();
+                }
+                this.dialogRef = null;
+            });
+
             // create a unique id
             // it is later needed to delete features
             // let id = uid();
             // give the feature this id
             // event.feature.setId(id);
-            event.feature.setProperties({
-                'id': 1234,
-                'name': 'yourCustomName',
-                'more': 'work'
-            });
+           
             console.log(event.feature, event.feature.getProperties());
 
             // Enable double click zoom after drawing is complete
@@ -524,6 +550,8 @@ export class OlComponent implements OnInit {
 
             // save the changed data
             //saveTurfMap(); 
+            this.dialogRef = null;
+            return;
         });
     }
 
@@ -544,38 +572,8 @@ export class OlComponent implements OnInit {
         //   // grab the features from the select interaction to use in the modify interaction
         let selected_features = select_interaction.getFeatures();
 
+        //source_feature.getId();
 
-           // when a feature is selected...
-        //    selected_features.on('add', function(event) {
-        //     // grab the feature
-        //     let feature = event.element;
-        //     // ...listen for changes and save them
-        //     feature.on('change', saveData);
-        //     // listen to pressing of delete key, then delete selected features
-        //     $(document).on('keyup', function(event) {
-        //       if (event.keyCode == 46) {
-        //         // remove all selected features from select_interaction and draw_vectorlayer
-        //         selected_features.forEach(function(selected_feature) {
-        //           let selected_feature_id = selected_feature.getId();
-        //           // remove from select_interaction
-        //           selected_features.remove(selected_feature);
-        //           // features aus vectorlayer entfernen
-        //           let vectorlayer_features = vector_layer.getSource().getFeatures();
-        //           vectorlayer_features.forEach(function(source_feature) {
-        //             let source_feature_id = source_feature.getId();
-        //             if (source_feature_id === selected_feature_id) {
-        //               // remove from draw_vectorlayer
-        //               vector_layer.getSource().removeFeature(source_feature);
-        //               // save the changed data
-        //               saveData();
-        //             }
-        //           });
-        //         });
-        //         // remove listener
-        //         $(document).off('keyup');
-        //       }
-        //     });
-        //   });
         // create the modify interaction
         modify_interaction = new ol.interaction.Modify({
             features: selected_features,
@@ -599,38 +597,34 @@ export class OlComponent implements OnInit {
             this.dialogRef.componentInstance.okbutton = true;
             this.dialogRef.componentInstance.confirmHeader = "No Turfs created";
             this.dialogRef.componentInstance.confirmMessage = "Oh no, you haven't created any turfs to save.";
-              this.dialogRef = null;
-              return;
+            this.dialogRef = null;
+            return;
         }
 
-       
+        
+
         // grab the features from the select interaction to use in the modify interaction
         let source_features = source.getFeatures();
-       
+
 
         console.log("Looping selected_features" + source_features);
-           
+
+        
+        this.features = []; // clear the last list before saving 
+
         source_features.forEach(function (selected_feature) {
-            //let data_type = 'WKT';
-            // define a format the data shall be converted to
-            //let writer = new ol.format[data_type]();
-            let writer = new ol.format.GeoJSON();
-            // this will be the data in the chosen format
-            let data;
-            data = writer.writeFeature(selected_feature, {
+
+            let GeoJSONData;
+            GeoJSONData = new ol.format.GeoJSON().writeFeature(selected_feature, {
                 decimals: 6,
                 rightHanded: false,  // false will ALWAYS right the polygon Clockwise
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             });
-
-            let val = '' + data;
-            console.log(val);
-
-            let geojson_format = new ol.format.GeoJSON();
-            let rightHandedFeatures = geojson_format.readFeature(val, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
-            let wkt = new ol.format.WKT();
-            let poly = wkt.writeFeature(rightHandedFeatures, { 
+            
+            let rightHandedFeatures = new ol.format.GeoJSON().readFeature(GeoJSONData, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+            
+            let poly = new ol.format.WKT().writeFeature(rightHandedFeatures, {
                 decimals: 6,
                 rightHanded: false,  // false will ALWAYS right the polygon Clockwise
                 dataProjection: 'EPSG:4326',
@@ -638,15 +632,15 @@ export class OlComponent implements OnInit {
             });
             console.log("CCW WKT== rightHanded: false");
             console.log(poly);
-            let featureAttribute =  rightHandedFeatures.getProperties();
-              
-           // let f = new FeatureVM( featureAttribute.id, featureAttribute.name, poly ); //JSON.stringify(out, null, 4)
-           // console.log(f);
-           // this.features.push( f );
-        });
+            let featureAttribute = rightHandedFeatures.getProperties();
 
+            let f = new FeatureVM(featureAttribute.id, featureAttribute.name, poly); //JSON.stringify(out, null, 4)
 
-    
+            // https://docs.angularjs.org/api/ng/function/angular.forEach
+            // https://stackoverflow.com/questions/15013016/variable-is-not-accessible-in-angular-foreach
+            this.features.push(f);
+        }, this); // need to pass features into foreach, you could pass just 'this.features' or 'this'
+
         console.log(this.features);
         this.saveDataAPI();
 
@@ -657,38 +651,28 @@ export class OlComponent implements OnInit {
     // Source: https://codepen.io/barbalex/pen/fBpyb
     saveDataAPI() {
 
-        // if (data_type === 'GeoJSON') {
-        //     // format is JSON
-        //     //console.log ( JSON.stringify(data, null, 4) );
-        //     console.log(data);
-        // } else {
-        //     // format is XML (GPX or KML)
-        //     // let serializer = new XMLSerializer();
-        //     console.log(data);
-        //     //  console.log ( new XMLSerializer().serializeToString(data) );
-        // }
     }
 
-// clears the map and the output of the data
-dialogDeleteTurfMap() {
+    // clears the map and the output of the data
+    dialogDeleteTurfMap() {
 
-    this.dialogRef = this.dialog.open(ConfirmationDialog, {
-        disableClose: false
-    });
-    this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";
+        this.dialogRef = this.dialog.open(ConfirmationDialog, {
+            disableClose: false
+        });
+        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";
 
-    this.dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.afterClosed().subscribe(result => {
 
-        if (result) {
-            // do confirmation actions
-            vectorGeoDraw.getSource().clear();
-            if (select_interaction) {
-                select_interaction.getFeatures().clear();
+            if (result) {
+                // do confirmation actions
+                vectorGeoDraw.getSource().clear();
+                if (select_interaction) {
+                    select_interaction.getFeatures().clear();
+                }
+                // $('#data').val('');
             }
-            // $('#data').val('');
-        }
-        this.dialogRef = null;
-    });
-}
+            this.dialogRef = null;
+        });
+    }
 
-} // end file
+} // end export class

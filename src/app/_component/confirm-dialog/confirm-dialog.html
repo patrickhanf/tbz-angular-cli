@@ -1,7 +1,10 @@
-<h1 md-dialog-title>{{confirmHeader}}</h1>
-<div md-dialog-content>{{confirmMessage}}</div>
-<div md-dialog-actions>
-  <button md-button *ngIf="okbutton" (click)="dialogRef.close(true)">Ok</button>
-  <button md-button *ngIf="!okbutton" color="warn" (click)="dialogRef.close(true)">Confirm</button>
-  <button md-button *ngIf="!okbutton" (click)="dialogRef.close(false)">Cancel</button>
+<div md-dialog>
+  <h1 md-dialog-title class="primary-color">{{confirmHeader}}</h1>
+  hello
+  <div md-dialog-content class="accent-color">{{confirmMessage}}</div>
+  <div md-dialog-actions align="end">
+    <button md-button *ngIf="okbutton" color="warn" (click)="dialogRef.close(true)">Ok</button>
+    <button md-button *ngIf="!okbutton" color="warn" (click)="dialogRef.close(true)">Confirm</button>
+    <button md-button *ngIf="!okbutton" (click)="dialogRef.close(false)">Cancel</button>
+  </div>
 </div>

@@ -7,6 +7,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 @Component({
   selector: 'confirm-dialog',
   templateUrl: 'confirm-dialog.html',
+  styles: []
 })
 export class ConfirmationDialog {
   constructor(public dialogRef: MdDialogRef<ConfirmationDialog>) {}
