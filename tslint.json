@@ -46,7 +46,7 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": true,
+    "no-inferrable-types": false, /* changed false 8-1-17 https://github.com/palantir/tslint/issues/1653 */
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,

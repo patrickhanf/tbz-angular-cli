@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ConfirmationDialog } from '../confirm-dialog';
+import { DialogConfirmation } from '../dialogs';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
 
@@ -22,7 +22,7 @@ var select_interaction, draw_interaction, modify_interaction;
 @Injectable()
 export class OlService {
 
-    dialogRef: MdDialogRef<ConfirmationDialog>;
+    dialogRef: MdDialogRef<DialogConfirmation>;
 
     private _map;
     private _vectorSource;

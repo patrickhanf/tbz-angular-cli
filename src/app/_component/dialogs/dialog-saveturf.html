@@ -1,0 +1,16 @@
+<div md-dialog>
+  <h1 md-dialog-title class="primary-color">Turf Details</h1>
+
+  <div md-dialog-content class="accent-color">
+
+    <md-input-container>
+      <input mdInput placeholder="Turf Name" value="">
+    </md-input-container>
+
+  </div>
+  <div md-dialog-actions align="end">
+
+    <button md-button color="warn" (click)="dialogRef.close(true)">Confirm</button>
+    <button md-button (click)="dialogRef.close(false)">Cancel</button>
+  </div>
+</div>

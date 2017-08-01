@@ -6,7 +6,6 @@
 // @import '~@angular/material/core/theming/all-theme';
 
 
-
 @import '~@angular/material/theming';
 
 // Plus imports for other components in your app.
@@ -15,12 +14,13 @@
 // have to load a single css file for Angular Material in your app.
 @include mat-core();
 
+
 // Background palette for dark themes.
 // Override background for dark-theme, see material2 source link:
 // https://github.com/angular/material2/blob/master/src/lib/core/theming/_palette.scss
 // 
 $mat-dark-theme-background: (
-  status-bar: black,
+  status-bar: white,
   app-bar:    map_get($mat-grey, 900),
   background: rgba(black, 0.05),  // override dark theme background 6-27-17 - Org: background: #303030
   hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
@@ -32,8 +32,10 @@ $mat-dark-theme-background: (
   selected-button: map_get($mat-grey, 900),
   selected-disabled-button: map_get($mat-grey, 800),
   disabled-button-toggle: map_get($mat-grey, 1000),
+  slider-off:        rgba(white, 0.3),
+  slider-off-active: rgba(white, 0.3),
+  
 );
-
 
 // http://mcg.mbitson.com/#!?mcgpalette0=%236aa84f
 $md-trailblzgreen: (
@@ -42,13 +44,13 @@ $md-trailblzgreen: (
     200 : #a6db90,
     300 : #82cc63,
     400 : #67c141,
-    500 : #4cb620,
+    500 : #4cb620, // this is the toolbar background color=primary
     600 : #45af1c,
     700 : #3ca618,
     800 : #339e13,
     900 : #248e0b,
     A100 : #c7ffbe,
-    A200 : #F2F2F2, //#9bff8b, /* This is the color=accent toolbar */
+    A200 : #F2F2F2, // /* This is the color=accent toolbar */
     A400 : #70ff58,
     A700 : #5aff3e,
     contrast: (
@@ -70,14 +72,15 @@ $md-trailblzgreen: (
 );
 
 
+
 // Define an alternate dark theme. See: https://material.angular.io/guide/theming
 $green-primary: mat-palette($md-trailblzgreen);
 $green-accent:  mat-palette($md-trailblzgreen, A200, A100, A400); // from contrast above
+
 $green-warn:    mat-palette($mat-red);
 
 $dark-theme:   mat-dark-theme($green-primary, $green-accent, $green-warn); // <= theme name
 $light-theme:  mat-light-theme($green-primary, $green-accent, $green-warn); // <= theme name
-
 
 
 // @include angular-material-theme($green-theme);
@@ -102,10 +105,24 @@ $light-theme:  mat-light-theme($green-primary, $green-accent, $green-warn); // <
 @include mat-radio-theme($light-theme);
 @include mat-select-theme($light-theme);
 @include mat-sidenav-theme($dark-theme); /* this changes the background of the app dark, not just sidenav */
-@include mat-slide-toggle-theme($light-theme);
+@include mat-slide-toggle-theme($light-theme); 
 @include mat-slider-theme($light-theme);
 @include mat-tabs-theme($light-theme);
 @include mat-toolbar-theme($light-theme);
 @include mat-tooltip-theme($light-theme);
 
 
+// https://github.com/AngularClass/angular-starter/wiki/How-to-include-Material
+
+// https://github.com/AngularClass/angular-starter/wiki/How-to-include-Material
+body {
+    font-family: Roboto, 'Helvetica Neue', sans-serif; // Helps fonts on OSX looks more consistent with other systems
+    // Isn't currently in button styles due to performance concerns
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    h1 {
+        font-size: 20px;
+    }
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, trigger, transition, style, animate } from '@angular/core';
 import { OlService } from './ol.service';
-import { ConfirmationDialog } from '../confirm-dialog';
+import { DialogConfirmation, DialogSaveTurf} from '../dialogs';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
 
@@ -9,12 +9,12 @@ import { Observable } from 'rxjs/Observable';
 
 
 
-var mapGlobal;
-var vectorGeoJson;
-var vectorGeoPng;
-var vectorGeoDraw;
+let mapGlobal;
+let vectorGeoJson;
+let vectorGeoPng;
+let vectorGeoDraw;
 // make interactions global so they can later be removed
-var select_interaction, draw_interaction, modify_interaction;
+let select_interaction, draw_interaction, modify_interaction;
 
 @Component({
     selector: 'app-map',
@@ -40,7 +40,8 @@ export class OlComponent implements OnInit {
 
     showTurfActions: boolean = false;
     modifyTurfAction: boolean = false;
-    dialogRef: MdDialogRef<ConfirmationDialog>;
+    dialogRef: MdDialogRef<DialogConfirmation>;
+    dialogRefSaveTurf: MdDialogRef<any>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
 
@@ -71,27 +72,27 @@ export class OlComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("ol.component.ngOnInit()");
+        console.log('ol.component.ngOnInit()');
     }
 
     ngAfterContentInit() {
 
         //  console.log('map#id=='+this.refMap.nativeElement.id);
-        //  console.log("ol.component.ngAfterContentInit().placeMapFromComponent 1" + this.refMap.nativeElement);
+        //  console.log('ol.component.ngAfterContentInit().placeMapFromComponent 1' + this.refMap.nativeElement);
         this.placeMapFromComponent();
         //this.map = this.createMap();
         //this.map.setTarget('premap');
         // this.map.setTarget(this.refMap.nativeElement);
         //this.map.invalidateSize();
         //setTimeout( function() { }, 200);
-        console.log("ol.component.ngAfterContentInit().placeMapFromComponent 2");
+        console.log('ol.component.ngAfterContentInit().placeMapFromComponent 2');
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
         //         alert("Map loaded by promise!");
         //     });
     }
 
     onResizeMapWindow(event) {
-        console.log("map width=" + event.target.innerWidth);
+        console.log('map width=' + event.target.innerWidth);
         mapGlobal.updateSize();
     }
 
@@ -189,7 +190,7 @@ export class OlComponent implements OnInit {
             this.lnglat = [-93.49401, 45.08203];
             this.zoom = 10;
 
-            var vectorStyle = new ol.style.Style({
+            let vectorStyle = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 4,
                     fill: new ol.style.Fill({
@@ -202,7 +203,7 @@ export class OlComponent implements OnInit {
                 })
             });
 
-            var customStyleFunction = function (feature, resolution) {
+            let customStyleFunction = function (feature, resolution) {
                 //debug  console.log('resolution='+resolution);
 
                 let strokecolor;
@@ -466,17 +467,17 @@ export class OlComponent implements OnInit {
         mapGlobal.removeInteraction(select_interaction);
         mapGlobal.removeInteraction(modify_interaction);
 
-        if (typeof draw_interaction != "undefined") {
+        if (typeof draw_interaction !== "undefined") {
             //  alert("draw_interaction");
             draw_interaction = null;
         }
 
-        if (typeof select_interaction != "undefined") {
+        if (typeof select_interaction !== "undefined") {
             // alert("select_interaction");
             select_interaction = null;
         }
 
-        if (typeof modify_interaction != "undefined") {
+        if (typeof modify_interaction !== "undefined") {
             // alert("modify_interaction");
             modify_interaction = null;
         }
@@ -509,12 +510,8 @@ export class OlComponent implements OnInit {
         draw_interaction.on('drawend', function (event) {
 
 
-            this.dialogRef = mydailog.open(ConfirmationDialog, { disableClose: true  });
-            //this.dialogRef.componentInstance.okbutton = true;
-            this.dialogRef.componentInstance.confirmHeader = "Name New Turf";
-            this.dialogRef.componentInstance.confirmMessage = "Great let's name your turf";
-
-            this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRefSaveTurf = mydailog.open(DialogSaveTurf, { disableClose: false  })
+            this.dialogRefSaveTurf.afterClosed().subscribe(result => {
 
                 if (result) {
                     // Save features  properties from dialog
@@ -533,7 +530,7 @@ export class OlComponent implements OnInit {
                    // draw_interaction.fea .source.feature.remove();
                    // event.feature.remove();
                 }
-                this.dialogRef = null;
+                this.dialogRefSaveTurf = null;
             });
 
             // create a unique id
@@ -589,9 +586,9 @@ export class OlComponent implements OnInit {
 
     saveTurfMap() {
 
-        var source = vectorGeoDraw.getSource();
-        if (source.getFeatures().length == 0) {
-            this.dialogRef = this.dialog.open(ConfirmationDialog, {
+        let source = vectorGeoDraw.getSource();
+        if (source.getFeatures().length === 0) {
+            this.dialogRef = this.dialog.open(DialogConfirmation, {
                 disableClose: false
             });
             this.dialogRef.componentInstance.okbutton = true;
@@ -600,8 +597,6 @@ export class OlComponent implements OnInit {
             this.dialogRef = null;
             return;
         }
-
-        
 
         // grab the features from the select interaction to use in the modify interaction
         let source_features = source.getFeatures();
@@ -656,7 +651,7 @@ export class OlComponent implements OnInit {
     // clears the map and the output of the data
     dialogDeleteTurfMap() {
 
-        this.dialogRef = this.dialog.open(ConfirmationDialog, {
+        this.dialogRef = this.dialog.open(DialogConfirmation, {
             disableClose: false
         });
         this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";

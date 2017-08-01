@@ -27,7 +27,7 @@ import { SearchComponent } from './_component/search/search.component';
 
 import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
-import { ConfirmationDialog } from './_component/confirm-dialog';
+import { DialogConfirmation, DialogSaveTurf } from './_component/dialogs';
 
 import { OlComponent } from './_component/ol/ol.component';
 import { OlService } from './_component/ol/ol.service'; // global
@@ -47,7 +47,7 @@ import { OlService } from './_component/ol/ol.service'; // global
   ],
   declarations: [
     AppComponent,
-    ConfirmationDialog,
+    DialogConfirmation,  DialogSaveTurf,
     TitleComponent,
     OlComponent,
     GeomapComponent,
@@ -62,7 +62,7 @@ import { OlService } from './_component/ol/ol.service'; // global
   ],
   providers: [OlService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialog] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
+  entryComponents: [DialogConfirmation, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
