@@ -1,16 +1,21 @@
-<div md-dialog>
-  <h1 md-dialog-title class="primary-color">Turf Details</h1>
 
-  <div md-dialog-content class="accent-color">
+
+<form novalidate [formGroup]="myForm" (submit)="save()">
+<h1 md-dialog-title>Turf Details</h1>
+
+  <div md-dialog-content>
 
     <md-input-container>
-      <input mdInput placeholder="Turf Name" value="">
+      <input mdInput placeholder="Turf Name" [(ngModel)]="turf" value="" required formControlName="turf">
+      <md-error>This field is required</md-error>
+      
+      
     </md-input-container>
 
   </div>
   <div md-dialog-actions align="end">
 
-    <button md-button color="warn" (click)="dialogRef.close(true)">Confirm</button>
-    <button md-button (click)="dialogRef.close(false)">Cancel</button>
+    <button md-button color="primary" type="submit" >Confirm</button>
+    <button md-button (click)="dialogRef.close()" type="button">Cancel</button>
   </div>
-</div>
+

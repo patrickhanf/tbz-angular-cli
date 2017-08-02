@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, trigger, transition, style, animate } from '@angular/core';
 import { OlService } from './ol.service';
-import { DialogConfirmation, DialogSaveTurf} from '../dialogs';
+import { DialogSaveTurf} from '../dialogs';
+import {DialogsService} from '../dialogs/dialogs.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import * as ol from 'openlayers';
 
@@ -40,8 +41,9 @@ export class OlComponent implements OnInit {
 
     showTurfActions: boolean = false;
     modifyTurfAction: boolean = false;
-    dialogRef: MdDialogRef<DialogConfirmation>;
-    dialogRefSaveTurf: MdDialogRef<any>;
+    modifyTurfActionLabel: string = 'Edit';
+   // dialogRef: MdDialogRef<DialogConfirm>;
+  //  dialogRefSaveTurf: MdDialogRef<any>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
 
 
@@ -60,14 +62,15 @@ export class OlComponent implements OnInit {
     map: any;
     //private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
 
-    turfActionSelected: string = 'draw';
+    
     turfActions = [{ value: 'draw', icon: 'rounded_corner' }, { value: 'modify', icon: '' }];
 
     public ols;
 
-    constructor(private olService: OlService, public dialog: MdDialog) {
+    constructor(private olService: OlService, public dialog: MdDialog, private dialogsService: DialogsService) {
 
         this.ols = olService;
+        this.modifyTurfActionLabel = 'Edit';
         //  this.features = [];
     }
 
@@ -106,6 +109,7 @@ export class OlComponent implements OnInit {
         console.log('clicked onTurfActionClick()' + this.showTurfActions);
 
         //this.olService.getTurfCutter(select_interaction, modify_interaction);
+        
 
         if (this.showTurfActions) {
             this.addDrawInteraction();
@@ -126,26 +130,13 @@ export class OlComponent implements OnInit {
 
         // For some reason the checkbox is inverted with screen, could be related to 
         // material theme.
-        if (!this.modifyTurfAction)
+        if (!this.modifyTurfAction) {
             this.addModifyInteraction();
-        else
+        }
+        else {
             this.addDrawInteraction();
+        }
     }
-
-    // onTurfActionSelected(selected: String) {
-    //     // Issue below is up because the angular model is out-of-sync with the event.
-    //     // https://github.com/angular/material2/issues/448
-    //     console.log('clicked onTurfActionSelected()' + this.turfActionSelected + ' selected==' + selected);
-    //     //this.olService.getTurfCutter(select_interaction, modify_interaction);
-    //     if (selected == 'draw')
-    //         this.addDrawInteraction();
-    //     else
-    //         this.addModifyInteraction();
-    //     // if (selected == 'draw')
-    //     //     this.olService.addDrawInteraction();
-    //     // else
-    //     //     this.olService.addModifyInteraction();
-    // }
 
     onTurfActionSaveSelected() {
 
@@ -510,23 +501,23 @@ export class OlComponent implements OnInit {
         draw_interaction.on('drawend', function (event) {
 
 
-            this.dialogRefSaveTurf = mydailog.open(DialogSaveTurf, { disableClose: false  })
+            this.dialogRefSaveTurf = mydailog.open(DialogSaveTurf, { disableClose: true  });
+            
             this.dialogRefSaveTurf.afterClosed().subscribe(result => {
 
-                if (result) {
+            console.log(result);
+
+                if (result !== '') {
                     // Save features  properties from dialog
                     event.feature.setProperties({
                         'id': 1234,
-                        'name': 'yourCustomName',
-                        'more': 'work'
-                        
+                        'name': result,
                     }, this);
                 }
                 else {
-                   // .clear();
-                   //  vectorGeoDraw.removeFeature( .getSource().clear();
-                   // event.feature
-                   // this.vectorGeoDraw.removeFeature(event.feature);
+                   // https://stackoverflow.com/questions/45441471/openlayers-3-remove-drawn-feature
+//                   let deletefeature = vectorGeoDraw.getFeatures();
+  //                  this.vectorGeoDraw.removeFeature(this.vectorGeoDraw.features[deletefeature.length-1]);
                    // draw_interaction.fea .source.feature.remove();
                    // event.feature.remove();
                 }
@@ -588,23 +579,15 @@ export class OlComponent implements OnInit {
 
         let source = vectorGeoDraw.getSource();
         if (source.getFeatures().length === 0) {
-            this.dialogRef = this.dialog.open(DialogConfirmation, {
-                disableClose: false
-            });
-            this.dialogRef.componentInstance.okbutton = true;
-            this.dialogRef.componentInstance.confirmHeader = "No Turfs created";
-            this.dialogRef.componentInstance.confirmMessage = "Oh no, you haven't created any turfs to save.";
-            this.dialogRef = null;
-            return;
+            this.dialogsService.ok("No Turfs Created", "Oh no, you haven't created any turfs to save.").subscribe(result => { return; });
         }
-
         // grab the features from the select interaction to use in the modify interaction
         let source_features = source.getFeatures();
 
 
         console.log("Looping selected_features" + source_features);
 
-        
+
         this.features = []; // clear the last list before saving 
 
         source_features.forEach(function (selected_feature) {
@@ -616,9 +599,9 @@ export class OlComponent implements OnInit {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             });
-            
+
             let rightHandedFeatures = new ol.format.GeoJSON().readFeature(GeoJSONData, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
-            
+
             let poly = new ol.format.WKT().writeFeature(rightHandedFeatures, {
                 decimals: 6,
                 rightHanded: false,  // false will ALWAYS right the polygon Clockwise
@@ -651,12 +634,7 @@ export class OlComponent implements OnInit {
     // clears the map and the output of the data
     dialogDeleteTurfMap() {
 
-        this.dialogRef = this.dialog.open(DialogConfirmation, {
-            disableClose: false
-        });
-        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";
-
-        this.dialogRef.afterClosed().subscribe(result => {
+        this.dialogsService.confirm("Delete Turfs", "Are you sure you want to delete all turf(s)?").subscribe(result => {
 
             if (result) {
                 // do confirmation actions
@@ -664,10 +642,10 @@ export class OlComponent implements OnInit {
                 if (select_interaction) {
                     select_interaction.getFeatures().clear();
                 }
-                // $('#data').val('');
             }
-            this.dialogRef = null;
+
         });
+
     }
 
 } // end export class

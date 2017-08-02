@@ -3,6 +3,8 @@
 //
 import { Component, Input } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dialog-saveturf',
@@ -10,9 +12,30 @@ import { MdDialog, MdDialogRef } from '@angular/material';
   styles: []
 })
 export class DialogSaveTurf {
-  public turfName: string;
-  constructor(public dialogRef: MdDialogRef<DialogSaveTurf>) {
+  //  disableClose: false
+  public myForm: FormGroup;
+  public turf: string;
+  public submitted: boolean; // keep track on whether form is submitted
+  constructor(public dialogRef: MdDialogRef<DialogSaveTurf>, private formbuilder: FormBuilder) {
 
   }
+  ngOnInit() {
 
+    // the short way
+    this.myForm = this.formbuilder.group({
+      turf: ['test', [<any>Validators.required, <any>Validators.minLength(5)]]
+    });
+
+  }
+  save() {
+    
+    if (!this.myForm.valid)
+      return;
+
+    // console.log('name=' + this.turf + ' valid?' + this.myForm.valid);
+
+    this.submitted = true; // set form submit to true
+
+    this.dialogRef.close(this.turf);
+  }
 }

@@ -26,9 +26,7 @@
     <div *ngIf="showTurfActions" [@enterAnimationFab] class="ol-toolbox-fab">
       <md-toolbar color="primary" class="md-tall">
         <md-slide-toggle [(ngModel)]="modifyTurfAction" (click)="onTurfActionModifyChecked()">Edit Turf</md-slide-toggle> 
-        <!--<md-radio-group [(ngModel)]="turfActionSelected">
-          <md-radio-button *ngFor="let action of turfActions" [value]="action.value" (change)="onTurfActionSelected($event.value)">{{action.value}} </md-radio-button>
-        </md-radio-group>-->
+
         
        <button md-button (click)="onTurfActionSaveSelected()"><i class="material-icons">cloud_upload</i> Save Turf</button> 
        <span class="example-spacer"></span>

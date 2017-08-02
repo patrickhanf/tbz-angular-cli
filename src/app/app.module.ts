@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {ReactiveFormsModule,FormsModule} from '@angular/forms'; // https://stackoverflow.com/questions/39152071/cant-bind-to-formgroup-since-it-isnt-a-known-property-of-form
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // https://github.com/telerik/kendo-angular/issues/454
 import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
 import 'hammerjs';  // If this is not here you will get error: "Could not find HammerJS. Certain Angular Material components may not work correctly." see readme.md
+
 
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 import { MaterialModule } from '@angular/material';
@@ -27,7 +28,10 @@ import { SearchComponent } from './_component/search/search.component';
 
 import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
-import { DialogConfirmation, DialogSaveTurf } from './_component/dialogs';
+// https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
+import { DialogsService } from './_component/dialogs/dialogs.service';
+import { DialogOK, DialogConfirm, DialogSaveTurf } from './_component/dialogs';
+
 
 import { OlComponent } from './_component/ol/ol.component';
 import { OlService } from './_component/ol/ol.service'; // global
@@ -39,6 +43,7 @@ import { OlService } from './_component/ol/ol.service'; // global
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule, // required for form validation
     HttpModule,
     LoginRoutingModule,
     AppRoutingModule,
@@ -47,7 +52,7 @@ import { OlService } from './_component/ol/ol.service'; // global
   ],
   declarations: [
     AppComponent,
-    DialogConfirmation,  DialogSaveTurf,
+    DialogOK, DialogConfirm, DialogSaveTurf,
     TitleComponent,
     OlComponent,
     GeomapComponent,
@@ -60,9 +65,9 @@ import { OlService } from './_component/ol/ol.service'; // global
     ContactDetailComponent,
     SearchComponent
   ],
-  providers: [OlService],
+  providers: [OlService, DialogsService],
   bootstrap: [AppComponent],
-  entryComponents: [DialogConfirmation, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
+  entryComponents: [DialogOK, DialogConfirm, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
