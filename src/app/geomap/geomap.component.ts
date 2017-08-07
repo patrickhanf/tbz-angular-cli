@@ -34,13 +34,13 @@ export class GeomapComponent implements OnInit {
 
     //this.title = this.olservice.getTitle(); // 5-30-17 working service object, it has value because we set it within the constructor
 
-    let vector = this.olservice.getVector();
-    if (vector == null)
-      console.log("app.component.ngAfterContentInit() vector is null");
-    else
-      console.log("app.component.ngAfterContentInit() vector ready");
+    // let vector = this.olservice.getVector();
+    // if (vector == null)
+    //   console.log("app.component.ngAfterContentInit() vector is null");
+    // else
+    //   console.log("app.component.ngAfterContentInit() vector ready");
 
-    this.olservice.placeMap();
+    // this.olservice.placeMap();
 
     //  this.olservice.placeMap().then(() => {
 

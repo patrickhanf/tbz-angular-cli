@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, trigger, transition, s
 import { OlService } from './ol.service';
 import { DialogSaveTurf} from '../dialogs';
 import {DialogsService} from '../dialogs/dialogs.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import * as ol from 'openlayers';
 
 import { FeatureVM } from './ol.model.feature';
@@ -65,11 +65,11 @@ export class OlComponent implements OnInit {
     
     turfActions = [{ value: 'draw', icon: 'rounded_corner' }, { value: 'modify', icon: '' }];
 
-    public ols;
+    //public ols;
 
-    constructor(private olService: OlService, public dialog: MdDialog, private dialogsService: DialogsService) {
+    constructor(private olService: OlService, public dialog: MdDialog,public snackBar: MdSnackBar, private dialogsService: DialogsService) {
 
-        this.ols = olService;
+       // this.ols = olService;
         this.modifyTurfActionLabel = 'Edit';
         //  this.features = [];
     }
@@ -510,7 +510,7 @@ export class OlComponent implements OnInit {
                 if (result !== '') {
                     // Save features  properties from dialog
                     event.feature.setProperties({
-                        'id': 1234,
+                        'id': 0,
                         'name': result,
                     }, this);
                 }
@@ -620,16 +620,21 @@ export class OlComponent implements OnInit {
         }, this); // need to pass features into foreach, you could pass just 'this.features' or 'this'
 
         console.log(this.features);
-        this.saveDataAPI();
+       
+
+      this.olService.postAPITurfFeatures(this.features)
+         .subscribe(data => this.features = data,
+         error => console.log(error),
+         () => this.showPostResult());
+
 
     }
-
+    showPostResult() {
+     this.snackBar.open("Good Deal! Your Turf has been saved!", "OK", { duration: 10000,  });
+    }
     // shows data in textarea
     // replace this function by what you need
     // Source: https://codepen.io/barbalex/pen/fBpyb
-    saveDataAPI() {
-
-    }
 
     // clears the map and the output of the data
     dialogDeleteTurfMap() {

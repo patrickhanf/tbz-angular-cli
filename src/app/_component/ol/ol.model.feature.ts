@@ -1,6 +1,13 @@
+export class TurfVM {
+    constructor(
+        public features: FeatureVM[]
+    ) { }
+   
+}
+
 export class FeatureVM {
     constructor(
-        public featureId: number,
+        public turfId: number,
         public name: string,
         public polygon: string
     ) { }

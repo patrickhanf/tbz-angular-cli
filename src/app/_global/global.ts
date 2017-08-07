@@ -2,8 +2,8 @@
 
  export const GlobalVariable = Object.freeze({
    //  BASE_API_URL: 'http://oneadvocacy.com/api/v1/',
-     BASE_API_URL: 'http://localhost:8080/api/v1',
-     BASE_OAUTH_URL: 'http://localhost:8080/token',
+     BASE_API_URL: 'http://geocode.localhost:8080/api/v1',
+     BASE_OAUTH_URL: 'http://geocode.localhost:8080/token',
      //... more of your variables
  });
 

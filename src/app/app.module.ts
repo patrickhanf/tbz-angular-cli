@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {ReactiveFormsModule,FormsModule} from '@angular/forms'; // https://stackoverflow.com/questions/39152071/cant-bind-to-formgroup-since-it-isnt-a-known-property-of-form
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // https://github.com/telerik/kendo-angular/issues/454
 import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
 import 'hammerjs';  // If this is not here you will get error: "Could not find HammerJS. Certain Angular Material components may not work correctly." see readme.md
@@ -45,6 +46,7 @@ import { OlService } from './_component/ol/ol.service'; // global
     FormsModule,
     ReactiveFormsModule, // required for form validation
     HttpModule,
+   // JsonpModule,
     LoginRoutingModule,
     AppRoutingModule,
     MaterialModule, //.forRoot() removed after upgrade 5-16-17
