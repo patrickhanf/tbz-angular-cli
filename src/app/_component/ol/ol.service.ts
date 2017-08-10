@@ -39,7 +39,7 @@ export class OlService {
       'Content-Type': 'application/json;charset=utf-8',
       // 'Content-Type': 'x-www-form-urlencoded',
       // 'Access-Control-Allow-Origin': '*',
-      // 'Authorization': 'Bearer ' + this.auth.token
+        'Authorization': 'Bearer ' + this.auth.token
     });
     const options = new RequestOptions({ headers: header });
 

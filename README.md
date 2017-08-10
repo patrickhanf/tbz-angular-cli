@@ -33,6 +33,8 @@ npm install @angular/common@latest @angular/compiler@latest @angular/compiler-cl
 
 npm i @angular/flex-layout
 
+npm i ng2-color-picker
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.

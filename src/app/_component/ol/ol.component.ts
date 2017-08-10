@@ -14,6 +14,7 @@ let mapGlobal;
 let vectorGeoJson;
 let vectorGeoPng;
 let vectorGeoDraw;
+let mapTileQuery ='';
 // make interactions global so they can later be removed
 let select_interaction, draw_interaction, modify_interaction;
 
@@ -42,6 +43,7 @@ export class OlComponent implements OnInit {
     showTurfActions: boolean = false;
     modifyTurfAction: boolean = false;
     modifyTurfActionLabel: string = 'Edit';
+   // mapTileQuery: string;
    // dialogRef: MdDialogRef<DialogConfirm>;
   //  dialogRefSaveTurf: MdDialogRef<any>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
@@ -69,9 +71,10 @@ export class OlComponent implements OnInit {
 
     constructor(private olService: OlService, public dialog: MdDialog,public snackBar: MdSnackBar, private dialogsService: DialogsService) {
 
-       // this.ols = olService;
+       
         this.modifyTurfActionLabel = 'Edit';
-        //  this.features = [];
+        
+        
     }
 
     ngOnInit() {
@@ -93,6 +96,82 @@ export class OlComponent implements OnInit {
         //         alert("Map loaded by promise!");
         //     });
     }
+    
+    geoPngtileUrlFunction = function (tileCoord, pixelRatio, projection) {
+                // PRH CUSTOM Url for - tileCoord is representing the location of a tile in a tile grid (z, x, y)
+                let z = tileCoord[0];
+                let x = tileCoord[1];
+                let y = -tileCoord[2] -1;
+
+               console.log('2 query?', mapTileQuery);
+
+                //if (x < 0 || y < 0) { return ""; }
+
+                var path = 'http://geo.localhost:8080/api/v1/Address/PngTile';
+
+                path += '/' + z + '/' + x + '/' + y + '.png?';
+                path += mapTileQuery;
+
+                if (mapTileQuery === '')
+                    path += 'time=' + new Date().getTime();   
+                else
+                    path += '&time=' + new Date().getTime();   
+                
+                return path;
+            };
+
+    getAPIMapTile(searchVM) {
+          console.log("2 from ol.component.ts", searchVM);
+
+           var params = {
+            'tilecolor': searchVM.address.hexColor,
+            'street': searchVM.address.street,
+            'street2' : searchVM.address.street2,
+            'city': searchVM.address.city,
+            'zipcode': searchVM.address.zipcode,
+            
+          };
+
+         mapTileQuery = this.getAsUriParameters(params);
+
+         console.log(1, mapTileQuery);
+
+         
+          let oSource = vectorGeoPng.getSource();
+vectorGeoPng.setVisible(false);
+          console.log (oSource.getTileUrlFunction());
+vectorGeoPng.setVisible(true);
+
+          //oSource.redraw(true);
+         // oSource.updateParams( params );
+
+          //oSource.setTileLoadFunction ( this.geoPngtileUrlFunction );
+        //  oSource.dispatchChangeEvent();
+          // oSource.redraw(true);
+
+          console.log(3, mapTileQuery);
+      //    console.log (oSource.getTileUrlFunction());
+          //source.setTileLoadFunction(source.getTileLoadFunction());
+
+    }
+
+    //
+    // https://stackoverflow.com/questions/14525178/is-there-any-native-function-to-convert-json-to-url-parameters
+    //  
+
+    getAsUriParameters(data) {
+        var url = '';
+        for (var prop in data) {
+
+            if (data[prop] !== undefined)
+                {
+            url += encodeURIComponent(prop) + '=' +
+                encodeURIComponent(data[prop]) + '&';
+                }
+        }
+        return url.substring(0, url.length - 1)
+    }
+
 
     onResizeMapWindow(event) {
         console.log('map width=' + event.target.innerWidth);
@@ -264,12 +343,19 @@ export class OlComponent implements OnInit {
 
             // 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
+
             let geoPngSource = new ol.layer.Tile({
 
                 minResolution: 6,  // hides or shows based on zoom
                 // maxResolution: 10,
+                tileGrid: ol.tilegrid.createXYZ({
+                    tileSize: [256, 256],
+                    extent: ol.proj.get('EPSG:3857').getExtent(),
+                }),
                 source: new ol.source.XYZ({
-                    url: 'http://www.geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png'
+                    //url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png',
+                    //params: { 'tilecolor': '#FFCC66' },
+                    tileUrlFunction: this.geoPngtileUrlFunction
                 })
             });
 
@@ -629,6 +715,8 @@ export class OlComponent implements OnInit {
 
 
     }
+
+
     showPostResult() {
      this.snackBar.open("Good Deal! Your Turf has been saved!", "OK", { duration: 10000,  });
     }

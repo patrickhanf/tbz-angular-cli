@@ -14,6 +14,7 @@ export class ComposeMessageComponent {
   @HostBinding('style.display') display = 'block';
   @HostBinding('style.position') position = 'absolute';
 
+  message: string;
   details: string;
   sending: boolean = false;
 

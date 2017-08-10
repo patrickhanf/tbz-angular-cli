@@ -34,6 +34,7 @@
 
                 <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn">Login</button>
                 <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
+                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn">Facebook Login</button>
 
                 <!--<a [routerLink]="['/register']" class="btn btn-link">Register</a>-->
             </md-card-actions>

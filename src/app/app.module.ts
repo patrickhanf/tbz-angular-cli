@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {ReactiveFormsModule,FormsModule} from '@angular/forms'; // https://stackoverflow.com/questions/39152071/cant-bind-to-formgroup-since-it-isnt-a-known-property-of-form
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // https://stackoverflow.com/questions/39152071/cant-bind-to-formgroup-since-it-isnt-a-known-property-of-form
 import { Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
@@ -16,8 +16,9 @@ import { AppRoutingModule } from './app-routing.module';
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent } from './not-found.component';
-import { GeomapComponent } from './geomap/geomap.component';
+//import { GeomapComponent } from './geomap/geomap.component';
 import { HomeComponent } from './home/home.component';
+//import { ContactsComponent } from './contacts/contacts.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginRoutingModule } from './login/login-routing.module';
@@ -34,8 +35,9 @@ import { DialogsService } from './_component/dialogs/dialogs.service';
 import { DialogOK, DialogConfirm, DialogSaveTurf } from './_component/dialogs';
 
 
+
 import { OlComponent } from './_component/ol/ol.component';
-import { OlService } from './_component/ol/ol.service'; // global
+//import { OlService } from './_component/ol/ol.service'; // global
 // https://angular.io/docs/ts/latest/guide/router.html
 
 @NgModule({
@@ -50,14 +52,15 @@ import { OlService } from './_component/ol/ol.service'; // global
     LoginRoutingModule,
     AppRoutingModule,
     MaterialModule, //.forRoot() removed after upgrade 5-16-17
-    ExpansionPanelsModule
+    ExpansionPanelsModule,
+ 
   ],
   declarations: [
     AppComponent,
     DialogOK, DialogConfirm, DialogSaveTurf,
     TitleComponent,
     OlComponent,
-    GeomapComponent,
+  //  GeomapComponent,
     ComposeMessageComponent,
     DashboardComponent,
     HomeComponent,
@@ -67,7 +70,7 @@ import { OlService } from './_component/ol/ol.service'; // global
     ContactDetailComponent,
     SearchComponent
   ],
-  providers: [OlService, DialogsService],
+  providers: [ DialogsService],
   bootstrap: [AppComponent],
   entryComponents: [DialogOK, DialogConfirm, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
 })

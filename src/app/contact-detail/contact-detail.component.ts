@@ -11,7 +11,7 @@ import { ContactDetailService } from './contact-detail.service';
   providers: [ContactDetailService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
 })
 export class ContactDetailComponent implements OnInit {
-  private contact: Observable<any>;
+  public contact: Observable<any>;
   // private contact;
 
   id: number;

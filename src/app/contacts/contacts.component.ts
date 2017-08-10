@@ -7,7 +7,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContactVM } from '../_models/contact';
 import { ContactsService } from './contacts.service';
 
-//import { OlService } from '../_component/ol/ol.service';
+
 import { OlComponent } from '../_component/ol/ol.component';
 
 //import { Http, Headers, RequestOptions, Response } from '@angular/http';
@@ -106,8 +106,21 @@ export class ContactsComponent implements OnInit {
 
   }
 
-onSubmit(searchVM):void {
-   // alert($event);
+  onSubmit(searchVM): void {
+
+    //
+    // Update Map layer with search filters.
+    //
+    this._olComponent.getAPIMapTile(searchVM);
+    //
+    // Update Contact list within this component
+    //
+
+    // this.contactService.getAPIContacts(searchVM)
+    //   .subscribe(data => this.contacts = data,
+    //   error => console.log(error),
+    //   () => this.buildMap());
+
     console.log(1, searchVM);
   }
 

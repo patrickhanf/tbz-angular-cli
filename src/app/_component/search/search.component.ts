@@ -21,11 +21,17 @@ export class SearchComponent implements OnInit {
     @Input() lnglat: [number, number];
     @Input() zoom: number;
 
+    donationmin: number;
+    donationmax: number;
+    step: number;
+
     searchModel = new SearchVM();
 
     constructor(private olService : SearchService ) {
     //this.searchModel.contact.firstName = "Patrick";
-    //this.searchModel.contact.lastName= "Hanf";
+    
+    //https://www.google.com/search?q=hex+color+picker&rlz=1C1CHBF_enUS715US715&oq=hex+color&aqs=chrome.1.69i57j0l5.2119j0j8&sourceid=chrome&ie=UTF-8
+    this.searchModel.address.hexColor = '#00ccff';  
     }
 
 

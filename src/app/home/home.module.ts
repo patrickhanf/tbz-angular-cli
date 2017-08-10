@@ -8,8 +8,8 @@ import { HomeComponent } from './Home.component';
 // import { homeRoutingModule }  from './home-routing.module';
 //import { ContactsModule } from '../contacts/contacts.module';
 
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { ContactsComponent } from '../contacts/contacts.component';
+//import { DashboardComponent } from '../dashboard/dashboard.component';
+//import { ContactsComponent } from '../contacts/contacts.component';
 
 @NgModule({
   imports: [
@@ -19,8 +19,8 @@ import { ContactsComponent } from '../contacts/contacts.component';
     // MaterialModule.forRoot()
   ],
   declarations: [
-    DashboardComponent,
-    ContactsComponent
+  //  DashboardComponent,
+    //ContactsComponent
 
   ],
   providers: []
