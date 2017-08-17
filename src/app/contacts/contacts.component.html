@@ -34,10 +34,12 @@
 </md-tab-group>-->
 
 <!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
+
          <nav md-tab-nav-bar aria-label="">
             <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> 
                 <md-icon class="tab-icon">{{ links.icon }}</md-icon> {{ links.label }}</a>
-        </nav>
+           <button md-mini-fab class="example-fab" (click)="sidenav.toggle()"><md-icon>filter_list</md-icon></button>
+        </nav> 
 
 
 <md-sidenav-container  style="height: calc(100vh - 113px);overflow:hidden">
@@ -49,15 +51,50 @@
             </div>
             <div [class.show]="tabLinkActiveIndex===0" class="step " >
                
-            <app-map [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="height: calc(100vh - 113px);max-height:calc(100vh - 113px)overflow:none">
+            <app-map (openViewEditPanel)="openViewEditPanel($event)" [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="height: calc(100vh - 113px);max-height:calc(100vh - 113px)overflow:none">
                 Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
             </app-map>
         
             </div>
 
-    <md-sidenav #sidenav class="example-sidenav" align="end">
-        <app-search (onSubmitFilter)='onSubmit($event)' ></app-search>
+    <md-sidenav (close)="sidenavClose()" #sidenav class="example-sidenav" align="end" [mode]="menuMode" mode="over">
+        <app-search *ngIf="showPanelSearch"(onSubmitFilter)='onSubmit($event)' ></app-search>
+       
+        <div *ngIf="showPanelTurfDetail">
+            <md-toolbar color="primary">
+                Edit Turf
+                <span class="spacer"></span>
+
+                <button md-icon-button (click)="resetFilter()" mdTooltip="Reset Filter(s)"><md-icon>delete</md-icon></button>
+
+            </md-toolbar>
+            {{featureId}}
+            <md-input-container class="example-full-width">
+                <input [(ngModel)]="featureName" mdInput placeholder="Turf Name">
+            </md-input-container>
+        </div>
+
+        <div *ngIf="showPanelAddressDetail"> 
+            
+                    <md-toolbar color="primary">
+                Address Info
+                <span class="spacer"></span>
+
+            </md-toolbar>
+
+{{featureId}}
+
+            <md-input-container class="example-full-width">
+                <input [(ngModel)]="featureName" mdInput placeholder="Address Name">
+            </md-input-container>
+        
+        </div>
     </md-sidenav>
+
+    <!-- <md-sidenav #viewaddresspanel class="example-sidenav" mode="side">
+        
+    </md-sidenav> -->
+
 
 </md-sidenav-container>
 <!--<md-sidenav-container class="example-container">
@@ -89,9 +126,9 @@
 </md-sidenav-container>-->
 
 <!--https://rawgit.com/jefersonestevo/angular-smd/master/dist/index.html#/angular-smd/demo-fab-speed-dial-->
-<button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
+<!-- <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
     <md-icon>filter_list</md-icon>
-  </button>
+  </button> -->
 <!--<nav md-tab-nav-bar aria-label="">
    
     <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> {{ links.label }} </a>

@@ -1,15 +1,18 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, trigger, transition, style, animate } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, trigger, transition, style, animate } from '@angular/core';
 import { OlService } from './ol.service';
 import { DialogSaveTurf} from '../dialogs';
 import {DialogsService} from '../dialogs/dialogs.service';
 import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import * as ol from 'openlayers';
 
+import { FeatureEnums } from '../../_global/global.enums';
 import { FeatureVM } from './ol.model.feature';
+
 import { Observable } from 'rxjs/Observable';
 
 
 
+let myopen;
 let mapGlobal;
 let vectorGeoJson;
 let vectorGeoPng;
@@ -40,17 +43,18 @@ let select_interaction, draw_interaction, modify_interaction;
 })
 export class OlComponent implements OnInit {
 
-    showTurfActions: boolean = false;
+    // @Output() openViewTurfPanel: EventEmitter<FeatureVM> = new EventEmitter();
+    @Output() openViewEditPanel: EventEmitter<object> = new EventEmitter();
+
+ 
+
+    public showTurfActions: boolean = false;
     modifyTurfAction: boolean = false;
     modifyTurfActionLabel: string = 'Edit';
    // mapTileQuery: string;
    // dialogRef: MdDialogRef<DialogConfirm>;
   //  dialogRefSaveTurf: MdDialogRef<any>;
     ol: any;  // test: https://gist.github.com/borchsenius/5a1ec0b48b283ba65021
-
-
-    // features: Observable<any>;
-    //features: FeatureVM[];
 
     // features: FeatureVM[]=[ { featureId: 1, name: '', polygon: ''  }]; // See line 572 for code
     features: FeatureVM[] = []; // See line 572 for code
@@ -62,12 +66,8 @@ export class OlComponent implements OnInit {
     @Input() zoom: number;
 
     map: any;
-    //private draw; // global so we can remove it later, See: http://openlayers.org/en/latest/examples/draw-freehand.html?q=draw
-
     
     turfActions = [{ value: 'draw', icon: 'rounded_corner' }, { value: 'modify', icon: '' }];
-
-    //public ols;
 
     constructor(private olService: OlService, public dialog: MdDialog,public snackBar: MdSnackBar, private dialogsService: DialogsService) {
 
@@ -86,6 +86,7 @@ export class OlComponent implements OnInit {
         //  console.log('map#id=='+this.refMap.nativeElement.id);
         //  console.log('ol.component.ngAfterContentInit().placeMapFromComponent 1' + this.refMap.nativeElement);
         this.placeMapFromComponent();
+
         //this.map = this.createMap();
         //this.map.setTarget('premap');
         // this.map.setTarget(this.refMap.nativeElement);
@@ -97,6 +98,88 @@ export class OlComponent implements OnInit {
         //     });
     }
     
+    customStyleFunction = function (feature, resolution) {
+                //debug  console.log('resolution='+resolution);
+
+                let strokecolor;
+                let _radius = 4;
+
+                //    if (resolution > 14)
+                //      _radius = 3;
+                //    else
+                //      _radius = 10;
+
+                if (feature.get('source') === 'navteq') { // black icon
+                    strokecolor = '#133277';
+                } else if (feature.get('source') === '') { // blue
+                    strokecolor = '#f61212';
+                } else {
+                    strokecolor = '#198cff';
+                }
+
+                return [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        // fill: new ol.style.Fill({
+                        //     color: '#1b465a'
+                        // }),
+                        stroke: new ol.style.Stroke({
+                            color: strokecolor,
+                            width: 1
+                        }),
+                        radius: _radius
+                    })
+                })];
+            };
+
+    geoGeoJsonBuildLayer = function ()
+    {
+         let ol = this.get();
+            let geoJsonSource = new ol.layer.VectorTile({
+                // style: function(feature, resolution) {
+                //    console.log('resolution='+resolution);
+                // },
+                style: this.customStyleFunction, // <= working style from above
+                // minResolution: 1, // was 0
+                maxResolution: 6, // testing was 9 
+                source: new ol.source.VectorTile({
+
+                    projection: 'EPSG:3857',
+                    name: "homes",
+                    format: new ol.format.GeoJSON({ defaultProjection: 'EPSG:4326' }),
+                   
+                    tileGrid: ol.tilegrid.createXYZ({
+                        tileSize: [256, 256],
+                        extent: ol.proj.get('EPSG:3857').getExtent(),
+                    }),
+                    //url: 'http://www.geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json'
+                     tileUrlFunction: this.geoJsontileUrlFunction
+
+                })
+            });
+            return geoJsonSource;
+    };
+
+    geoPngBuildLayer = function ()
+    {
+           let ol = this.get();
+            let geoPngSource = new ol.layer.Tile({
+
+                minResolution: 6,  // hides or shows based on zoom
+                // maxResolution: 10,
+                tileGrid: ol.tilegrid.createXYZ({
+                    tileSize: [256, 256],
+                    extent: ol.proj.get('EPSG:3857').getExtent(),
+                }),
+                source: new ol.source.XYZ({
+                    //url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png',
+                    //params: { 'tilecolor': '#FFCC66' },
+                    tileUrlFunction: this.geoPngtileUrlFunction
+                })
+            });
+            return geoPngSource;
+    };
+
+
     geoPngtileUrlFunction = function (tileCoord, pixelRatio, projection) {
                 // PRH CUSTOM Url for - tileCoord is representing the location of a tile in a tile grid (z, x, y)
                 let z = tileCoord[0];
@@ -104,8 +187,6 @@ export class OlComponent implements OnInit {
                 let y = -tileCoord[2] -1;
 
                console.log('2 query?', mapTileQuery);
-
-                //if (x < 0 || y < 0) { return ""; }
 
                 var path = 'http://geo.localhost:8080/api/v1/Address/PngTile';
 
@@ -116,42 +197,59 @@ export class OlComponent implements OnInit {
                     path += 'time=' + new Date().getTime();   
                 else
                     path += '&time=' + new Date().getTime();   
-                
+
                 return path;
             };
 
-    getAPIMapTile(searchVM) {
-          console.log("2 from ol.component.ts", searchVM);
+        geoJsontileUrlFunction = function (tileCoord, pixelRatio, projection) {
+                // PRH CUSTOM Url for - tileCoord is representing the location of a tile in a tile grid (z, x, y)
+                let z = tileCoord[0];
+                let x = tileCoord[1];
+                let y = -tileCoord[2] -1;
 
-           var params = {
+               console.log('2 query?', mapTileQuery);
+
+                var path = 'http://geo.localhost:8080/api/v1/Address/GeoTile';
+
+                path += '/' + z + '/' + x + '/' + y + '.json?';
+                path += mapTileQuery;
+
+                if (mapTileQuery === '')
+                    path += 'time=' + new Date().getTime();   
+                else
+                    path += '&time=' + new Date().getTime();   
+
+                return path;
+            };        
+
+    getAPIMapTile(searchVM) {
+        console.log("2 from ol.component.ts", searchVM);
+
+        var params = {
             'tilecolor': searchVM.address.hexColor,
             'street': searchVM.address.street,
-            'street2' : searchVM.address.street2,
+            'street2': searchVM.address.street2,
             'city': searchVM.address.city,
             'zipcode': searchVM.address.zipcode,
-            
-          };
+        };
 
-         mapTileQuery = this.getAsUriParameters(params);
+        mapTileQuery = this.getAsUriParameters(params);
 
-         console.log(1, mapTileQuery);
+        console.log(1, mapTileQuery);
 
-         
-          let oSource = vectorGeoPng.getSource();
-vectorGeoPng.setVisible(false);
-          console.log (oSource.getTileUrlFunction());
-vectorGeoPng.setVisible(true);
+        vectorGeoPng.setVisible(false);
+       
+        mapGlobal.removeLayer(vectorGeoPng);
 
-          //oSource.redraw(true);
-         // oSource.updateParams( params );
+        let geoPngSource = this.geoPngBuildLayer();
+        vectorGeoPng = geoPngSource;
+        mapGlobal.addLayer(geoPngSource);
 
-          //oSource.setTileLoadFunction ( this.geoPngtileUrlFunction );
-        //  oSource.dispatchChangeEvent();
-          // oSource.redraw(true);
+       // let geoJsonSource = this.geoPngBuildLayer();
+       // vectorGeoJson = geoJsonSource;
+       // mapGlobal.addLayer(geoJsonSource);
 
-          console.log(3, mapTileQuery);
-      //    console.log (oSource.getTileUrlFunction());
-          //source.setTileLoadFunction(source.getTileLoadFunction());
+        console.log(3, mapTileQuery);
 
     }
 
@@ -210,6 +308,9 @@ vectorGeoPng.setVisible(true);
         // For some reason the checkbox is inverted with screen, could be related to 
         // material theme.
         if (!this.modifyTurfAction) {
+
+            // trigger event to open rightside edit panel
+
             this.addModifyInteraction();
         }
         else {
@@ -223,6 +324,31 @@ vectorGeoPng.setVisible(true);
 
     }
 
+    onTurfActionLoadTurfs() {
+        // https://stackoverflow.com/questions/43394144/angular-2-how-to-access-an-http-response-body
+        this.olService.getAPITurfFeatures()
+            .subscribe(data => this.loadfeatures(data.json()),
+            error => console.log(error),
+            () => this.showPostResult("All Turfs Loaded.."));
+
+    }
+
+loadfeatures(geojsonObject) {
+    // 
+    console.log('geojsonObject 1:',geojsonObject);
+    let vectorSource = vectorGeoDraw.getSource();
+    
+    //let testx = {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.91355,45.173108],[-93.945283,45.17335],[-93.950433,45.140666],[-93.909234,45.136065],[-93.91355,45.173108]]]},"properties":{"id":5,"name":"MEP 40","source":"turf"}},{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.409019,44.917113],[-93.409105,44.911445],[-93.406809,44.911475],[-93.406874,44.912524],[-93.403119,44.912554],[-93.403162,44.917037],[-93.409019,44.917113]]]},"properties":{"id":6,"name":"Hopkins Park Valley","source":"turf"}},{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.40694,44.915189],[-93.40694,44.914041],[-93.406522,44.913996],[-93.406554,44.915166],[-93.40694,44.915189]]]},"properties":{"id":7,"name":"Hopkins Park Valley - 5th Ave","source":"turf"}},{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-94.221854,45.386178],[-94.333091,45.333106],[-94.164176,45.318623],[-94.221854,45.386178]]]},"properties":{"id":8,"name":"Bobs Burgers","source":"turf"}},{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.454682,44.891912],[-93.459338,44.885527],[-93.455282,44.886363],[-93.453695,44.886029],[-93.45215,44.886317],[-93.450841,44.885816],[-93.449896,44.886013],[-93.44921,44.886591],[-93.447901,44.88688],[-93.446463,44.891532],[-93.454682,44.891912]]]},"properties":{"id":9,"name":"Kevs Walk","source":"turf"}}]};
+    //let geojsonObject = testx;
+
+    let features = new ol.format.GeoJSON().readFeatures(geojsonObject, {                 
+        dataProjection: 'EPSG:4326',
+        featureProjection: 'EPSG:3857'
+    });
+
+    vectorSource.addFeatures(features);
+
+}
 
     onTurfActionDelete() {
         // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
@@ -273,38 +399,7 @@ vectorGeoPng.setVisible(true);
                 })
             });
 
-            let customStyleFunction = function (feature, resolution) {
-                //debug  console.log('resolution='+resolution);
 
-                let strokecolor;
-                let _radius = 4;
-
-                //    if (resolution > 14)
-                //      _radius = 3;
-                //    else
-                //      _radius = 10;
-
-                if (feature.get('source') === 'navteq') { // black icon
-                    strokecolor = '#133277';
-                } else if (feature.get('source') === '') { // blue
-                    strokecolor = '#f61212';
-                } else {
-                    strokecolor = '#198cff';
-                }
-
-                return [new ol.style.Style({
-                    image: new ol.style.Circle({
-                        // fill: new ol.style.Fill({
-                        //     color: '#1b465a'
-                        // }),
-                        stroke: new ol.style.Stroke({
-                            color: strokecolor,
-                            width: 1
-                        }),
-                        radius: _radius
-                    })
-                })];
-            };
 
             let OSM = new ol.layer.Tile({
                 //source: new ol.source.Stamen({ layer: 'watercolor' })
@@ -316,48 +411,15 @@ vectorGeoPng.setVisible(true);
                 // maxResolution: 50, // was 20 
             });
 
-            let geoJsonSource = new ol.layer.VectorTile({
-                // style: function(feature, resolution) {
-                //    console.log('resolution='+resolution);
-                // },
-                style: customStyleFunction, // <= working style from above
-                // minResolution: 1, // was 0
-                maxResolution: 9, // was 20 
-                source: new ol.source.VectorTile({
 
-                    projection: 'EPSG:3857',
-                    name: "homes",
-                    format: new ol.format.GeoJSON({ defaultProjection: 'EPSG:4326' }),
-                    // tilePixelRatio: 16,
-                    tileGrid: ol.tilegrid.createXYZ({
-                        tileSize: [256, 256],
-                        extent: ol.proj.get('EPSG:3857').getExtent(),
-                    }),
-                    url: 'http://www.geo.localhost:8080/api/v1/Address/GeoTile/{z}/{x}/{y}.json'
-
-                })
-            });
 
             //tiledSource.setVisible(false);
             // this._vectorLayerGeoJson = vectorgeojson.setVisible();
 
             // 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
+ 
 
-            let geoPngSource = new ol.layer.Tile({
-
-                minResolution: 6,  // hides or shows based on zoom
-                // maxResolution: 10,
-                tileGrid: ol.tilegrid.createXYZ({
-                    tileSize: [256, 256],
-                    extent: ol.proj.get('EPSG:3857').getExtent(),
-                }),
-                source: new ol.source.XYZ({
-                    //url: 'http://geo.localhost:8080/api/v1/Address/PngTile/{z}/{x}/{y}.png',
-                    //params: { 'tilecolor': '#FFCC66' },
-                    tileUrlFunction: this.geoPngtileUrlFunction
-                })
-            });
 
             // https://codepen.io/barbalex/pen/fBpyb
             // create a vector layer used for editing
@@ -386,6 +448,8 @@ vectorGeoPng.setVisible(true);
             //
             // Move vectors to global
             //
+            let geoPngSource = this.geoPngBuildLayer();
+            let geoJsonSource = this.geoGeoJsonBuildLayer();
             vectorGeoJson = geoJsonSource;
             vectorGeoPng = geoPngSource;
             vectorGeoDraw = geoDrawSource;
@@ -408,10 +472,9 @@ vectorGeoPng.setVisible(true);
                 interactions: ol.interaction.defaults({ doubleClickZoom: false }), // disable zoom double click
                 layers: [
                     OSM,
-                    geoJsonSource, // Working add in during production
                     geoPngSource, // Working add in during production
                     geoDrawSource, // Polygon drawing
-
+                    geoJsonSource, // Working add in during production
                 ],
                 //renderer: 'canvas', // required for vector tiles
                 view: new ol.View({
@@ -434,6 +497,9 @@ vectorGeoPng.setVisible(true);
                 ])
             });
 
+            // mapGlobal.setLayerIndex(geoPngSource, 2);
+            // mapGlobal.setLayerIndex(geoDrawSource, 2);
+            // mapGlobal.setLayerIndex(geoJsonSource, 99);
             mapGlobal.setTarget(this.refMap.nativeElement);
             // alert('ol.component map');
             // mapGlobal = this._map; // Need for click popups;
@@ -480,36 +546,51 @@ vectorGeoPng.setVisible(true);
             //     // mapGlobal.getTarget().style.cursor = hit ? 'pointer' : '';
             // });
 
-            // mapGlobal.on('click', function (evt) {
-            //     // Popup example
-            //     // http://plnkr.co/edit/GvdVNE?p=preview
-            //     //
-            //     if (mapGlobal == null)
-            //         alert('_map is null');
+           // we need to move the event object so the function below
+           // can use it otherwise you get err: Cannot read property 'emit' of undefined
+           // this is Commonly caused by wrong "this".
+           //
+           let _openViewEditPanel = this.openViewEditPanel; 
 
-            //     let feature = mapGlobal.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-            //         return feature;
-            //     });
-            //     if
-            //     (feature) {
-            //         let geometry = feature.getGeometry();
-            //         let coord = geometry.getCoordinates();
+            mapGlobal.on('click', function (evt) {
+                // Popup example
+                // http://plnkr.co/edit/GvdVNE?p=preview
+                //
+                if (mapGlobal == null)
+                    alert('_map is null');
 
-            //         let content = '<h3>' + feature.get('id') + '</h3>';
-            //         content += '<h5>' + feature.get('address') + '</h5>';
-            //         content += '<br><h5>' + feature.get('source') + '</h5>';
+                let feature = mapGlobal.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                    return feature;
+                });
 
+                if (feature) {
+                    // let geometry = _feature.getGeometry();
+                    // let coord = geometry.getCoordinates();
+                    // let content = '<h3>' + _feature.get('id') + '</h3>';
+                    // content += '<h5>' + _feature.get('address') + '</h5>';
+                    // content += '<br><h5>' + _feature.get('source') + '</h5>';
 
-            //         content_element.innerHTML = content;
-            //         //    content_element.innerHTML = "Hello";
-            //         overlay.setPosition(coord);
+                    let _source = feature.get('source');
+                    let _id = Number(feature.get('id'));
+                    let _type = Number(feature.get('type'));
+                    let _name = feature.get('name');
+                    
+                    let f = new FeatureVM(_id, _name, _type, null, null); 
 
-            //         console.info(feature.getProperties());
-            //     }
-            //     else {
-            //         overlay.setPosition(undefined);
-            //     }
-            // });
+                    _openViewEditPanel.emit({open: true , feature: f });
+
+                    //content_element.innerHTML = content;
+                    //    content_element.innerHTML = "Hello";
+                    //overlay.setPosition(coord);
+
+                    console.info(feature.getProperties());
+                }
+                else {
+                   // overlay.setPosition(undefined);
+                     console.info('else');
+                   _openViewEditPanel.emit({open: false, feature: null });
+                }
+            });
 
 
             mapGlobal.getView().on('change:resolution', function (e) {
@@ -598,6 +679,8 @@ vectorGeoPng.setVisible(true);
                     event.feature.setProperties({
                         'id': 0,
                         'name': result,
+                        'source': 'turf',
+                        'type': FeatureEnums.Turf
                     }, this);
                 }
                 else {
@@ -677,28 +760,41 @@ vectorGeoPng.setVisible(true);
         this.features = []; // clear the last list before saving 
 
         source_features.forEach(function (selected_feature) {
+           
+            let polyGeoJSON;
+            polyGeoJSON = new ol.format.GeoJSON().writeFeature(selected_feature, {
+                decimals: 6,
+                rightHanded: true,  // false will ALWAYS right the polygon Clockwise - we need to store left handed
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
 
-            let GeoJSONData;
-            GeoJSONData = new ol.format.GeoJSON().writeFeature(selected_feature, {
+            console.log('geojson LH=',polyGeoJSON);
+
+            let GeoJSONDataRightHanded;
+            GeoJSONDataRightHanded = new ol.format.GeoJSON().writeFeature(selected_feature, {
                 decimals: 6,
                 rightHanded: false,  // false will ALWAYS right the polygon Clockwise
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             });
 
-            let rightHandedFeatures = new ol.format.GeoJSON().readFeature(GeoJSONData, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+            console.log('geojson RH=',GeoJSONDataRightHanded);
 
-            let poly = new ol.format.WKT().writeFeature(rightHandedFeatures, {
+
+            let rightHandedFeatures = new ol.format.GeoJSON().readFeature(GeoJSONDataRightHanded, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+
+            let polyWKT = new ol.format.WKT().writeFeature(rightHandedFeatures, {
                 decimals: 6,
                 rightHanded: false,  // false will ALWAYS right the polygon Clockwise
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             });
-            console.log("CCW WKT== rightHanded: false");
-            console.log(poly);
+            //console.log("CCW WKT== rightHanded: false");
+            console.log('poly=',polyWKT);
             let featureAttribute = rightHandedFeatures.getProperties();
 
-            let f = new FeatureVM(featureAttribute.id, featureAttribute.name, poly); //JSON.stringify(out, null, 4)
+            let f = new FeatureVM(featureAttribute.id, featureAttribute.name, FeatureEnums.Turf , polyWKT, polyGeoJSON); //JSON.stringify(out, null, 4)
 
             // https://docs.angularjs.org/api/ng/function/angular.forEach
             // https://stackoverflow.com/questions/15013016/variable-is-not-accessible-in-angular-foreach
@@ -711,14 +807,14 @@ vectorGeoPng.setVisible(true);
       this.olService.postAPITurfFeatures(this.features)
          .subscribe(data => this.features = data,
          error => console.log(error),
-         () => this.showPostResult());
+         () => this.showPostResult("Good Deal! Your Turf has been saved!"));
 
 
     }
 
 
-    showPostResult() {
-     this.snackBar.open("Good Deal! Your Turf has been saved!", "OK", { duration: 10000,  });
+    showPostResult(message) {
+     this.snackBar.open(message, "OK", { duration: 10000,  });
     }
     // shows data in textarea
     // replace this function by what you need
@@ -735,6 +831,8 @@ vectorGeoPng.setVisible(true);
                 if (select_interaction) {
                     select_interaction.getFeatures().clear();
                 }
+
+                this.showPostResult("Deleted All Turfs...")
             }
 
         });

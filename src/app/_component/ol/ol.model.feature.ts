@@ -9,6 +9,8 @@ export class FeatureVM {
     constructor(
         public turfId: number,
         public name: string,
-        public polygon: string
+        public type: number,  // address, turf etc.
+        public polygonWKT: string,
+        public polygonGeoJson: string
     ) { }
 }

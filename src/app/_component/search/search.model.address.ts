@@ -1,5 +1,5 @@
 export class SearchAddressVM {
-    hexColor: string = "#333";
+    hexColor: string = "#c0392b";
     addressId: number;
     street: string;
     street2: string;

@@ -1,5 +1,5 @@
 export class SearchContactVM {
-    hexColor: string = "#333";
+    hexColor: string = "#c0392b";
     contactId: number;
     firstName: string;
     lastName: string;

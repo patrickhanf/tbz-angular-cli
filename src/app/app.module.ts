@@ -53,7 +53,7 @@ import { OlComponent } from './_component/ol/ol.component';
     AppRoutingModule,
     MaterialModule, //.forRoot() removed after upgrade 5-16-17
     ExpansionPanelsModule,
- 
+
   ],
   declarations: [
     AppComponent,

@@ -1,6 +1,9 @@
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { style, state, animate, transition, trigger } from '@angular/core';
+import { FeatureEnums } from '../_global/global.enums';
+
+import { MdSidenav } from '@angular/material';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -20,7 +23,7 @@ import { OlComponent } from '../_component/ol/ol.component';
 
 @Component({
   // https://stackoverflow.com/questions/36417931/angular-2-ngif-and-css-transition-animation
-animations: [
+  animations: [
     // trigger(
     //   'enterAnimation', [
     //     transition(':enter', [
@@ -45,9 +48,16 @@ export class ContactsComponent implements OnInit {
   // @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
   direction = 'row';
+  @ViewChild('sidenav') _sidenav: MdSidenav;
+  private menuMode = "over"; // Where we'll store the resulting menu mode
+  featureName = '';
+  featureId: number;
 
+  // viewaddresspanel:MdSidenav;
   // public contacts: ContactVM[];
-  isFoo:boolean = true;
+  showPanelSearch: boolean = true;
+  showPanelAddressDetail: boolean = false;
+  showPanelTurfDetail: boolean = false;
 
   tabLinkActiveIndex = 0;
   tabLinks = [
@@ -56,10 +66,9 @@ export class ContactsComponent implements OnInit {
   ];
 
   @ViewChild(OlComponent) _olComponent: OlComponent;
-  //constructor(private router: Router, private contactService: ContactsService, private olservice: OlService) {
+
   constructor(private router: Router, private contactService: ContactsService) {
     // constructor
-
   }
 
   selectedIndex: number = 0;
@@ -124,6 +133,60 @@ export class ContactsComponent implements OnInit {
     console.log(1, searchVM);
   }
 
+  openViewEditPanel(event): void {
+
+    let _feature;
+
+    if (this._olComponent.showTurfActions)
+      return;
+
+    if (event.feature == null)
+      return;
+
+    _feature = event.feature;
+
+    // console.log("feature Id? ", _feature.get('id'));
+
+   // console.log("Is Open? ", event)
+
+    if (event.open) {
+
+      console.log(_feature.type);
+
+      this.featureName  = _feature.name;
+      this.featureId  = _feature.turfId;
+
+      if (_feature.type === FeatureEnums.Turf) {
+        this.showPanelSearch = false;
+        this.showPanelTurfDetail = true;
+        this.showPanelAddressDetail = false;
+
+      } else if (_feature.type === FeatureEnums.Address) {
+
+          this.showPanelSearch = false;
+          this.showPanelTurfDetail = false;
+          this.showPanelAddressDetail = true;
+
+      }
+
+      // this.menuMode = "over";
+      this._sidenav.open();
+    }
+    else {
+      this._sidenav.close();
+    }
+
+  }
+
+
+  sidenavClose(): void {
+    
+    this.showPanelSearch = true;
+    this.showPanelTurfDetail = false;
+    this.showPanelAddressDetail = false;
+
+    console.log("Closed event sidenavClose()");
+  }
   // buildMap() {
   //   console.log('Build Map -- Before clear()');
   //   var count = 0;

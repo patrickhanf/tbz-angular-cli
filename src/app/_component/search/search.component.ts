@@ -25,13 +25,15 @@ export class SearchComponent implements OnInit {
     donationmax: number;
     step: number;
 
+    colors = [ '#C0392B', '#9B59B6','#2980B9','#17A589', '#D4AC0D', '#D35400' ];
+
     searchModel = new SearchVM();
 
     constructor(private olService : SearchService ) {
     //this.searchModel.contact.firstName = "Patrick";
     
     //https://www.google.com/search?q=hex+color+picker&rlz=1C1CHBF_enUS715US715&oq=hex+color&aqs=chrome.1.69i57j0l5.2119j0j8&sourceid=chrome&ie=UTF-8
-    this.searchModel.address.hexColor = '#00ccff';  
+     
     }
 
 
@@ -41,7 +43,7 @@ export class SearchComponent implements OnInit {
     }
 
     ngAfterContentInit() {
-    
+        this.searchModel.address.hexColor = '#C0392B'; 
         console.log("search.component.ngAfterContentInit()");
 
     }

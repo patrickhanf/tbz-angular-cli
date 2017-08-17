@@ -64,6 +64,27 @@ export class OlService {
 
   }
 
+    getAPITurfFeatures(): Observable<any> {
+
+    let url = 'http://' + window.location.hostname + ':8080/api/v1/Turf';
+    // add authorization header with jwt token
+
+    console.log('1 url=', url);
+
+    const header = new Headers({
+      'Content-Type': 'application/json;charset=utf-8',
+        'Authorization': 'Bearer ' + this.auth.token
+    });
+    const options = new RequestOptions({ headers: header });
+
+    // "This observable is cold which means the request won't go out until something subscribes to the observable. aka req.subscribe()"
+    const req = this.http.get(url);
+     req.map((response: Response) => <any>response);
+
+      
+    return req;
+
+  }
 
   // get(): any {
   //     return ol;

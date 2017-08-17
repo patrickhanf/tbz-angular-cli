@@ -33,7 +33,9 @@ npm install @angular/common@latest @angular/compiler@latest @angular/compiler-cl
 
 npm i @angular/flex-layout
 
-npm i ng2-color-picker
+http://alberplz.github.io/angular2-color-picker/examples/index.html
+// Removed because it's not Angular 4 compatiable 
+npm i --save angular2-color-picker
 
 ## Code scaffolding
 

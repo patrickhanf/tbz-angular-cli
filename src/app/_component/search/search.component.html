@@ -38,10 +38,8 @@
         </expansion-panel-title>
 
         <expansion-panel-content>
-          
-           <md-input-container class="example-full-width">
-            <input [(ngModel)]="searchModel.address.hexColor" mdInput placeholder="Hex Color">
-          </md-input-container>
+   
+
           <md-input-container class="example-full-width">
             <input [(ngModel)]="searchModel.address.street" mdInput placeholder="Street">
           </md-input-container>
@@ -60,6 +58,16 @@
             <!--<input mdInput #postalCode maxlength="5" placeholder="Postal Code" value="94043">-->
             <md-hint align="end">{{postalCode.value.length}} / 5</md-hint>
           </md-input-container>
+
+          <md-select style="margin-top:5px;" [(ngModel)]="searchModel.address.hexColor" class="example-full-width"  placeholder="Hex Color" [style.background-color]='searchModel.address.hexColor'>
+              <md-option value="">--- Select a color ---</md-option>
+              <md-option value="{{c}}" [style.background-color]='searchModel.address.hexColor' *ngFor="let c of colors">{{c}}</md-option>
+          </md-select>
+<!-- 
+           <md-input-container class="example-full-width">
+            <input [(ngModel)]="searchModel.address.hexColor" mdInput placeholder="Hex Color">
+          </md-input-container> -->
+
         </expansion-panel-content>
       </expansion-panel>
 

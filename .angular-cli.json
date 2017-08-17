@@ -65,7 +65,7 @@
     },
     "serve": {
       "port": 4200,
-      "host": "geocode.localhost"
+      "host": "democampaignmarkattr.localhost"
     }
   }
 }
