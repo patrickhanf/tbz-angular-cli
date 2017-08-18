@@ -24,14 +24,11 @@ export class ContactsService {
   // getAPIContacts(): Observable<ContactVM> {
   getAPIContacts(): Observable<any> {
 
-    // var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
-
-   // let urls = 'http://oneadvocacy.com/api/v1/Contact?FirstName=jam&LastName=gibso';
-
-   //let urls = 'http://oneadvocacy.com/api/v1/Geo';
-   //let urls = 'http://localhost:8080/api/v1/Contact/Geo?StateName=MN';
-     let urls = 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
-   //let urls = 'http://markpanger.mydomain.com:8080/api/v1/Contact/Geo';
+   //  let urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
+   //  let urls = 'http://oneadvocacy.com/api/v1/Geo';
+   //  let urls = 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
+   
+     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
@@ -77,21 +74,11 @@ export class ContactsService {
 
   getAPIContactsByAddressid(id: number): Observable<any> {
 
-    // var urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
-
-   // let urls = 'http://oneadvocacy.com/api/v1/Contact?FirstName=jam&LastName=gibso';
-
-   //let urls = 'http://oneadvocacy.com/api/v1/Geo';
-   //let urls = 'http://localhost:8080/api/v1/Contact/Geo?StateName=MN';
-     let urls = 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
-   //let urls = 'http://markpanger.mydomain.com:8080/api/v1/Contact/Geo';
-
+     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/' + id;
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
 
-
     console.log('1 url=' + urls);
-
 
     //
     // https://enable-cors.org/server_iis7.html

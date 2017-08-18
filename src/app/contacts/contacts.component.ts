@@ -13,6 +13,8 @@ import { ContactsService } from './contacts.service';
 
 import { OlComponent } from '../_component/ol/ol.component';
 
+
+
 //import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 // Spotify example, good but not 100%
@@ -47,6 +49,9 @@ import { OlComponent } from '../_component/ol/ol.component';
 export class ContactsComponent implements OnInit {
   // @ViewChild('myMap') myMap; // using ViewChild to reference the div instead of setting an id
   private contacts: Observable<any>;
+
+  private addressContacts: Observable<any>;
+
   direction = 'row';
   @ViewChild('sidenav') _sidenav: MdSidenav;
   private menuMode = "over"; // Where we'll store the resulting menu mode
@@ -92,27 +97,6 @@ export class ContactsComponent implements OnInit {
 
     console.log("contacts.component.ngAfterContentInit()");
 
-    //  document.getElementById('map').style.display = 'block';
-    //  this._olComponent.map.invalidateSize();
-    //  this._olComponent.map.updateSize();
-    //  this._olComponent.map.invalidateSize();
-
-    // let vector = this._olComponent.ols.getVector();
-    // if (vector == null)
-    //   console.log("contacts.component.ngAfterContentInit() vector is null");
-    // else
-    //   console.log("contacts.component.ngAfterContentInit() vector ready");
-
-
-    // this.olservice.placeMap().then(() => {
-    //   // this.contactService.getAPIContacts()
-    //   //   .subscribe(data => this.contacts = data,
-    //   //   error => console.log(error),
-    //   //   () => this.buildMap());
-    // });
-
-
-
   }
 
   onSubmit(searchVM): void {
@@ -156,12 +140,21 @@ export class ContactsComponent implements OnInit {
       this.featureName  = _feature.name;
       this.featureId  = _feature.turfId;
 
+      let addressid = Number(_feature.turfId);
+
       if (_feature.type === FeatureEnums.Turf) {
         this.showPanelSearch = false;
         this.showPanelTurfDetail = true;
         this.showPanelAddressDetail = false;
-
+        this._sidenav.open();
       } else if (_feature.type === FeatureEnums.Address) {
+
+      //this.addressContacts= Observable.empty();
+      
+      this.contactService.getAPIContactsByAddressid(addressid)
+        .subscribe(data => this.addressContacts = data,
+        error => console.log(error),
+        () => this._sidenav.open() );
 
           this.showPanelSearch = false;
           this.showPanelTurfDetail = false;
@@ -170,7 +163,7 @@ export class ContactsComponent implements OnInit {
       }
 
       // this.menuMode = "over";
-      this._sidenav.open();
+    
     }
     else {
       this._sidenav.close();

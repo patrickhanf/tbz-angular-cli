@@ -58,8 +58,8 @@
             </div>
 
     <md-sidenav (close)="sidenavClose()" #sidenav class="example-sidenav" align="end" [mode]="menuMode" mode="over">
-        <app-search *ngIf="showPanelSearch"(onSubmitFilter)='onSubmit($event)' ></app-search>
-       
+        <app-search *ngIf="showPanelSearch" (onSubmitFilter)='onSubmit($event)'></app-search>
+
         <div *ngIf="showPanelTurfDetail">
             <md-toolbar color="primary">
                 Edit Turf
@@ -74,20 +74,22 @@
             </md-input-container>
         </div>
 
-        <div *ngIf="showPanelAddressDetail"> 
-            
-                    <md-toolbar color="primary">
-                Address Info
-                <span class="spacer"></span>
+        <div *ngIf="showPanelAddressDetail" class="fullscreen">
 
+            <md-toolbar color="primary">
+                Address Info Id: {{featureId}}
+                <span class="spacer"></span>
             </md-toolbar>
 
-{{featureId}}
+            <div style="margin:10px 0 5px 10px;color:black"> {{ addressContacts[0].street }}</div>
+            <ul>
+                <li *ngFor="let c of addressContacts" style="color:black">
+                    {{c.firstName}} {{ c.lastName }} <br>
 
-            <md-input-container class="example-full-width">
-                <input [(ngModel)]="featureName" mdInput placeholder="Address Name">
-            </md-input-container>
-        
+                </li>
+            </ul>
+
+
         </div>
     </md-sidenav>
 

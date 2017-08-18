@@ -85,14 +85,11 @@ export class OlComponent implements OnInit {
 
         //  console.log('map#id=='+this.refMap.nativeElement.id);
         //  console.log('ol.component.ngAfterContentInit().placeMapFromComponent 1' + this.refMap.nativeElement);
-        this.placeMapFromComponent();
 
-        //this.map = this.createMap();
-        //this.map.setTarget('premap');
-        // this.map.setTarget(this.refMap.nativeElement);
-        //this.map.invalidateSize();
-        //setTimeout( function() { }, 200);
+        this.placeMapFromComponent();
         console.log('ol.component.ngAfterContentInit().placeMapFromComponent 2');
+
+      
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
         //         alert("Map loaded by promise!");
         //     });
@@ -186,9 +183,10 @@ export class OlComponent implements OnInit {
                 let x = tileCoord[1];
                 let y = -tileCoord[2] -1;
 
-               console.log('2 query?', mapTileQuery);
+               //console.log('2 query?', mapTileQuery);
 
-                var path = 'http://geo.localhost:8080/api/v1/Address/PngTile';
+                //var path = 'http://geo.localhost:8080/api/v1/Address/PngTile';
+                let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/PngTile';
 
                 path += '/' + z + '/' + x + '/' + y + '.png?';
                 path += mapTileQuery;
@@ -207,9 +205,12 @@ export class OlComponent implements OnInit {
                 let x = tileCoord[1];
                 let y = -tileCoord[2] -1;
 
-               console.log('2 query?', mapTileQuery);
+               //console.log('2 query?', mapTileQuery);
 
-                var path = 'http://geo.localhost:8080/api/v1/Address/GeoTile';
+                //let path = 'http://geo.localhost:8080/api/v1/Address/GeoTile';
+
+                let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/GeoTile';
+                
 
                 path += '/' + z + '/' + x + '/' + y + '.json?';
                 path += mapTileQuery;
@@ -597,7 +598,9 @@ loadfeatures(geojsonObject) {
 
                 // BIGGER the number the closer to the ground and roads
                 // LARGER the number the closer to space you are!
-                console.log(mapGlobal.getView().getZoom());
+                
+                // THIS IS FOR DEBUGGING ZOOM WITH Web.APIs
+                // console.log(mapGlobal.getView().getZoom());
 
                 // if (mapGlobal.getView().getZoom() > 5) {
                 //   this._vectorLayerGeoJson.setVisible(false);
