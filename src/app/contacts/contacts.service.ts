@@ -74,7 +74,7 @@ export class ContactsService {
 
   getAPIContactsByAddressid(id: number): Observable<any> {
 
-     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/' + id;
+     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/Address/' + id;
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
 
