@@ -10,6 +10,7 @@ import { FeatureVM } from './ol.model.feature';
 
 import { Observable } from 'rxjs/Observable';
 
+import { GlobalVariable } from '../../_global/global';
 
 
 let myopen;
@@ -186,7 +187,9 @@ export class OlComponent implements OnInit {
                //console.log('2 query?', mapTileQuery);
 
                 //var path = 'http://geo.localhost:8080/api/v1/Address/PngTile';
-                let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/PngTile';
+                GlobalVariable
+                //let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/PngTile';
+                let path = GlobalVariable.BASE_API_URL + '/Address/PngTile';
 
                 path += '/' + z + '/' + x + '/' + y + '.png?';
                 path += mapTileQuery;
@@ -209,7 +212,8 @@ export class OlComponent implements OnInit {
 
                 //let path = 'http://geo.localhost:8080/api/v1/Address/GeoTile';
 
-                let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/GeoTile';
+                // let path = 'http://' + window.location.hostname + ':8080/api/v1/Address/GeoTile';
+                let path = GlobalVariable.BASE_API_URL + '/Address/GeoTile';
                 
 
                 path += '/' + z + '/' + x + '/' + y + '.json?';

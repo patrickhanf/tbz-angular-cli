@@ -37,7 +37,10 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/X-www-form-urlencoded');
     // return new Promise((resolve) => {
-    return this.http.post(GlobalVariable.BASE_OAUTH_URL, creds, { headers: headers }).map((response: Response) => {
+     
+    //alert('Global='+GlobalVariable.BASE_OAUTH_URL);
+
+    return this.http.post( GlobalVariable.BASE_OAUTH_URL , creds, { headers: headers }).map((response: Response) => {
       // login successful if there's a jwt token in the response, status 400 is Invalid username or password.
       if (response.status == 400) {
         this.isLoggedIn = false;

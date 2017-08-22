@@ -31,11 +31,14 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent }
 ];
 
+// Fix: 404 - File or directory not found.
+// https://stackoverflow.com/questions/35284988/angular-2-404-error-occur-when-i-refresh-through-browser/40833154
+
 @NgModule({
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { preloadingStrategy: SelectivePreloadingStrategy }
+      { preloadingStrategy: SelectivePreloadingStrategy, useHash: true }
     )
   ],
   exports: [

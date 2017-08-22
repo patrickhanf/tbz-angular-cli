@@ -1,9 +1,12 @@
 // global.ts
 
  export const GlobalVariable = Object.freeze({
-   //  BASE_API_URL: 'http://oneadvocacy.com/api/v1/',
-     BASE_API_URL: 'http://geocode.localhost:8080/api/v1',
-     BASE_OAUTH_URL: 'http://geocode.localhost:8080/token',
+   
+     //BASE_API_URL: 'http://' + window.location.hostname + ':8080/api/v1',
+     //BASE_OAUTH_URL: 'http://' + window.location.hostname + ':8080/token',
+     BASE_API_URL: (window.location.hostname.indexOf("localhost") !== -1)?('http://'+window.location.hostname+':8080/v1'):('http://'+window.location.hostname+'/api/v1'),
+     
+     BASE_OAUTH_URL: (window.location.hostname.indexOf("localhost") !== -1)?('http://'+window.location.hostname+':8080/token'):('http://'+window.location.hostname+'/api/token'),
      //... more of your variables
  });
 

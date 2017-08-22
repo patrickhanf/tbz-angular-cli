@@ -4,7 +4,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { AuthService } from '../auth.service'; // used for OAuth bearer token below
 import { ContactVM } from '../_models/contact';
 import { CONTACTS } from './mock-contacts';
-
+import { GlobalVariable } from '../_global/global';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -28,7 +28,7 @@ export class ContactsService {
    //  let urls = 'http://oneadvocacy.com/api/v1/Geo';
    //  let urls = 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
    
-     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
+     let urls =  GlobalVariable.BASE_API_URL + '/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
@@ -74,7 +74,7 @@ export class ContactsService {
 
   getAPIContactsByAddressid(id: number): Observable<any> {
 
-     let urls = 'http://' + window.location.hostname + ':8080/api/v1/Contact/Address/' + id;
+     let urls = GlobalVariable.BASE_API_URL + '/Contact/Address/' + id;
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
 

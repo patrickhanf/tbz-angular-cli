@@ -54,7 +54,7 @@ export class ContactsComponent implements OnInit {
 
   direction = 'row';
   @ViewChild('sidenav') _sidenav: MdSidenav;
-  private menuMode = "over"; // Where we'll store the resulting menu mode
+  menuMode = "over"; // Where we'll store the resulting menu mode
   featureName = '';
   featureId: number;
 
@@ -150,7 +150,7 @@ export class ContactsComponent implements OnInit {
       } else if (_feature.type === FeatureEnums.Address) {
 
       //this.addressContacts= Observable.empty();
-      
+
       this.contactService.getAPIContactsByAddressid(addressid)
         .subscribe(data => this.addressContacts = data,
         error => console.log(error),
