@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // https://stackoverflow.com/questions/39152071/cant-bind-to-formgroup-since-it-isnt-a-known-property-of-form
 import { Router } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // https://github.com/telerik/kendo-angular/issues/454
 import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
@@ -35,10 +35,17 @@ import { DialogsService } from './_component/dialogs/dialogs.service';
 import { DialogOK, DialogConfirm, DialogSaveTurf } from './_component/dialogs';
 
 
+import { HttpService } from './_services/http.service';
+import { AuthService } from './auth.service'; // used for OAuth bearer token below   
 
 import { OlComponent } from './_component/ol/ol.component';
 //import { OlService } from './_component/ol/ol.service'; // global
 // https://angular.io/docs/ts/latest/guide/router.html
+
+  export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+  return new HttpService(xhrBackend, requestOptions);
+  }
+
 
 @NgModule({
   imports: [
@@ -70,7 +77,13 @@ import { OlComponent } from './_component/ol/ol.component';
     ContactDetailComponent,
     SearchComponent
   ],
-  providers: [ DialogsService],
+  providers: [  DialogsService, 
+    {
+      provide: HttpService,
+      useFactory: httpClientFactory,
+      deps: [XHRBackend, RequestOptions]
+    }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [DialogOK, DialogConfirm, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog
 })
@@ -79,4 +92,6 @@ export class AppModule {
   constructor(router: Router) {
     // console.log('app.module.ts Routes: ', JSON.stringify(router.config, undefined, 2));
   }
+
+
 }

@@ -51,7 +51,7 @@
             </div>
             <div [class.show]="tabLinkActiveIndex===0" class="step " >
                
-            <app-map (openViewEditPanel)="openViewEditPanel($event)" [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="height: calc(100vh - 113px);max-height:calc(100vh - 113px)overflow:none">
+            <app-map (openViewEditPanel)="openViewEditPanel($event)" [lnglat]="[-93.49401, 45.08203]" [zoom]="7" style="height: calc(100vh - 113px);max-height:calc(100vh - 113px); overflow:hidden">
                 Note: must declare the component in app.module.ts https://gist.github.com/nubiofs/bfb8cedbd961ab5e2225448ad769e2a1
             </app-map>
         

@@ -6,6 +6,7 @@ import { ContactVM } from '../_models/contact';
 import { CONTACTS } from './mock-contacts';
 import { GlobalVariable } from '../_global/global';
 
+
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
