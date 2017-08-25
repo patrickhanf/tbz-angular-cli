@@ -42,7 +42,7 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
     <button md-icon-button (click)="sidenavright.toggle()"><i class="material-icons">settings</i></button>
   </md-toolbar>
 
-  <md-sidenav mode="side" opened="true" #start class="app-sidenav">
+  <md-sidenav mode="side" opened="true" #start class="app-sidenav" [mode]="menuMode" mode="over">
     <!--<md-toolbar color="primary" scroll style="height:65px">
       MENU
     </md-toolbar>-->

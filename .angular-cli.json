@@ -65,7 +65,7 @@
     },
     "serve": {
       "port": 4200,
-      "host": "democampaignmarkattr.localhost"
+      "host": "kathryn.localhost"
     }
   }
 }
