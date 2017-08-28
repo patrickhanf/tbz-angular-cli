@@ -7,6 +7,8 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 
+import { Router } from '@angular/router';
+
 import { GlobalVariable } from './_global/global';
 
 @Injectable()
@@ -19,7 +21,7 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private router: Router) {
     // set token if saved in local storage
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
@@ -72,6 +74,8 @@ export class AuthService {
     console.log('remove currentUser logout()');
     localStorage.removeItem('currentUser');
     localStorage.removeItem('auth_token');
+
+    this.router.navigate(['./login']);
   }
 }
 

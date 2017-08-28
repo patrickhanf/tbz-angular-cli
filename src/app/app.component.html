@@ -33,9 +33,9 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
         <md-icon>dialpad</md-icon>
         <span>Home</span>
       </button>
-      <button routerLink="/login" routerLinkActive="active" md-menu-item>
+      <button (click)="Logout()" routerLinkActive="active" md-menu-item>
         <md-icon>fingerprint</md-icon>
-        <span>Login</span>
+        <span>Logout</span>
       </button>
     </md-menu>
     <div class="toolbar-separator"></div>

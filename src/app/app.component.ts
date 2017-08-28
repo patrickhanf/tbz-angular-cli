@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth.service'; // used for OAuth bearer token below   
 //import { Planets, PlanetsService } from './shared';
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 // https://www.sitepoint.com/angular-2-tutorial/
@@ -12,15 +13,20 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AppComponent {
-   title = 'Trail Blazer';
+  title = 'Trail Blazer';
 
   //   ngOnInit(): void {
   //      // $('body').addClass("fullscreen");
   //   }
 
-  //  myClick ()
-  //  {
-  //  this.title = "changed?";
-  //  }
+  constructor(private auth: AuthService) {
+    // constructor
+  }
+
+  Logout() {
+    //console.log('logging out');
+    this.auth.logout();
+
+  }
 
 }

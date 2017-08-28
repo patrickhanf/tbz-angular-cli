@@ -2,27 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 //import { AuthenticationService } from '../_auth/authentication.service';
 import { AuthService } from '../auth.service';
+import {FacebookService} from '../_services/facebook.service';
 
 @Component({
   styleUrls: ['./login.component.css'],
   templateUrl: 'login.component.html'
-  // template: `
-  //  <md-card class="login-card">
-  //  <md-toolbar>
-  //   LOGIN
-  //   </md-toolbar>
-  //    <md-card-content>
-  //     <p>{{message}}</p>
-
-  //  </md-card-content>
-  // <md-card-actions>
-  //   <button md-button md-raised-button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-  //   <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-  // </md-card-actions>
-  // </md-card>`
 })
 export class LoginComponent implements OnInit {
   message: string;
+  facebook;
   loading = false;
   model: any = { username: 'TEST', password: 'TEST123' };
   returnUrl: string;
@@ -37,13 +25,32 @@ export class LoginComponent implements OnInit {
     // get return url from route parameters or default to '/'
     // TODO: this.returnUrl = this.router.snapshot.queryParams['returnUrl'] || '/';
     this.returnUrl = '/';
+    this.facebook = new FacebookService();
   }
 
   setMessage() {
     this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
   }
 
-  login() {
+  loginFacebook(valid) {
+    if (!valid)
+      return;
+    alert("facebook login");
+   this.facebook.login();
+   this.facebook.viewStatus();
+  }
+  logoutFacebook(valid) {
+
+    alert("facebook logout");
+   this.facebook.logout();
+   this.facebook.viewStatus();
+  }
+
+  login(valid) {
+
+    if (!valid)
+      return;
+
     this.loading = true;
     // NEW http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
     this.message = 'Trying to log in ...';

@@ -7,15 +7,15 @@
         <p>{{message}} <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
             /></p>
 
-        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <!-- <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate> -->
+            <form name="form" #f="ngForm" novalidate>
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
                 <md-input-container>
 
                     <!--<md-placeholder>
                          <md-icon class="material-icons">person</md-icon> User Name
                     </md-placeholder>-->
-                    <input mdInput name="username" placeholder="User Name" value="TEST" [(ngModel)]="model.username" #username="ngModel" required
-                    />
+                    <input mdInput name="username" placeholder="User Name" value="TEST" [(ngModel)]="model.username" #username="ngModel" required />
 
 
                 </md-input-container>
@@ -32,13 +32,14 @@
 
             <md-card-actions align="end">
 
-                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn">Login</button>
+                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f._submitted = true;login(f.valid)">Login</button>
                 <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn">Facebook Login</button>
+                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f._submitted = true;loginFacebook(f.valid)">Facebook Login</button>
+                <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="authService.isLoggedIn" (click)="f._submitted = true;logoutFacebook(f.valid)">Facebook Logout</button>
 
                 <!--<a [routerLink]="['/register']" class="btn btn-link">Register</a>-->
             </md-card-actions>
-        </form>
+         </form>
     </md-card-content>
 
 </md-card>
