@@ -20,16 +20,9 @@ export class ContactsService {
 
   getContacts(): ContactVM[] { return CONTACTS; } // working 4-12-17
 
-  // getAPIContacts(): Observable<ContactVM> {
-  // getAPIContacts(): Observable<any> {
-  // getAPIContacts(): Observable<ContactVM> {
   getAPIContacts(): Observable<any> {
-
-   //  let urls = "http://testingdatabase.oneadvocacy.com/api/ContactApi/?firstname=z&lastname=Humphrey";
-   //  let urls = 'http://oneadvocacy.com/api/v1/Geo';
-   //  let urls = 'http://geocode.localhost:8080/api/v1/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
    
-     let urls =  GlobalVariable.BASE_API_URL + '/Contact/Geo?CityName=Maple%20Grove&StateName=MN';
+  let urls =  GlobalVariable.BASE_API_URL + 'Contact/Geo?CityName=Maple%20Grove&StateName=MN';
 
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
@@ -75,7 +68,7 @@ export class ContactsService {
 
   getAPIContactsByAddressid(id: number): Observable<any> {
 
-     let urls = GlobalVariable.BASE_API_URL + '/Contact/Address/' + id;
+     let urls = GlobalVariable.BASE_API_URL + 'Contact/Address/' + id;
 
     // http://stackoverflow.com/questions/40188631/retrieve-response-body-as-plain-text-or-xml-in-angularjs-2-http-get-request
 
@@ -100,11 +93,3 @@ export class ContactsService {
   }
 
 }
-
-// var map = new Microsoft.Maps.Map("myMap", {
-//   credentials: 'AkkdyItlkFQpIaP6LBafJJtC0GjEllz_nskGlRSpZ5eUPRRE1iMF985ZnZ1ITMZD'
-// });
-
-// map.setView({ center: new Microsoft.Maps.Location(0,0),
-//   mapTypeId: Microsoft.Maps.MapTypeId.road
-// });

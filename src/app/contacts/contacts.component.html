@@ -35,7 +35,7 @@
 
 <!-- https://plnkr.co/edit/qIkkBBbx7ctpBA5nvg99?p=preview -->
 
-         <nav md-tab-nav-bar aria-label="">
+        <nav md-tab-nav-bar aria-label="">
             <a md-tab-link *ngFor="let links of tabLinks; let i = index" [active]="tabLinkActiveIndex === i" (click)="tabLinkActiveIndex = i"> 
                 <md-icon class="tab-icon">{{ links.icon }}</md-icon> {{ links.label }}</a>
            <button md-mini-fab class="example-fab" (click)="sidenav.toggle()"><md-icon>filter_list</md-icon></button>
@@ -79,15 +79,18 @@
             <md-toolbar color="primary">
                 Address Info Id: {{featureId}}
                 <span class="spacer"></span>
+            
             </md-toolbar>
+            <div *ngIf="addressCount === 0" style="margin:10px 0 5px 10px;color:black">No Residents Found</div>
+            <div *ngIf="addressCount > 0">
+                <div style="margin:10px 0 5px 10px;color:black"> {{ addressContacts[0]?.street }}</div>
+                <ul>
+                    <li *ngFor="let c of addressContacts" style="color:black">
+                        <a [routerLink]="'/contact/' + c.contactId" > {{c.firstName}} {{ c.lastName }} </a><br>
 
-            <div style="margin:10px 0 5px 10px;color:black"> {{ addressContacts[0].street }}</div>
-            <ul>
-                <li *ngFor="let c of addressContacts" style="color:black">
-                    {{c.firstName}} {{ c.lastName }} <br>
-
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
 
 
         </div>

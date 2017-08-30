@@ -1,11 +1,3 @@
-<!-- <nav>
-  <a routerLink="/home" routerLinkActive="active">home</a>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
-  <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
-  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-  <a routerLink="/compose" routerLinkActive="active">Compose</a>
-</nav> -->
-
 <!-- Page Content -->
 <!-- 
 http://stackoverflow.com/questions/40915277/change-build-in-colors-angular-2-material 
@@ -23,8 +15,7 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
   <!--<md-toolbar color="primary" style="height:65px" *ngIf="isLoggedIn">-->
   <md-toolbar color="primary">
 
-    <button md-icon-button  *ngIf="!media.isActive('gt-sm')" (click)="start.toggle()"><i class="material-icons">menu</i></button>
-    <!-- <button md-icon-button (click)="sidenavright.toggle()"><i class="material-icons">settings</i></button> -->
+    <button [hidden]="true" *ngIf="!media.isActive('gt-sm')" md-icon-button (click)="start?.toggle()"><md-icon>menu</md-icon></button>
 
     <!-- <span><h1> {{title}} </h1></span> -->
     <app-title style="margin:20px 10px 0 0;"></app-title> - Status: {{ isAuthorized }}
@@ -50,7 +41,7 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
     <button md-icon-button (click)="sidenavright.toggle()"><i class="material-icons">settings</i></button>
   </md-toolbar>
 
-  <md-sidenav [mode]="menuMode" opened="true" #start class="app-sidenav">
+  <md-sidenav *ngIf="isAuthorized" mode="side" opened="true" #start class="app-sidenav">
     <!--<md-toolbar color="primary" scroll style="height:65px">
       MENU
     </md-toolbar>-->
@@ -58,10 +49,10 @@ http://fuse-bootstrap4-material.withinpixels.com/vertical-layout-below-toolbar-l
       <!-- <a md-list-item routerLink="/home" routerLinkActive="active" (click)="start.close()">home</a> -->
       <a md-list-item routerLink="/home" routerLinkActive="active">home</a>
       <a md-list-item routerLink="/login" routerLinkActive="active">Login</a>
-      <a md-list-item routerLink="/admin/contacts" routerLinkActive="active">Contacts</a>
-      <a md-list-item routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
-      <a md-list-item routerLink="/admin/compose" routerLinkActive="active">Compose</a>
-      <a md-list-item routerLink="/admin/compose" routerLinkActive="active">Settings</a>
+      <a md-list-item routerLink="/contacts" routerLinkActive="active">Contacts</a>
+      <a md-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a md-list-item routerLink="/compose" routerLinkActive="active">Compose</a>
+      <a md-list-item routerLink="/compose" routerLinkActive="active">Settings</a>
 
     </md-nav-list>
   </md-sidenav>

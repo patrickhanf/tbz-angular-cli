@@ -51,6 +51,7 @@ export class ContactsComponent implements OnInit {
   private contacts: Observable<any>;
 
   private addressContacts: Observable<any>;
+  private addressCount: Observable<any>;
 
   direction = 'row';
   @ViewChild('sidenav') _sidenav: MdSidenav;
@@ -108,7 +109,6 @@ export class ContactsComponent implements OnInit {
     //
     // Update Contact list within this component
     //
-
     // this.contactService.getAPIContacts(searchVM)
     //   .subscribe(data => this.contacts = data,
     //   error => console.log(error),
@@ -131,14 +131,14 @@ export class ContactsComponent implements OnInit {
 
     // console.log("feature Id? ", _feature.get('id'));
 
-   // console.log("Is Open? ", event)
+    // console.log("Is Open? ", event)
 
     if (event.open) {
 
       console.log(_feature.type);
 
-      this.featureName  = _feature.name;
-      this.featureId  = _feature.turfId;
+      this.featureName = _feature.name;
+      this.featureId = _feature.turfId;
 
       let addressid = Number(_feature.turfId);
 
@@ -149,21 +149,27 @@ export class ContactsComponent implements OnInit {
         this._sidenav.open();
       } else if (_feature.type === FeatureEnums.Address) {
 
-      //this.addressContacts= Observable.empty();
+        //this.addressContacts= Observable.empty();
 
-      this.contactService.getAPIContactsByAddressid(addressid)
-        .subscribe(data => this.addressContacts = data,
-        error => console.log(error),
-        () => this._sidenav.open() );
+        this.contactService.getAPIContactsByAddressid(addressid)
+          .subscribe( // The 1st callback handles the data emitted by the observable.
+          data => {
+            this.addressContacts = data,
+              this.addressCount = data.length
+          }, // The 2nd callback handles errors.
+          error => console.log(error),
+          () => // The 3rd callback handles the "complete" event.
+            this.sidenavOpenIf()
+          );
 
-          this.showPanelSearch = false;
-          this.showPanelTurfDetail = false;
-          this.showPanelAddressDetail = true;
+        this.showPanelSearch = false;
+        this.showPanelTurfDetail = false;
+        this.showPanelAddressDetail = true;
 
       }
 
       // this.menuMode = "over";
-    
+
     }
     else {
       this._sidenav.close();
@@ -171,9 +177,13 @@ export class ContactsComponent implements OnInit {
 
   }
 
+  sidenavOpenIf(): void {
+    console.log('addressCount? ', this.addressCount);
+    this._sidenav.open();
+  }
 
   sidenavClose(): void {
-    
+
     this.showPanelSearch = true;
     this.showPanelTurfDetail = false;
     this.showPanelAddressDetail = false;

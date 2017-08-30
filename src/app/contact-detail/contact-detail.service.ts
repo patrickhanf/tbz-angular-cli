@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-// import { AuthenticationService } from '../_auth/_authentication.service'; //used for OAuth bearer token below
-// import { ContactVM } from '../_models/contact';
+import { GlobalVariable } from '../_global/global';
 
 
 // Import RxJs required methods
@@ -16,7 +15,8 @@ export class ContactDetailService {
 
   getAPIContactById(contactid: number): Observable<any> {
 
-    var urls = 'http://oneadvocacy.com/api/v1/Contact/' + contactid;
+    //var urls = 'http://oneadvocacy.com/api/v1/Contact/' + contactid;
+     let urls = GlobalVariable.BASE_API_URL + 'Contact/' + contactid;
 
     console.log('1 url=' + urls);
 

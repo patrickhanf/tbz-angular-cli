@@ -13,6 +13,9 @@ import 'hammerjs';  // If this is not here you will get error: "Could not find H
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { HomeModule } from './home/home.module';
+
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent } from './not-found.component';
@@ -57,7 +60,8 @@ import { OlComponent } from './_component/ol/ol.component';
     HttpModule,
    // JsonpModule,
     LoginRoutingModule,
-    AppRoutingModule,
+    HomeModule,
+    AppRoutingModule, // 
     MaterialModule, //.forRoot() removed after upgrade 5-16-17
     ExpansionPanelsModule,
 

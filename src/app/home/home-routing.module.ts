@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//import { HomeComponent }           from './home.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { ContactsComponent } from '../contacts/contacts.component';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from './home.component';
 import { AuthGuard } from '../auth-guard.service';
+import { SelectivePreloadingStrategy } from '../selective-preloading-strategy';
 
 // http://stackoverflow.com/questions/34331478/angular2-redirect-to-login-page/38369948#38369948
 
 const homeRoutes: Routes = [
 {
-    path: "home",
+    path: "admin",
     component : HomeComponent,
     children : [
+    { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard] }
+    { path: '**', component: DashboardComponent, canActivate: [AuthGuard]}
+    
     ]
 }
 ];
@@ -44,12 +46,15 @@ const homeRoutes: Routes = [
 // ];
 
 @NgModule({
-    imports: [
-        RouterModule.forChild(homeRoutes)
-    ],
+  imports: [
+    RouterModule.forChild( homeRoutes )
+  ],
     exports: [
         RouterModule
-    ]
+    ],
+   providers: [
+    SelectivePreloadingStrategy
+  ]
 })
 export class HomeRoutingModule { }
 

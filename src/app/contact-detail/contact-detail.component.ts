@@ -40,4 +40,9 @@ export class ContactDetailComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
+  // https://angular.io/tutorial/toh-pt5
+  //   goBack(): void {
+  //   this.location.back();
+  // }
+
 }

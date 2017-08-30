@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class TitleComponent {
   @Input() subtitle = '';
-  title = 'Angular Modules';
+  title = 'title.component.ts';
   user = '';
 
 //   constructor(userService: UserService) {

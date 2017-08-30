@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, Route } from "@angular/router";
 import { Observable } from 'rxjs/Observable';
 import { MdGridListModule } from '@angular/material';
 
@@ -12,16 +12,9 @@ import { MdGridListModule } from '@angular/material';
 })
 export class DashboardComponent implements OnInit {
 
-  // sessionId: Observable<string>;
-  // token: Observable<string>;
-  // modules: string[];
+  public viewRoutes = []; // https://stackoverflow.com/questions/37569936/how-to-list-output-all-routes-in-routes-in-my-angular2-app
 
-  constructor(
-    private route: ActivatedRoute//,
-    // private preloadStrategy: SelectivePreloadingStrategy
-  ) {
-    // this.modules = preloadStrategy.preloadedModules;
-  }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     //   // Capture the session ID if available
@@ -29,10 +22,21 @@ export class DashboardComponent implements OnInit {
     //     .queryParams
     //     .map(params => params['session_id'] || 'None');
 
-    //   // Capture the fragment if available
-    //   this.token = this.route
-    //     .fragment
-    //     .map(fragment => fragment || 'None');
+      this.printpath('', this.router.config);
+  }
+
+   printpath(parent: String, config: Route[]) {
+    for (let i = 0; i < config.length; i++) {
+      let r = config[i];
+     // console.log(parent + '/' + r.path);
+      let url = parent + '/' + r.path;
+
+      this.viewRoutes.push(url);
+
+      if (r.children && r.path) {
+        this.printpath(parent + '/' + r.path, r.children);
+      }
+    }
   }
 
 }

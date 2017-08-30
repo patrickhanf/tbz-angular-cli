@@ -1,31 +1,13 @@
-<h1> new contact-detail works! {{ id }} </h1>
+<h1 style="color:black"> {{ contact[0]?.firstName }} {{ contact[0]?.lastName }}</h1>
 <p style="margin:20px;">
   <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
-  
-      <button md-raised-button  color="primary" routerLink="/contacts" routerLinkActive="active">
-      <md-icon class="md-24">arrow</md-icon> Back
-    </button>
-      <button md-raised-button  color="primary" [md-menu-trigger-for]="contactactionmenu">
-      Actions
-    </button>
+<!-- <div><button (click)="goBack()">Back</button></div> -->
 
-    <md-menu x-position="before" #contactactionmenu="mdMenu">
-
-      <button routerLink="/home" routerLinkActive="active" md-menu-item> 
-        <md-icon>dialpad</md-icon>
-        <span>Home</span>
-      </button>
-      <button routerLink="/login" routerLinkActive="active" md-menu-item>
-        <md-icon>fingerprint</md-icon>
-        <span>Login</span>
-      </button>
-    </md-menu>
-
-  <md-grid-list cols="4" rowHeight="100px">
+  <md-grid-list cols="4" rowHeight="100px" md-row-height="1:0.1" md-gutter="12px">
     <md-grid-tile colspan="4" style="background-color: lightblue">
 
-      <md-card>
-
+      <div style="position: absolute;left:5px">
+  
         <md-list>
           <md-list-item *ngFor="let c of contact; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
             md-ink-ripple="#03A9F4" [class.odd]="isOdd" [class.even]="isEven">
@@ -35,19 +17,19 @@
           </md-list-item>
         </md-list>
 
-      </md-card>
+      </div>
 
 
     </md-grid-tile>
     <md-grid-tile colpan="3" rowspan="2" style="background-color: lightgreen">
       <md-card>
-        Dan card
+        User Tags:: {{ id }}
       </md-card>
     </md-grid-tile>
 
     <md-grid-tile rowspan="1" rowspan="3" style="background-color: lightgreen">
       <md-card>
-        Dan card
+        Notes::
       </md-card>
     </md-grid-tile>
   </md-grid-list>
