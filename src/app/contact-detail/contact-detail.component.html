@@ -1,5 +1,6 @@
-<h1 style="color:black"> {{ contact[0]?.firstName }} {{ contact[0]?.lastName }}</h1>
-<p style="margin:20px;">
+  <!-- <h1 style="color:black"> {{ contact?.firstName }} {{ contact?.lastName }}</h1>   -->
+
+<p style="margin:10px;">
   <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
 <!-- <div><button (click)="goBack()">Back</button></div> -->
 
@@ -9,27 +10,45 @@
       <div style="position: absolute;left:5px">
   
         <md-list>
+          <md-list-item>
+            <div md-list-icon class="circle">{{contact.firstName.substring(0,1)}}{{contact.lastName.substring(0,1)}}</div>
+            <h4 md-line>{{ contact.firstName}} {{contact.lastName}}</h4>
+            <p md-line> {{ contact.addressDefaultDisplayID}} - {{ contact.street}} </p>
+            </md-list-item>
+        </md-list> 
+
+         <!-- <md-list>
           <md-list-item *ngFor="let c of contact; index as i; odd as isOdd; even as isEven" (click)="onSelectContact(c)" class="repeated-item noselect"
             md-ink-ripple="#03A9F4" [class.odd]="isOdd" [class.even]="isEven">
             <div md-list-icon class="circle">{{c.firstName.substring(0,1)}}{{c.lastName.substring(0,1)}}</div>
             <h4 md-line>{{c.firstName}} {{c.lastName}}</h4>
             <p md-line> {{c.addressDefaultDisplayID}} - {{c.street}} </p>
           </md-list-item>
-        </md-list>
+        </md-list>  -->
 
       </div>
 
+</md-grid-tile>
+<md-grid-tile colpan="3" rowspan="2" style="background-color: lightgreen">
+  <md-card>
+    User Tags:: {{ id }}
 
-    </md-grid-tile>
-    <md-grid-tile colpan="3" rowspan="2" style="background-color: lightgreen">
-      <md-card>
-        User Tags:: {{ id }}
-      </md-card>
-    </md-grid-tile>
+    <md-chip-list>
+      <md-chip *ngFor="let c of contact.attributes">
+         {{c.attributeName}}
+      </md-chip>
+    </md-chip-list>
+  </md-card>
+</md-grid-tile>
 
     <md-grid-tile rowspan="1" rowspan="3" style="background-color: lightgreen">
-      <md-card>
-        Notes::
+      <md-card  flex layout-fill>
+        Conversations
+            <ul>
+      <li *ngFor="let c of contact.logs">
+        {{c.logId}} - {{c.content}}
+      </li>
+    </ul>
       </md-card>
     </md-grid-tile>
   </md-grid-list>

@@ -19,17 +19,16 @@ import { HomeModule } from './home/home.module';
 // Custom components
 import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent } from './not-found.component';
-//import { GeomapComponent } from './geomap/geomap.component';
 import { HomeComponent } from './home/home.component';
 //import { ContactsComponent } from './contacts/contacts.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+//import { ContactsComponent } from './contacts/contacts.component';
+//import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginRoutingModule } from './login/login-routing.module';
 import { LoginComponent } from './login/login.component';
-import { ContactDetailComponent } from './contact-detail/contact-detail.component';
+//import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 
 import { TitleComponent } from './_component/title.component';
-import { SearchComponent } from './_component/search/search.component';
+//import { SearchComponent } from './_component/search/search.component';
 
 import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
@@ -41,11 +40,8 @@ import { DialogOK, DialogConfirm, DialogSaveTurf } from './_component/dialogs';
 import { HttpService } from './_services/http.service';
 import { AuthService } from './auth.service'; // used for OAuth bearer token below   
 
-import { OlComponent } from './_component/ol/ol.component';
-//import { OlService } from './_component/ol/ol.service'; // global
-// https://angular.io/docs/ts/latest/guide/router.html
 
-  export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
   return new HttpService(xhrBackend, requestOptions);
   }
 
@@ -70,16 +66,16 @@ import { OlComponent } from './_component/ol/ol.component';
     AppComponent,
     DialogOK, DialogConfirm, DialogSaveTurf,
     TitleComponent,
-    OlComponent,
+  //  OlComponent,
   //  GeomapComponent,
     ComposeMessageComponent,
-    DashboardComponent,
+   // DashboardComponent,
     HomeComponent,
-    ContactsComponent,
+  //  ContactsComponent,
     LoginComponent,
     PageNotFoundComponent,
-    ContactDetailComponent,
-    SearchComponent
+ //   ContactDetailComponent,
+  //  SearchComponent
   ],
   providers: [  DialogsService, 
     {

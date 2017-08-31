@@ -86,7 +86,7 @@
                 <div style="margin:10px 0 5px 10px;color:black"> {{ addressContacts[0]?.street }}</div>
                 <ul>
                     <li *ngFor="let c of addressContacts" style="color:black">
-                        <a [routerLink]="'/contact/' + c.contactId" > {{c.firstName}} {{ c.lastName }} </a><br>
+                        <a [routerLink]="'/admin/contact/' + c.contactId" > {{c.firstName}} {{ c.lastName }} </a><br>
 
                     </li>
                 </ul>

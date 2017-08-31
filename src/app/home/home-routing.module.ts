@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { PollwatchingComponent } from '../pollwatching/pollwatching.component';
 import { ContactsComponent } from '../contacts/contacts.component';
+import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 import { HomeComponent } from './home.component';
 import { AuthGuard } from '../auth-guard.service';
 import { SelectivePreloadingStrategy } from '../selective-preloading-strategy';
@@ -14,8 +16,11 @@ const homeRoutes: Routes = [
     path: "admin",
     component : HomeComponent,
     children : [
-    { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard] },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard], data: { title: 'Contact Map' } },
+    { path: 'contact/:id', component: ContactDetailComponent, canActivate: [AuthGuard], data: { title: 'Contact Record' }  },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { title: 'Dashboard' }  },
+    { path: 'pollwatching', component: PollwatchingComponent, canActivate: [AuthGuard], data: { title: 'Poll Watching' }  },
+
     { path: '**', component: DashboardComponent, canActivate: [AuthGuard]}
     
     ]

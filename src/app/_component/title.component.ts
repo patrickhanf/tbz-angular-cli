@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Title }     from '@angular/platform-browser'; // https://angular.io/guide/set-document-title
 //import { UserService } from './user.service';
 
 @Component({
@@ -7,12 +8,15 @@ import { Component, Input } from '@angular/core';
 })
 export class TitleComponent {
   @Input() subtitle = '';
-  title = 'title.component.ts';
+  @Input() title = 'title.component.ts';
   user = '';
 
-//   constructor(userService: UserService) {
-//     this.user = userService.userName;
-//   }
+ public constructor(private titleService: Title ) { }
+
+  public setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
+  }
+
 }
 
 

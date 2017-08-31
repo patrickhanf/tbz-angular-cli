@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
-
+import { ContactVM } from '../_models/contact';
 import { ContactDetailService } from './contact-detail.service';
+
+import 'rxjs/add/operator/map'
 
 @Component({
   selector: 'app-contact-detail',
@@ -11,8 +13,9 @@ import { ContactDetailService } from './contact-detail.service';
   providers: [ContactDetailService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
 })
 export class ContactDetailComponent implements OnInit {
-  public contact: Observable<any>;
-  // private contact;
+  public contact: ContactVM;
+
+ //public contact;
 
   id: number;
   private sub: any;

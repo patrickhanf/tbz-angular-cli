@@ -13,20 +13,20 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
-export class ContactDetailService {
+export class PollwatchingService {
 
   constructor(private http: Http) { }
 
-  getAPIContactById(contactid: number): Observable<any> {
+  getAPIPrecinct(): Observable<any> {
 
-     let urls = GlobalVariable.BASE_API_URL + 'Contact/' + contactid;
+     let urls = GlobalVariable.BASE_API_URL + 'Precinct/';
 
     console.log('1 url=' + urls);
     let responsex = this.http.get(urls)
       .map((response: Response) => <any>response.json())
       .do(x => console.log(x)); // debug line working. 4-13-17
 
-    console.log("Done loading Hello...", responsex);
+    console.log("Done loading getAPIPrecinct()...", responsex);
     return responsex;
 
   }
