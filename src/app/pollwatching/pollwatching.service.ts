@@ -31,6 +31,14 @@ export class PollwatchingService {
 
   }
 
+    getAPIPrecinctVoters(precinctId): Observable<any> {
+     let urls = GlobalVariable.BASE_API_URL + 'Precinct/' + precinctId;
+     let responsex = this.http.get(urls)
+      .map((response: Response) => <any>response.json())
+      .do(x => console.log(x)); // debug line working. 4-13-17
+    return responsex;
+  }
+
 
 
 }

@@ -1,28 +1,20 @@
-<!-- <h1 style="color:black"> {{ contact?.firstName }} {{ contact?.lastName }}</h1>   -->
+<md-toolbar color="accent" class="mat-elevation-z5" style="margin-top:2px;">
+  <md-select placeholder="Select Precinct" [(ngModel)]="selectedPrecinctId" (ngModelChange)="getAPIPrecinctVoters(selectedPrecinctId)"
+    style="left:5px;right:5px;width:100%">
+    <md-option *ngFor="let item of precincts" [value]="item.precinctId">
+      {{item.precinctName}} ({{item.voterCount}})
+    </md-option>
+  </md-select>
+           <md-input-container class="example-full-width">
+             <input [formControl]="searchNameControl" #namefield mdInput placeholder="Find Voter"  [(ngModel)]="search" [value]="searchName">
+          </md-input-container>
 
-<p style="margin:10px;">
-  <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
-  <!-- <div><button (click)="goBack()">Back</button></div> -->
-
-  <md-grid-list cols="4" rowHeight="100px" md-row-height="1:0.1" md-gutter="12px">
-    <md-grid-tile colspan="4" style="background-color: lightblue">
-
-      <div style="position: absolute;left:5px">
-
-          <md-select placeholder="Select Precinct" [(ngModel)]="selectedPrecinct">
-            <md-option *ngFor="let item of precincts">
-              {{item.precinctName}} ({{item.voterCount}})
-            </md-option>
-          </md-select>
-
-          <!-- <div style="margin:25px 0 25px 0;">Precinct Details: <br />Id:({{ selectedPrecinct.precinctId }})<br />Name: {{ selectedPrecinct.precinctName }}
-            <br/>Voters:{{ selectedPrecinct.voterCount }}</div> 
-          <button>Start Polling</button>-->
-
-
-      </div>
-
-    </md-grid-tile>
-
-  </md-grid-list>
-</p>
+</md-toolbar>
+<div style="height: calc(100vh - 128px);overflow-y:scroll">
+  <md-list>
+    <md-list-item *ngFor="let item of precinctVoters | searchfilter: 'firstName' : 'lastName': searchName" class="noselect" [ngClass]="{hasvoted: item.hasVoted==1}" style="color:#333;cursor:pointer">
+      <div class="circle">{{item.firstName.substring(0,1)}}{{item.lastName.substring(0,1)}}</div>
+      <p style="padding-left:5px;" (click)="item.hasVoted = !item.hasVoted"><strong>{{item.lastName}}, {{item.firstName}}</strong> <br />{{item.street}} </p>
+    </md-list-item>
+  </md-list>
+</div>

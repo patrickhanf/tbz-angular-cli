@@ -17,7 +17,7 @@ import { ContactDetailComponent } from '../contact-detail/contact-detail.compone
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { PollwatchingComponent } from '../pollwatching/pollwatching.component';
 
-
+import { SearchFilterPipe } from '../pollwatching/pollwatching.searchfilter';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { ExpansionPanelsModule } from '../_modules/ng2-expansion-panels.module';
@@ -47,6 +47,7 @@ import { ExpansionPanelsModule } from '../_modules/ng2-expansion-panels.module';
     ContactDetailComponent,
     PollwatchingComponent,
     SearchComponent,
+    SearchFilterPipe,
     
   ],
   providers: [Title]
