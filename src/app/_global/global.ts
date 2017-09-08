@@ -6,6 +6,7 @@
      //BASE_OAUTH_URL: 'http://' + window.location.hostname + ':8080/token',
      BASE_API_URL: (window.location.hostname.indexOf("localhost") !== -1)?('http://'+window.location.hostname+':8080/v1/'):('http://'+window.location.hostname+'/api/v1/'),
      BASE_OAUTH_URL: (window.location.hostname.indexOf("localhost") !== -1)?('http://'+window.location.hostname+':8080/token'):('http://'+window.location.hostname+'/api/token'),
+     TRAILBLAZER_CLIENTID: "e2673b8d16f66c25ea64be369597a4c4be605db2",
      
      //... more of your variables
  });

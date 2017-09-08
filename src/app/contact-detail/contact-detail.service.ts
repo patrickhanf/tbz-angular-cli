@@ -4,6 +4,8 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { GlobalVariable } from '../_global/global';
 import { AuthService } from '../auth.service'; // used for OAuth bearer token below
 
+import {HttpService} from '../_services/http.service';
+
     // Caching data!!!
     // http://stackoverflow.com/questions/36271899/what-is-the-correct-way-to-share-the-result-of-an-angular-2-http-network-call-in
     // https://plnkr.co/edit/WpDtCkS4gslYwousZlmi?p=preview
@@ -15,7 +17,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class ContactDetailService {
 
-  constructor(private http: Http, private auth: AuthService) { }
+  constructor(private http: HttpService, private auth: AuthService) { }
 
   getAPIContactById(contactid: number): Observable<any> {
 
@@ -23,16 +25,20 @@ export class ContactDetailService {
 
     console.log('1 url=' + urls);
 
- const header = new Headers({
-      // 'Access-Control-Allow-Origin': '*',
-        'Authorization': 'Bearer ' + this.auth.token
-    });
-    const options = new RequestOptions({ headers: header });
-
-
-    let responsex = this.http.get(urls, options)
+    let responsex = this.http.get(urls)
       .map((response: Response) => <any>response.json())
       .do(x => console.log(x)); // debug line working. 4-13-17
+
+//  const header = new Headers({
+//       // 'Access-Control-Allow-Origin': '*',
+//         'Authorization': 'Bearer ' + this.auth.token
+//     });
+//     const options = new RequestOptions({ headers: header });
+
+
+//     let responsex = this.http.get(urls, options)
+//       .map((response: Response) => <any>response.json())
+//       .do(x => console.log(x)); // debug line working. 4-13-17
 
     console.log("Done loading Hello...", responsex);
     return responsex;

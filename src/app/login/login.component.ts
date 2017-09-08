@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   model: any = { username: 'TEST', password: 'TEST123' };
   returnUrl: string;
+  loginResult: any;
 
   constructor(public authService: AuthService, public router: Router) {
     this.setMessage();
@@ -58,6 +59,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.model.username, this.model.password)
       .subscribe(
       data => {
+        this.loginResult = data;
+        //console.log(this.loginResult);
         this.loading = false;
         this.setMessage();
         if (this.authService.isLoggedIn) {
@@ -77,15 +80,27 @@ export class LoginComponent implements OnInit {
           };
           // alert('this.authService.isLoggedIn= '+this.authService.isLoggedIn);
           // Redirect the user
-          console.log('login.component.ts redirect=' + redirect);
-          //this.router.navigate([redirect], navigationExtras);
+          //console.log('login.component.ts redirect=' + redirect);
+         
           this.router.navigate([redirect], navigationExtras);
+         
         }
+
       },
       error => {
+        //console.log("code?", error.status);  // aka 400
+        this.message = error._body;
         this.loading = false;
       });
   }
+
+
+  // , // The 2nd callback handles errors.
+  // error => { console.log(error)},
+  // () => // The 3rd callback handles the "complete" event.
+  // );
+
+
 
   logout() {
     this.authService.logout();

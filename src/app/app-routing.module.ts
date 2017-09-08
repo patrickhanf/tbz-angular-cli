@@ -55,7 +55,7 @@ const appRoutes: Routes = [
       { 
         preloadingStrategy: SelectivePreloadingStrategy, 
         useHash: true, 
-        enableTracing: true  // <-- debugging purposes only
+        // enableTracing: true  // <-- debugging purposes only
       },
     )
   ],

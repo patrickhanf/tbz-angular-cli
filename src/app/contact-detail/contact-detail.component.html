@@ -1,6 +1,6 @@
   <!-- <h1 style="color:black"> {{ contact?.firstName }} {{ contact?.lastName }}</h1>   -->
 
-<p style="margin:10px;">
+<p style="margin:10px;" *ngIf="contact">
   <!-- http://stackoverflow.com/questions/36314261/implementing-ngclasseven-ngclassodd-for-angular-2 -->
 <!-- <div><button (click)="goBack()">Back</button></div> -->
 
@@ -33,11 +33,11 @@
   <md-card>
     User Tags:: {{ id }}
 
-    <md-chip-list>
+     <md-chip-list>
       <md-chip *ngFor="let c of contact.attributes">
          {{c.attributeName}}
       </md-chip>
-    </md-chip-list>
+    </md-chip-list> 
   </md-card>
 </md-grid-tile>
 

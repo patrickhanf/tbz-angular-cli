@@ -40,7 +40,7 @@ export class OlService {
     //let url = GlobalVariable.BASE_API_URL + '/turf';
     console.log('3 host=', window.location.hostname);
 
-    let url = GlobalVariable.BASE_API_URL + '/api/v1/Turf';
+    let url = GlobalVariable.BASE_API_URL + 'Turf';
     //let url = 'http://zionsFirstNational.localhost:8080/api/v1/Turf';
     //let url = 'http://localhost:8080/api/v1/Turf';
 
@@ -59,13 +59,13 @@ export class OlService {
     let turf = new TurfVM(features);
 
 
-    let body = JSON.stringify(turf);
-
-    console.log(body);
+    // let body = JSON.stringify(turf); // http.post converts data automatically
+    //console.log("URL API=", url);
+    //console.log(body);
 
     // "This observable is cold which means the request won't go out until something subscribes to the observable. aka req.subscribe()"
     //const req = this.http.post(url, body, options);
-    const req = this.http.post(url, body);
+    const req = this.http.post(url, turf);
 
     req.map((response) => <any>response);
 
@@ -75,7 +75,7 @@ export class OlService {
 
     getAPITurfFeatures(): Observable<any> {
 
-    let url = GlobalVariable.BASE_API_URL + '/Turf';
+    let url = GlobalVariable.BASE_API_URL + 'Turf';
 
     return this.http.get(url).map((response) => <any>response);
 

@@ -46,6 +46,7 @@ export class OlComponent implements OnInit {
 
     // @Output() openViewTurfPanel: EventEmitter<FeatureVM> = new EventEmitter();
     @Output() openViewEditPanel: EventEmitter<object> = new EventEmitter();
+    @Output() currentmapcoords: EventEmitter<object> = new EventEmitter();
 
 
 
@@ -91,6 +92,8 @@ export class OlComponent implements OnInit {
         this.placeMapFromComponent();
         console.log('ol.component.ngAfterContentInit().placeMapFromComponent 2');
 
+        console.log('ol.component.ngAfterContentInit() map sized');
+        mapGlobal.updateSize();
 
         // this.olService.placeMap(this.zoom,this.lnglat).then(() => { 
         //         alert("Map loaded by promise!");
@@ -275,7 +278,7 @@ export class OlComponent implements OnInit {
 
 
     onResizeMapWindow(event) {
-        console.log('map width=' + event.target.innerWidth);
+        console.log('onResizeMapWindow() map width=' + event.target.innerWidth);
         mapGlobal.updateSize();
     }
 
@@ -595,6 +598,14 @@ export class OlComponent implements OnInit {
                 }
             });
 
+            mapGlobal.on('moveend', function (e) {
+                console.log('mapGlobal.moveend',e);
+                let extent = mapGlobal.getView().calculateExtent(mapGlobal.getSize());
+                let extentprojection = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+
+                console.log('mapGlobal.moveend',extentprojection);
+            });
+
 
             mapGlobal.getView().on('change:resolution', function (e) {
 
@@ -602,7 +613,9 @@ export class OlComponent implements OnInit {
                 // LARGER the number the closer to space you are!
 
                 // THIS IS FOR DEBUGGING ZOOM WITH Web.APIs
-                // console.log(mapGlobal.getView().getZoom());
+                console.log(mapGlobal.getView().getZoom());
+                console.log('mapGlobal.getView()',e);
+                console.log('mapGlobal.getView()',e.target.o.center);
 
                 // if (mapGlobal.getView().getZoom() > 5) {
                 //   this._vectorLayerGeoJson.setVisible(false);
@@ -853,7 +866,16 @@ export class OlComponent implements OnInit {
         });
 
     }
+    
+    setCenter(lat, lon, zoom)
+    {
+        let ol = this.get();
 
+        if(mapGlobal == null)
+            return;
+
+        mapGlobal.setCenter( new ol.LonLat(1000000, 7000000), 5);
+    }
 
 
     // addLayerSwitcher = (layers: [any]) => {

@@ -33,8 +33,9 @@ export class AuthService {
     // this.isLoggedIn = true; // temp until we get OAuth to run.
 
     console.log('clicked _login user=' + username + ' pass=' + password);
-    let creds = 'grant_type=password&username=' + username + '&password=' + password;
+    let creds = 'grant_type=password&username=' + username + '&password=' + password + "&client_id=" + GlobalVariable.TRAILBLAZER_CLIENTID;
 
+    // alert(creds);
     // add authorization header with jwt token
     let headers = new Headers();
     headers.append('Content-Type', 'application/X-www-form-urlencoded');
