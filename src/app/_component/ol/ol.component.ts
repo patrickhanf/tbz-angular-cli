@@ -599,11 +599,12 @@ export class OlComponent implements OnInit {
             });
 
             mapGlobal.on('moveend', function (e) {
+
                 console.log('mapGlobal.moveend',e);
                 let extent = mapGlobal.getView().calculateExtent(mapGlobal.getSize());
                 let extentprojection = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
 
-                console.log('mapGlobal.moveend',extentprojection);
+                console.log('mapGlobal.moveend projection:',extentprojection);
             });
 
 

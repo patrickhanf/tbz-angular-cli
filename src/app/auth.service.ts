@@ -78,6 +78,13 @@ export class AuthService {
 
     this.router.navigate(['./login']);
   }
+
+  refreshtoken(): void {
+    
+    // TODO: https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
+    // Exmaple URL:
+    // https://trailblziq.com/api/token?grant_type=refresh_token&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&refresh_token=REFRESH_TOKEN
+  }
 }
 
 

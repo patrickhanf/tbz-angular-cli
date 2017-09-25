@@ -37,6 +37,10 @@ http://alberplz.github.io/angular2-color-picker/examples/index.html
 // Removed because it's not Angular 4 compatiable 
 npm i --save angular2-color-picker
 
+
+https://github.com/BCJTI/ng2-cookies
+npm install --save ng2-cookies
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.

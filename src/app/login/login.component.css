@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
 .login-card {
-    max-width: 400px;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -48,4 +48,14 @@ h2 {
     font-family: 'Open Sans Condensed', sans-serif;
     font-weight: 100;
     color: #99e1da;
+}
+
+.work-space-width{
+    width: 200px !important;
+   
+
+}
+
+.align-right input{
+    text-align: right !important;
 }

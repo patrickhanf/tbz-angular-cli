@@ -1,3 +1,5 @@
+<!-- https://blog.thecodecampus.de/angular-2-include-google-analytics-event-tracking/ -->
+<div style="padding:10px">Workspace= {{ workspace?.workspaceName }} </div>
 <div class="page-header">
     <h1>Trail Blazer IQ</h1>
     <h2>Login Access</h2>
@@ -6,8 +8,38 @@
 <div ng-cloak="" style="padding-top:0;">
 
 
+    <md-card class="login-card" *ngIf="!showWorkSpaceLogin">
+        
+                <md-card-content>
+                    <!-- <md-toolbar>
+                        LOGIN
+                    </md-toolbar> -->
+                    <h3>Sign in to your workspace</h3>
+                    <p> Enter your workspace’s Trail Blazer IQ URL. </p>
+        
+                    <!-- <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate> -->
+                    <form name="form" #f="ngForm" novalidate> 
+                       
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                            <md-input-container class="md-block align-right work-space-width mat-headline" >
+                                <input mdInput name="workspace" placeholder="Workspace" value="" [(ngModel)]="model.workspace" #workspace="ngModel" required  />
+                            </md-input-container> <strong class="mat-headline" > .trailblazerIQ.com </strong>
+                            <div *ngIf="f.submitted && !workspace.valid" class="help-block">Workspace is required</div>
+                        </div>
+                 
+        
+                        <md-card-actions align="end">
+                            <button class="login-control-width" style="margin:0 20px 0 20px" color="primary" md-button md-raised-button (click)="setWorkSpace()" >Continue 🡒</button>
+                        </md-card-actions>
+                    </form>
+                </md-card-content>
+        
+            </md-card>
 
-    <md-card class="login-card">
+
+
+
+    <md-card class="login-card" *ngIf="showWorkSpaceLogin">
 
         <md-card-content>
             <!-- <md-toolbar>
@@ -54,5 +86,19 @@
 
     </md-card>
 
+    <!-- <div style="padding:10px"></div> -->
+    
+    <md-card class="login-card" style="margin-top:25px;" *ngIf="showWorkSpaceToggle">
+        
+                <md-card-content>
+                            
+                        <div>You’re already signed in to this workspace:</div>
+                        <md-card-actions align="end">
+                                <div><span style="padding-right:10px;">{{ workspace?.committeeName }}</span> <button md-button md-raised-button md-primary color="primary" click="redirectWorkSpace()" >Launch {{ workspace?.workspaceName }}</button></div>
+                        </md-card-actions>
+                </md-card-content>
+                
+    </md-card>
+    
 
 </div>

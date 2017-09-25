@@ -1,32 +1,133 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 //import { AuthenticationService } from '../_auth/authentication.service';
 import { AuthService } from '../auth.service';
-import {FacebookService} from '../_services/facebook.service';
+import { FacebookService } from '../_services/facebook.service';
+import { Cookie } from 'ng2-cookies';
+
+
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
+
+
+//import { Route } from '@angular/router';
+
+// import { LoginService } from './login.service';
+import { WorkSpaceVM } from '../_models/workspace';
 
 @Component({
   styleUrls: ['./login.component.css'],
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+//providers: [LoginService] // this needs to be here or you WILL Error: Unhandled Promise rejection: No provider for ContactsService! ; Zone: angular ; Task: Promise.then ; Value: 
 })
 export class LoginComponent implements OnInit {
+
+  public showWorkSpaceLogin=false;
+  public showWorkSpaceToggle=false;
+  public workspace: WorkSpaceVM;
+  workspaceSubdomain: string;
+  workspaceCookieName: string;
+
   message: string;
+  workspaceUrl: string;
   facebook;
   loading = false;
-  model: any = { username: 'TEST', password: 'TEST123' };
-  returnUrl: string;
+  model: any = { username: 'TEST', password: 'TEST123' , workspace: '' }; // , committeename: '', workspaceurl: ''};
+
   loginResult: any;
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(public authService: AuthService, public router: Router,private route: ActivatedRoute, @Inject(DOCUMENT) private document: any) {
     this.setMessage();
+    //
+    // to debug use: ng serve --host 0.0.0.0 --disable-host-check
+    //
+    console.log('host=', window.location.hostname);
+
+    // this.workspaceCookieName = Cookie.get('workspace');
+
+    this.workspaceSubdomain = window.location.hostname.split('.')[0];
+
+    // if(this.workspaceCookieName  === null) {
+    //   this.showWorkSpaceToggle = false;
+    // }
+
+    console.log('this.workspaceSubdomain= ' + this.workspaceSubdomain + ' this.workspaceCookieName='+this.workspaceCookieName);
+
+    if (this.workspaceSubdomain == "www" || this.workspaceSubdomain == "trailblazeriq") {
+      this.model.workspace = '';
+    }
+    else {
+      this.model.workspace = this.workspaceSubdomain; // prefill what ever subdomain they filled into the URL
+    } 
+
+
+    //
+    // Pre-load API call to get data from server.
+    //
+    this.route.data.subscribe(result => {
+
+      //alert('subdom= ' + this.workspaceSubdomain);
+      this.workspace = <WorkSpaceVM> result["data"];
+
+      //console.log('this.workspace =', this.workspace );
+
+      // No cookie workspace found
+      if (this.workspace === null) {  
+        //alert('this.workspace === null');
+        
+        this.showWorkSpaceLogin = false;
+        this.showWorkSpaceToggle = false;
+   
+      }
+      else {
+
+        if (this.workspace.workspaceName === this.workspaceSubdomain) {
+          this.showWorkSpaceLogin = true;
+          this.showWorkSpaceToggle = false;
+        }
+        else {
+          this.showWorkSpaceLogin = false;
+          this.showWorkSpaceToggle = true;
+        }
+
+        //this.model.workspace = this.workspace.workspaceName;
+        //this.model.workspaceurl = this.workspace.workspaceUrl;
+        //this.model.committeename = this.workspace.committeeName;
+        console.log('data=',this.workspace.workspaceName);
+      }
+
+
+    
+
+    });
+   
   }
   ngOnInit() {
+
+    // this.route.data.subscribe((data: { workspace: WorkSpaceVM }) => {
+    //   console.log('data=',this.workspace);
+    // });
+
     // reset login status
     // this.authService.logout(); //Not sure we want to automatically logout when the page loads?
+   
+    // let name  = this.getWorkSpaceFromCookie();
+
+    // this.loginService.getAPIWorkSpace(name)
+    // .subscribe(data => {
+    //   this.workspace = data
+    //   this.model.workspace = this.workspace.workspaceName;
+    // },
+    // error => {console.log(error)},
+    // () => {
+    //   console.log('Get getAPIContactById complete')
+      
+    // });
 
     // get return url from route parameters or default to '/'
     // TODO: this.returnUrl = this.router.snapshot.queryParams['returnUrl'] || '/';
-    this.returnUrl = '/';
-    this.facebook = new FacebookService();
+    // this.returnUrl = '/';
+    // this.facebook = new FacebookService();
   }
 
   setMessage() {
@@ -34,6 +135,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginFacebook(valid) {
+
     if (!valid)
       return;
     alert("facebook login");
@@ -106,6 +208,25 @@ export class LoginComponent implements OnInit {
     this.authService.logout();
     this.setMessage();
   }
+
+  setWorkSpace() {
+
+    // set(name: string, value: string, expires?: number | Date, path?: string, domain?: string, secure?: boolean): void;
+
+   if (window.location.hostname.indexOf("localhost") !== -1)
+      Cookie.set('workspace', this.model.workspace, 365);
+   else
+      Cookie.set('workspace', this.model.workspace, 365, "/", "trailblazeriq.com", false );
+
+   // localStorage.setItem("workspace", this.model.workspace);
+  }
+
+  redirectWorkSpace() {
+    alert('href=' + this.workspace.workspaceUrl);
+    this.document.location.href = this.workspace.workspaceUrl; // 'https://stackoverflow.com';
+  }
+
+
 }
 
 
