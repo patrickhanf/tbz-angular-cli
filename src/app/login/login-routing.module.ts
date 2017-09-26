@@ -8,7 +8,7 @@ import { LoginResolver } from './login-routing.resolver';
 
 
 const loginRoutes: Routes = [
-  { path: 'login', component: LoginComponent, resolve: { data: LoginResolver } }
+  { path: 'login', component: LoginComponent , resolve: { data: LoginResolver }  }
 ];
 
 @NgModule({

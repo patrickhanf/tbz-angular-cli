@@ -17,6 +17,7 @@ import { Http, XHRBackend, RequestOptions, Request, RequestOptionsArgs, Response
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class HttpService extends Http {
@@ -55,7 +56,14 @@ export class HttpService extends Http {
     private catchAuthError(self: HttpService) {
         // we have to pass HttpService's own instance here as `self`
         return (res: Response) => {
-            console.log(res);
+            console.log('http.service.ts/catchAuthError()',res);
+
+            if (res.status === 0) { 
+                console.log("Server is down...")
+                return Observable.throw(new Error('tbz-Server-is-down:' + res.status));
+                
+            }
+
             if (res.status === 401 || res.status === 403) {
                 // if not authenticated
                 console.log(res);

@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
 
     console.log('this.workspaceSubdomain= ' + this.workspaceSubdomain + ' this.workspaceCookieName='+this.workspaceCookieName);
 
-    if (this.workspaceSubdomain == "www" || this.workspaceSubdomain == "trailblazeriq") {
+    if (this.workspaceSubdomain == "www" || this.workspaceSubdomain == "trailblazeriq" ||  this.workspaceSubdomain == "localhost" ) {
       this.model.workspace = '';
     }
     else {
@@ -64,15 +64,53 @@ export class LoginComponent implements OnInit {
     //
     // Pre-load API call to get data from server.
     //
-    this.route.data.subscribe(result => {
+    // this.route.data.subscribe(
+    //   response  => {
+    //   alert('result= ' + response );
+    //   this.workspace = <WorkSpaceVM> response ["data"];
+    //   //console.log('this.workspace =', this.workspace );
+    //   // No cookie workspace found
+    //   if (this.workspace === null) {  
+    //     //alert('this.workspace === null');
+        
+    //     this.showWorkSpaceLogin = false;
+    //     this.showWorkSpaceToggle = false;
+   
+    //   }
+    //   else {
 
-      //alert('subdom= ' + this.workspaceSubdomain);
-      this.workspace = <WorkSpaceVM> result["data"];
+    //     if (this.workspace.workspaceName === this.workspaceSubdomain) {
+    //       this.showWorkSpaceLogin = true;
+    //       this.showWorkSpaceToggle = false;
+    //     }
+    //     else {
+    //       this.showWorkSpaceLogin = false;
+    //       this.showWorkSpaceToggle = true;
+    //     }
 
-      //console.log('this.workspace =', this.workspace );
+    //     //this.model.workspace = this.workspace.workspaceName;
+    //     //this.model.workspaceurl = this.workspace.workspaceUrl;
+    //     //this.model.committeename = this.workspace.committeeName;
+    //     console.log('data=',this.workspace.workspaceName);
+    //   }
+    // }, 
+    // error => {
+    //    alert(error);
+    // });
+   
+  }
+  ngOnInit() {
 
+    //
+    // Pre-load API call to get data from server.
+    //
+    this.route.data.subscribe(
+      response  => {
+      console.log('result= ', response );
+      this.workspace = <WorkSpaceVM> response ["data"];
+      console.log('this.workspace =', this.workspace );
       // No cookie workspace found
-      if (this.workspace === null) {  
+      if (this.workspace === null || this.workspace === undefined ) {  
         //alert('this.workspace === null');
         
         this.showWorkSpaceLogin = false;
@@ -95,18 +133,10 @@ export class LoginComponent implements OnInit {
         //this.model.committeename = this.workspace.committeeName;
         console.log('data=',this.workspace.workspaceName);
       }
-
-
-    
-
+    }, 
+    error => {
+       alert(error);
     });
-   
-  }
-  ngOnInit() {
-
-    // this.route.data.subscribe((data: { workspace: WorkSpaceVM }) => {
-    //   console.log('data=',this.workspace);
-    // });
 
     // reset login status
     // this.authService.logout(); //Not sure we want to automatically logout when the page loads?

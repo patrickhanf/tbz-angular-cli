@@ -20,20 +20,25 @@ export class LoginService {
   constructor(private http: HttpService, private auth: AuthService) { }
 
   getAPIWorkSpace(workpace: string): Observable<any> {
+    
+        let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?name=' + workpace;
+    
+        // console.log('1 url=' + urls);
+    
+        let responsex = this.http.get(urls)
+          .map((response: Response) => <any>response.json())
+          .do(x => console.log('debug=',x) )
+          // .catch((error: any) => {
+          //   if (error.status === 0) { 
+          //     console.log("Server is down...")
+          //   }
 
-    let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?name=' + workpace;
-
-    // console.log('1 url=' + urls);
-
-    let responsex = this.http.get(urls)
-      .map((response: Response) => <any>response.json())
-      .do(x => console.log('debug=',x) ); // debug line working. 4-13-17
-
-    // console.log("getAPIWorkSpace()", responsex);
-    return responsex;
-
-  }
-
-
+          //     return Observable.throw(new Error('Custom:' + error.status));
+          // });
+    
+        console.log("getAPIWorkSpace()", responsex);
+        return responsex;
+    
+      }
 
 }
