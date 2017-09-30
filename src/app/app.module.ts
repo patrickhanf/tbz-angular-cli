@@ -32,9 +32,15 @@ import { TitleComponent } from './_component/title.component';
 
 import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
+
+
 // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
 import { DialogsService } from './_component/dialogs/dialogs.service';
 import { DialogOK, DialogConfirm, DialogSaveTurf } from './_component/dialogs';
+
+
+
+import {GoogleAnalyticsEventsService} from "./_services/googleanalyticsevents.service";
 
 
 import { HttpService } from './_services/http.service';
@@ -77,12 +83,14 @@ export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: Reques
  //   ContactDetailComponent,
   //  SearchComponent
   ],
-  providers: [  DialogsService, 
+  providers: [  
+    DialogsService, 
     {
       provide: HttpService,
       useFactory: httpClientFactory,
       deps: [XHRBackend, RequestOptions]
-    }
+    },
+    GoogleAnalyticsEventsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogOK, DialogConfirm, DialogSaveTurf] // https://stackoverflow.com/questions/41684114/angular-2-easy-way-to-make-a-confirmation-dialog

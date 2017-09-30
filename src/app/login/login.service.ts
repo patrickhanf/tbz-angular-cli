@@ -24,9 +24,10 @@ export class LoginService {
         let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?name=' + workpace;
     
         // console.log('1 url=' + urls);
+        let body;
     
         let responsex = this.http.get(urls)
-          .map((response: Response) => <any>response.json())
+          .map((response: Response) => body = <any>response.json())
           .do(x => console.log('debug=',x) )
           // .catch((error: any) => {
           //   if (error.status === 0) { 
@@ -37,7 +38,9 @@ export class LoginService {
           // });
     
         console.log("getAPIWorkSpace()", responsex);
-        return responsex;
+        console.log("getAPIWorkSpace()", body);
+
+        return body || {};
     
       }
 

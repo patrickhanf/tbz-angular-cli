@@ -34,7 +34,7 @@ export class HttpService extends Http {
       
     }
 
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    request(url: string | Request, options?: RequestOptionsArgs): Observable<any> {
         
         let token = localStorage.getItem('auth_token');
 
@@ -56,11 +56,11 @@ export class HttpService extends Http {
     private catchAuthError(self: HttpService) {
         // we have to pass HttpService's own instance here as `self`
         return (res: Response) => {
-            console.log('http.service.ts/catchAuthError()',res);
+            console.log('http.service.ts/catchAuthError()');
 
             if (res.status === 0) { 
-                console.log("Server is down...")
-                return Observable.throw(new Error('tbz-Server-is-down:' + res.status));
+                console.log("Server is down...", res)
+               // return Observable.throw(new Error('tbz-Server-is-down:' + res.status));
                 
             }
 
@@ -68,7 +68,7 @@ export class HttpService extends Http {
                 // if not authenticated
                 console.log(res);
             }
-            return Observable.throw(res);
+            return  Observable.throw(res);
         };
     }
 

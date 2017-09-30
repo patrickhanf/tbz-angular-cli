@@ -1,4 +1,5 @@
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { GoogleAnalyticsEventsService } from "../_services/googleanalyticsevents.service";
 import { Observable } from 'rxjs/Observable';
 import { style, state, animate, transition, trigger } from '@angular/core';
 import { FeatureEnums } from '../_global/global.enums';
@@ -73,8 +74,20 @@ export class ContactsComponent implements OnInit {
 
   @ViewChild(OlComponent) _olComponent: OlComponent;
 
-  constructor(private router: Router, private contactService: ContactsService) {
+  constructor(private router: Router,  public googleAnalyticsEventsService: GoogleAnalyticsEventsService, private contactService: ContactsService) {
     // constructor
+
+    // 
+    // Add GoogleAnalyticsEventsService
+    //
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
+
+
   }
 
   selectedIndex: number = 0;

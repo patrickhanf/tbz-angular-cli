@@ -16,10 +16,10 @@ export class LoginResolver implements Resolve<any> {
     let workspaceCookieName = Cookie.get('workspace');
 
     if (workspaceCookieName === null || workspaceCookieName === undefined || workspaceCookieName === '') {
-      return null;
+       return  null; //Observable.throw(new Error('tbz-cookie missing:'));
     }
     else {
-      return this.loginService.getAPIWorkSpace(workspaceCookieName);
+       return this.loginService.getAPIWorkSpace(workspaceCookieName);
     }
   }
   

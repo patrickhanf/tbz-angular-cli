@@ -43,6 +43,10 @@ npm i --save angular2-color-picker
 https://github.com/BCJTI/ng2-cookies
 npm install --save ng2-cookies
 
+https://blog.thecodecampus.de/angular-2-include-google-analytics-event-tracking/
+https://www.npmjs.com/package/@types/angular-google-analytics
+npm install --save-dev @types/google.analytics
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
