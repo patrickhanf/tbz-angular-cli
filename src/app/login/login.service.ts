@@ -19,16 +19,17 @@ export class LoginService {
 
   constructor(private http: HttpService, private auth: AuthService) { }
 
-  getAPIWorkSpace(workpace: string): Observable<any> {
+  getAPIWorkSpace(workpace: string, workspaceCookie: string): Observable<any> {
     
-        let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?name=' + workpace;
+        let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?wsname=' + workpace + '&wscookie='+ workspaceCookie;
     
-        // console.log('1 url=' + urls);
+        console.log('1 url=' + urls);
         let body;
     
         let responsex = this.http.get(urls)
-          .map((response: Response) => body = <any>response.json())
-          .do(x => console.log('debug=',x) )
+          .map((response: Response) => responsex = <any> response.json());
+
+          // .do(x => console.log('debug=',x) )
           // .catch((error: any) => {
           //   if (error.status === 0) { 
           //     console.log("Server is down...")
@@ -36,11 +37,12 @@ export class LoginService {
 
           //     return Observable.throw(new Error('Custom:' + error.status));
           // });
-    
-        console.log("getAPIWorkSpace()", responsex);
-        console.log("getAPIWorkSpace()", body);
+          console.log("getAPIWorkSpace()", responsex);
+        return responsex;
+        
+        //console.log("getAPIWorkSpace()", body);
 
-        return body || {};
+        //return body || {};
     
       }
 

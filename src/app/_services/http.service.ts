@@ -26,8 +26,11 @@ export class HttpService extends Http {
     constructor( backend: XHRBackend, options: RequestOptions) {
         
         let token = localStorage.getItem('auth_token'); // your custom token getter function here
-  
-        options.headers.set('Authorization', `Bearer ${token}`);
+
+        if(token !== null){
+          console.log('http.service.ts.constructor() token=' + token);
+           options.headers.set('Authorization', `Bearer ${token}`);
+        }
     
 
         super(backend, options);
@@ -35,11 +38,14 @@ export class HttpService extends Http {
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<any> {
-        
+
         let token = localStorage.getItem('auth_token');
 
-        // alert('http.service.ts token='+token);
-        
+        if(token === null){
+            console.log('http.service.ts token=' + token);
+            return super.request(url, options).catch(this.catchAuthError(this));
+         }
+
         if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
             if (!options) {
                 // let's make option object
@@ -51,6 +57,7 @@ export class HttpService extends Http {
             url.headers.set('Authorization', `Bearer ${token}`);
         }
         return super.request(url, options).catch(this.catchAuthError(this));
+
     }
 
     private catchAuthError(self: HttpService) {

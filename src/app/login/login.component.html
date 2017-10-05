@@ -1,104 +1,103 @@
 <!-- https://blog.thecodecampus.de/angular-2-include-google-analytics-event-tracking/ -->
-<div style="padding:10px">Workspace= {{ workspace?.workspaceName }} </div>
+<div style="padding:10px">Workspace= {{ workspacedisplay.primary.workspaceName }} </div>
 <div class="page-header">
     <h1>Trail Blazer IQ</h1>
     <h2>Login Access</h2>
 </div>
 <div class="header-background-image"></div>
-<div ng-cloak="" style="padding-top:0;">
-
-
-    <md-card class="login-card" *ngIf="!showWorkSpaceLogin">
-        
-                <md-card-content>
-                    <!-- <md-toolbar>
-                        LOGIN
-                    </md-toolbar> -->
-                    <h3>Sign in to your workspace</h3>
-                    <p> Enter your workspace’s Trail Blazer IQ URL. </p>
-        
-                    <!-- <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate> -->
-                    <form name="form" #f="ngForm" novalidate> 
-                       
-                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-                            <md-input-container class="md-block align-right work-space-width mat-headline" >
-                                <input mdInput name="workspace" placeholder="Workspace" value="" [(ngModel)]="model.workspace" #workspace="ngModel" required  />
-                            </md-input-container> <strong class="mat-headline" > .trailblazerIQ.com </strong>
-                            <div *ngIf="f.submitted && !workspace.valid" class="help-block">Workspace is required</div>
-                        </div>
-                 
-        
-                        <md-card-actions align="end">
-                            <button class="login-control-width" style="margin:0 20px 0 20px" color="primary" md-button md-raised-button (click)="setWorkSpace()" >Continue 🡒</button>
-                        </md-card-actions>
-                    </form>
-                </md-card-content>
-        
-            </md-card>
-
-
-
+<div style="padding-top:0;">
 
     <md-card class="login-card" *ngIf="showWorkSpaceLogin">
 
+
         <md-card-content>
-            <!-- <md-toolbar>
-                LOGIN
-            </md-toolbar> -->
-            <p>{{message}} <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-                /></p>
+            <p>
+                Welcome {{ workspacedisplay.primary.committeeName }} 
+                
+            </p>
 
-            <!-- <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate> -->
-            <form name="form" #f="ngForm" novalidate>
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <!-- <form name="form" (ngSubmit)="f1.form.valid && login()" #f="ngForm" novalidate> -->
+            <form name="form" #f1="ngForm" novalidate>
+                <div class="form-group" [ngClass]="{ 'has-error': f1.submitted && !username.valid }">
+
+                    <!-- <input name="workspacex" value="" [(ngModel)]="model.workspacex" #workspacex="ngModel" required /> -->
+
+                    <!-- <md-form-field class="example-full-width">
+                            <input mdInput placeholder="Favorite food" value="Sushi">
+                    </md-form-field> -->
+
                     <md-input-container class="login-control-width">
-
-                        <!--<md-placeholder>
-                         <md-icon class="material-icons">person</md-icon> User Name
-                    </md-placeholder>-->
-                        <input mdInput name="username" placeholder="User Name" value="TEST" [(ngModel)]="model.username" #username="ngModel" required
-                        />
-
-
+                        <md-placeholder>
+                                      <md-icon class="material-icons">person</md-icon>User Name
+                        </md-placeholder>
+                        <input mdInput name="username"  value="TEST" [(ngModel)]="model.username" #username="ngModel" required />
                     </md-input-container>
-                    <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+                    <div *ngIf="f1.submitted && !username.valid" class="help-block">Username is required</div>
                 </div>
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <div class="form-group" [ngClass]="{ 'has-error': f1.submitted && !password.valid }">
                     <md-input-container class="login-control-width">
-
-                        <input mdInput name="fd" placeholder="Password" value="TEST123" [(ngModel)]="model.password" #password="ngModel" required
-                        />
+                      <md-placeholder>
+                                    <md-icon class="material-icons">lock</md-icon>Password
+                      </md-placeholder>
+                        <input mdInput name="fd"  value="TEST123" [(ngModel)]="model.password" #password="ngModel" required />
                     </md-input-container>
-                    <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+                    <div *ngIf="f1.submitted && !password.valid" class="help-block">Password is required</div>
                 </div>
 
                 <md-card-actions align="end">
-
-                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f._submitted = true;login(f.valid)">Login</button>
+                    <a href="http://trailblazeriq.com/">Switch Workspace</a>
+                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f1._submitted = true;login(f1.valid)">Login</button>
                     <button md-button md-raised-button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f._submitted = true;loginFacebook(f.valid)">Facebook Login</button>
-                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="authService.isLoggedIn" (click)="f._submitted = true;logoutFacebook(f.valid)">Facebook Logout</button>
+                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="!authService.isLoggedIn" (click)="f1._submitted = true;loginFacebook(f1.valid)">Facebook Login</button>
+                    <button md-button md-raised-button md-primary [disabled]="loading" *ngIf="authService.isLoggedIn" (click)="f1._submitted = true;logoutFacebook(f1.valid)">Facebook Logout</button>
 
                     <!--<a [routerLink]="['/register']" class="btn btn-link">Register</a>-->
+                </md-card-actions>
+                <div>{{message}}</div><img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </form>
+        </md-card-content>
+
+    </md-card>
+
+    <md-card class="login-card" *ngIf="!showWorkSpaceLogin">
+       
+        <md-card-content>
+            <form name="form" #f2="ngForm" (ngSubmit)="submitPrimary()">
+            <h3>Sign in to your workspace</h3>
+            <p> Enter your workspace’s Trail Blazer IQ URL. </p>
+                <div class="form-group">
+                    <md-input-container class="md-block align-right work-space-width mat-headline">
+                        <input mdInput name="workspacex" placeholder="Workspace" value="" [(ngModel)]="workspaceNamePrimary" #workspacex="ngModel" required />
+                    </md-input-container> <strong class="mat-headline"> .trailblazerIQ.com </strong> 
+                    
+                    <md-error *ngIf="workspaceError">Invalid workspace name '{{ workspaceNamePrimary }}'</md-error>
+                </div>
+
+                <md-card-actions align="end">
+                   <button class="login-control-width" style="margin:0 20px 0 20px" color="primary" md-button md-raised-button type="submit"  [disabled]="f2.invalid">Continue 🡒</button>
                 </md-card-actions>
             </form>
         </md-card-content>
 
     </md-card>
 
-    <!-- <div style="padding:10px"></div> -->
-    
+
     <md-card class="login-card" style="margin-top:25px;" *ngIf="showWorkSpaceToggle">
-        
-                <md-card-content>
-                            
-                        <div>You’re already signed in to this workspace:</div>
-                        <md-card-actions align="end">
-                                <div><span style="padding-right:10px;">{{ workspace?.committeeName }}</span> <button md-button md-raised-button md-primary color="primary" click="redirectWorkSpace()" >Launch {{ workspace?.workspaceName }}</button></div>
-                        </md-card-actions>
-                </md-card-content>
-                
+
+        <md-card-content>
+            <form name="form2" #f3="ngForm" (ngSubmit)="submitAlternative()">
+                <div>You’re already signed in to this workspace:</div>
+                <md-card-actions align="end">
+                    <div><span style="padding-right:10px;">{{ workspacedisplay.alternative.committeeName }}</span>
+                        <button md-button md-raised-button md-primary color="primary" type="submit">
+                            Launch {{ workspacedisplay.alternative.workspaceName }}
+                        </button>
+                    </div>
+                </md-card-actions>
+            </form>
+        </md-card-content>
+
     </md-card>
-    
+
 
 </div>

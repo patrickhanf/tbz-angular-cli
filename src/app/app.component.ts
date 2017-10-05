@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { AuthService } from './auth.service'; // used for OAuth bearer token below   
 import { ObservableMedia } from "@angular/flex-layout"; // https://stackoverflow.com/questions/42418280/switch-md-sidenav-mode-angular-material-2
 
+import { AppReadyEvent } from './app-ready.component'
+
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
@@ -26,8 +28,9 @@ export class AppComponent {
 
   public isAuthorized; // Where we'll store the resulting menu mode
 
-  constructor(public auth: AuthService, public media:ObservableMedia ) {
+  constructor(public auth: AuthService, public media:ObservableMedia, appReadyEvent: AppReadyEvent ) {
     // constructor
+    appReadyEvent.trigger();
   }
 
   ngOnInit(): void {

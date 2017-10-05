@@ -1,128 +1,24 @@
-//
-// http://stackoverflow.com/questions/37268999/angularjs-2-material-design-set-color-palette
-// Full document here
-// https://github.com/angular/material2/blob/master/guides/theming.md
-
-// @import '~@angular/material/core/theming/all-theme';
-
-
 @import '~@angular/material/theming';
-
 // Plus imports for other components in your app.
 
-// Include the base styles for Angular Material core. We include this here so that you only
+// Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
 @include mat-core();
 
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
-// Background palette for dark themes.
-// Override background for dark-theme, see material2 source link:
-// https://github.com/angular/material2/blob/master/src/lib/core/theming/_palette.scss
-// 
-$mat-dark-theme-background: (
-  status-bar: white,
-  app-bar:    map_get($mat-grey, 900),
-  background: rgba(black, 0.05),  // override dark theme background 6-27-17 - Org: background: #303030
-  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
-  card:       map_get($mat-grey, 800),
-  dialog:     map_get($mat-grey, 800),
-  disabled-button: $white-12-opacity,
-  raised-button: map-get($mat-grey, 800),
-  focused-button: $white-6-opacity,
-  selected-button: map_get($mat-grey, 900),
-  selected-disabled-button: map_get($mat-grey, 800),
-  disabled-button-toggle: map_get($mat-grey, 1000),
-  slider-off:        rgba(white, 0.3),
-  slider-off-active: rgba(white, 0.3),
-  
-);
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
 
-// http://mcg.mbitson.com/#!?mcgpalette0=%236aa84f
-$md-trailblzgreen: (
-    50 :  #eaf6e4, 
-    100 : #c9e9bc,
-    200 : #a6db90,
-    300 : #82cc63,
-    400 : #67c141,
-    500 : #4cb620, // this is the toolbar background color=primary
-    600 : #45af1c,
-    700 : #3ca618,
-    800 : #339e13,
-    900 : #248e0b,
-    A100 : #c7ffbe,
-    A200 : #F2F2F2, // /* This is the color=accent toolbar */
-    A400 : #70ff58,
-    A700 : #5aff3e,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
-);
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
 
-
-
-// Define an alternate dark theme. See: https://material.angular.io/guide/theming
-$green-primary: mat-palette($md-trailblzgreen);
-$green-accent:  mat-palette($md-trailblzgreen, A200, A100, A400); // from contrast above
-
-$green-warn:    mat-palette($mat-red);
-
-$dark-theme:   mat-dark-theme($green-primary, $green-accent, $green-warn); // <= theme name
-$light-theme:  mat-light-theme($green-primary, $green-accent, $green-warn); // <= theme name
-
-
-// @include angular-material-theme($green-theme);
-
-@include angular-material-theme($dark-theme);
-
-@include mat-core-theme($light-theme);
-@include mat-autocomplete-theme($light-theme);
-@include mat-button-theme($light-theme);
-@include mat-button-toggle-theme($light-theme);
-@include mat-card-theme($light-theme);
-@include mat-checkbox-theme($light-theme);
-@include mat-chips-theme($light-theme);
-@include mat-dialog-theme($light-theme);  /* good color */
-@include mat-grid-list-theme($light-theme);
-@include mat-icon-theme($light-theme);
-@include mat-input-theme($light-theme);
-@include mat-list-theme($dark-theme);
-@include mat-menu-theme($light-theme);
-@include mat-progress-bar-theme($light-theme);
-@include mat-progress-spinner-theme($light-theme);
-@include mat-radio-theme($light-theme);
-@include mat-select-theme($light-theme);
-@include mat-sidenav-theme($dark-theme); /* this changes the background of the app dark, not just sidenav */
-@include mat-slide-toggle-theme($light-theme); 
-@include mat-slider-theme($light-theme);
-@include mat-tabs-theme($light-theme);
-@include mat-toolbar-theme($light-theme);
-@include mat-tooltip-theme($light-theme);
-
-
-// https://github.com/AngularClass/angular-starter/wiki/How-to-include-Material
-
-// https://github.com/AngularClass/angular-starter/wiki/How-to-include-Material
-body {
-    font-family: Roboto, 'Helvetica Neue', sans-serif; // Helps fonts on OSX looks more consistent with other systems
-    // Isn't currently in button styles due to performance concerns
-    * {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    h1 {
-        font-size: 20px;
-    }
-}
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);

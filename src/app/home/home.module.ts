@@ -8,7 +8,10 @@ import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // https://github.com/telerik/kendo-angular/issues/454
 import { FlexLayoutModule } from '@angular/flex-layout'; //https://github.com/angular/flex-layout/wiki/Integration-with-Angular-CLI 
 import 'hammerjs';  // If this is not here you will get error: "Could not find HammerJS. Certain Angular Material components may not work correctly." see readme.md
-import { MaterialModule } from '@angular/material'; // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
+//import { MaterialModule } from '@angular/material'; // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
+import { MyMaterialModule } from '../app.my-material.module'
+
+
 
 import { OlComponent } from '../_component/ol/ol.component';
 import { SearchComponent } from '../_component/search/search.component';
@@ -35,7 +38,8 @@ import { ExpansionPanelsModule } from '../_modules/ng2-expansion-panels.module';
     HttpModule,
     CommonModule,
     HomeRoutingModule,
-    MaterialModule, //.forRoot() removed after upgrade 5-16-17
+  //  MaterialModule, //.forRoot() removed after upgrade 5-16-17
+    MyMaterialModule,
     ExpansionPanelsModule,
     //   ContactsModule//, 
     // MaterialModule.forRoot()

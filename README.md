@@ -7,9 +7,12 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng serve --host 0.0.0.0 --disable-host-check` for subdomains like me.domain.com
 
+Run `ng build --prod --aot` to build production
+
 ## Dependencies
 
 Check for npn updates
+npm outdated
 npm i -g npm-check-updates (https://www.npmjs.com/package/npm-check-updates)
 
 Check Angular-cli version: ng version

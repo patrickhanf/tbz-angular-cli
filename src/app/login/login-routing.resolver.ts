@@ -11,16 +11,20 @@ export class LoginResolver implements Resolve<any> {
   constructor(private loginService: LoginService) {}
 
   //resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any 
-  resolve( route: ActivatedRouteSnapshot): Observable<WorkSpaceVM>
+  resolve( route: ActivatedRouteSnapshot): Observable<any>
   {
     let workspaceCookieName = Cookie.get('workspace');
+    let workspaceSubdomain = window.location.hostname.split('.')[0];
 
-    if (workspaceCookieName === null || workspaceCookieName === undefined || workspaceCookieName === '') {
-       return  null; //Observable.throw(new Error('tbz-cookie missing:'));
+    console.log('loginService.workspaceSubdomain='+workspaceSubdomain + ' workspaceCookieName=' + workspaceCookieName);
+
+    if (workspaceSubdomain == "www" || workspaceSubdomain == "trailblazeriq" || workspaceSubdomain == "localhost") {
+      workspaceSubdomain = "";
     }
-    else {
-       return this.loginService.getAPIWorkSpace(workspaceCookieName);
-    }
+
+
+    return this.loginService.getAPIWorkSpace(workspaceSubdomain, workspaceCookieName);
+ 
   }
   
 }

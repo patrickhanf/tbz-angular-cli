@@ -10,7 +10,9 @@ import 'hammerjs';  // If this is not here you will get error: "Could not find H
 
 
 // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
-import { MaterialModule } from '@angular/material';
+//import { MaterialModule } from '@angular/material';
+import { MyMaterialModule } from './app.my-material.module'
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -32,7 +34,7 @@ import { TitleComponent } from './_component/title.component';
 
 import { ExpansionPanelsModule } from './_modules/ng2-expansion-panels.module';
 
-
+import { AppReadyEvent } from './app-ready.component'
 
 // https://medium.com/@tarik.nzl/making-use-of-dialogs-in-material-2-mddialog-7533d27df41
 import { DialogsService } from './_component/dialogs/dialogs.service';
@@ -54,6 +56,7 @@ export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: Reques
 
 @NgModule({
   imports: [
+   
     FlexLayoutModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -64,7 +67,9 @@ export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: Reques
     LoginRoutingModule,
     HomeModule,
     AppRoutingModule, // 
-    MaterialModule, //.forRoot() removed after upgrade 5-16-17
+    
+   //  MaterialModule, //.forRoot() removed after upgrade 5-16-17
+    MyMaterialModule, // Replaced with above deprecated MaterialModule 10-4-17
     ExpansionPanelsModule,
 
   ],
@@ -84,6 +89,7 @@ export function httpClientFactory(xhrBackend: XHRBackend, requestOptions: Reques
   //  SearchComponent
   ],
   providers: [  
+    AppReadyEvent,
     DialogsService, 
     {
       provide: HttpService,
