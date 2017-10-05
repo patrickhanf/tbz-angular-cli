@@ -72,7 +72,10 @@ export class LoginComponent implements OnInit {
     //
     this.route.data.subscribe(
       response => {
-        //alert('result= ' + response );
+        
+        // TODO: see line 209 for NEW subscribe code
+        console.log('route.data.subscribe().response= ', response );
+
         this.workspacedisplay = <WorkSpaceDisplayVM>response["data"];
         console.log('this.route.data.subscribe().workspace =', this.workspacedisplay);
         // No valid subdomain workspace found

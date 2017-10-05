@@ -22,8 +22,11 @@ export class LoginResolver implements Resolve<any> {
       workspaceSubdomain = "";
     }
 
+    let response =  this.loginService.getAPIWorkSpace(workspaceSubdomain, workspaceCookieName);
 
-    return this.loginService.getAPIWorkSpace(workspaceSubdomain, workspaceCookieName);
+    console.log('LoginResolver.response=', response);
+
+    return response;
  
   }
   
