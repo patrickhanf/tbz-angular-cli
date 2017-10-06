@@ -1,5 +1,5 @@
 <!-- https://blog.thecodecampus.de/angular-2-include-google-analytics-event-tracking/ -->
-<div style="padding:10px">Workspace= {{ workspacedisplay.primary.workspaceName }} </div>
+<!-- <div style="padding:10px">Workspace= {{ workspacedisplay.primary.workspaceName }} </div> -->
 <div class="page-header">
     <h1>Trail Blazer IQ</h1>
     <h2>Login Access</h2>
@@ -14,8 +14,7 @@
             <p>
                 Welcome {{ workspacedisplay.primary.committeeName }} 
                 
-            </p>
-
+            </p> 
             <!-- <form name="form" (ngSubmit)="f1.form.valid && login()" #f="ngForm" novalidate> -->
             <form name="form" #f1="ngForm" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': f1.submitted && !username.valid }">
@@ -59,7 +58,7 @@
 
     </md-card>
 
-    <md-card class="login-card" *ngIf="!showWorkSpaceLogin">
+    <md-card class="login-card" *ngIf="!showWorkSpaceLogin && !showWorkSpaceOffline">
        
         <md-card-content>
             <form name="form" #f2="ngForm" (ngSubmit)="submitPrimary()">
@@ -82,15 +81,15 @@
     </md-card>
 
 
-    <md-card class="login-card" style="margin-top:25px;" *ngIf="showWorkSpaceToggle">
+    <md-card class="login-card" style="margin-top:25px;" *ngIf="showWorkSpaceToggle && !showWorkSpaceOffline">
 
         <md-card-content>
             <form name="form2" #f3="ngForm" (ngSubmit)="submitAlternative()">
                 <div>You’re already signed in to this workspace:</div>
                 <md-card-actions align="end">
-                    <div><span style="padding-right:10px;">{{ workspacedisplay.alternative.committeeName }}</span>
+                    <div><span style="padding-right:10px;">{{ workspacedisplay.alternate.committeeName }}</span>
                         <button md-button md-raised-button md-primary color="primary" type="submit">
-                            Launch {{ workspacedisplay.alternative.workspaceName }}
+                            Launch {{ workspacedisplay.alternate.workspaceName }}
                         </button>
                     </div>
                 </md-card-actions>
@@ -98,6 +97,17 @@
         </md-card-content>
 
     </md-card>
+<md-card class="login-card" *ngIf="showWorkSpaceOffline" style="margin-top:25px;">
 
+
+    <md-card-content>
+        <div style="text-align: center;">
+            <h1>Offline</h1>
+            <h3>We will be back shortly</h3>
+            <p>Sorry, Web Services are offline for maintenance. Please check back again soon.</p>
+        </div>
+    </md-card-content>
+
+</md-card>
 
 </div>

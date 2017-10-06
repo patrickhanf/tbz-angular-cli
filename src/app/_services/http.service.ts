@@ -62,20 +62,20 @@ export class HttpService extends Http {
 
     private catchAuthError(self: HttpService) {
         // we have to pass HttpService's own instance here as `self`
-        return (res: Response) => {
-            console.log('http.service.ts/catchAuthError()');
+        return (err: Response) => {
+            console.log('http.service.ts/catchAuthError()', err);
 
-            if (res.status === 0) { 
-                console.log("Server is down...", res)
+            if (err.status === 0) { 
+                console.log("Server is down...", err)
                // return Observable.throw(new Error('tbz-Server-is-down:' + res.status));
-                
             }
 
-            if (res.status === 401 || res.status === 403) {
+            if (err.status === 401 || err.status === 403) {
                 // if not authenticated
-                console.log(res);
+                console.log("Server Auth failed...", err);
             }
-            return  Observable.throw(res);
+           return  Observable.throw(err); // this will bubble the event up
+        //    return Observable.of(err);
         };
     }
 

@@ -1,6 +1,6 @@
 export class WorkSpaceDisplayVM {
     public primary: WorkSpaceVM = new WorkSpaceVM();
-    public alternative: WorkSpaceVM = new WorkSpaceVM();;
+    public alternate: WorkSpaceVM = new WorkSpaceVM();;
 }
 
 export class WorkSpaceVM {

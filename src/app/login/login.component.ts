@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   public showWorkSpaceLogin = false;
   public showWorkSpaceToggle = false;
+  public showWorkSpaceOffline = false;
 
   public workspacedisplay: WorkSpaceDisplayVM = new WorkSpaceDisplayVM();
   workspaceSubdomain: string;
@@ -70,17 +71,31 @@ export class LoginComponent implements OnInit {
     //
     // Pre-load API call to get data from server.
     //
-    this.route.data.subscribe(
-      response => {
-        
-        // TODO: see line 209 for NEW subscribe code
-        console.log('route.data.subscribe().response= ', response );
 
-        this.workspacedisplay = <WorkSpaceDisplayVM>response["data"];
+    this.route.data.subscribe(
+      // The 1st callback handles the data emitted by the observable.
+      // In your case, it's the JSON data extracted from the response.
+      // That's where you'll find your total property.
+      (response) => {
+                // TODO: see line 209 for NEW subscribe code
+                console.log('route.data.subscribe().response= ', response );
+
+       let temp = response["data"];
+
+       if(temp.status !== undefined && temp.status === 0)
+       {
+         //alert("Prgress temp.headers" +  response.header.status);
+         console.log ("Prgress temp.headers === undefined", temp.status);
+         this.showWorkSpaceOffline = true;
+       }
+      else{
+       
+        this.workspacedisplay =  <WorkSpaceDisplayVM> response["data"];
+        //this.workspacedisplay =  <WorkSpaceDisplayVM> response;
         console.log('this.route.data.subscribe().workspace =', this.workspacedisplay);
         // No valid subdomain workspace found
-        if (this.workspacedisplay === null) {
-
+        if (this.workspacedisplay === undefined) {
+          
           this.showWorkSpaceLogin = false;
           this.showWorkSpaceToggle = false;
 
@@ -95,16 +110,26 @@ export class LoginComponent implements OnInit {
             this.showWorkSpaceLogin = false;
 
             // Need to know if a cookie exists befor show this box
-            this.showWorkSpaceToggle = this.workspacedisplay.alternative.userDisplay;
+            this.showWorkSpaceToggle = this.workspacedisplay.alternate.userDisplay;
           }
 
 
           // console.log('data=',this.workspacedisplay.primary.workspaceName);
         }
+
+      }
+
       },
-      error => {
-        alert(error);
+      // The 2nd callback handles errors.
+      (err) => { 
+      // The 3rd callback handles the "complete" event.
+      console.log("observable error", err);
+      },
+      () => {
+        console.log("observable complete");
+
       });
+
 
   }
   ngOnInit() {
@@ -232,7 +257,7 @@ export class LoginComponent implements OnInit {
 
   submitAlternative() {
 
-    this.redirectWorkSpace(this.workspacedisplay.alternative.workspaceUrl, this.workspacedisplay.alternative.userDisplay);
+    this.redirectWorkSpace(this.workspacedisplay.alternate.workspaceUrl, this.workspacedisplay.alternate.userDisplay);
   }
 
 
