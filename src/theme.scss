@@ -22,3 +22,12 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($candy-app-theme);
+
+
+// Use mat-color to extract individual colors from a palette as necessary.
+.candy-timeline {
+    font-family: Roboto, 'Helvetica Neue', sans-serif; // Helps fonts on OSX looks more consistent with other systems
+    background-color: mat-color($candy-app-primary);
+    border-color: mat-color($candy-app-accent, A400);
+    color: rgb(233, 233, 233);
+  }

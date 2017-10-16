@@ -78,56 +78,54 @@ export class LoginComponent implements OnInit {
       // That's where you'll find your total property.
       (response) => {
                 // TODO: see line 209 for NEW subscribe code
-                console.log('route.data.subscribe().response= ', response );
+       console.log('route.data.subscribe().response= ', response );
 
        let temp = response["data"];
 
-       if(temp.status !== undefined && temp.status === 0)
-       {
+       if (temp.status !== undefined && temp.status === 0) {
          //alert("Prgress temp.headers" +  response.header.status);
-         console.log ("Prgress temp.headers === undefined", temp.status);
+         console.log("Prgress temp.headers === undefined", temp.status);
          this.showWorkSpaceOffline = true;
        }
-      else{
-       
-        this.workspacedisplay =  <WorkSpaceDisplayVM> response["data"];
-        //this.workspacedisplay =  <WorkSpaceDisplayVM> response;
-        console.log('this.route.data.subscribe().workspace =', this.workspacedisplay);
-        // No valid subdomain workspace found
-        if (this.workspacedisplay === undefined) {
-          
-          this.showWorkSpaceLogin = false;
-          this.showWorkSpaceToggle = false;
+       else {
 
-        }
-        else {
+         this.workspacedisplay = <WorkSpaceDisplayVM>response["data"];
+         //this.workspacedisplay =  <WorkSpaceDisplayVM> response;
+         console.log('this.route.data.subscribe().workspace =', this.workspacedisplay);
+         // No valid subdomain workspace found
+         if (this.workspacedisplay === undefined) {
 
-          if (this.workspacedisplay.primary.workspaceName === this.workspaceSubdomain) {
-            this.showWorkSpaceLogin = true;
-            this.showWorkSpaceToggle = false;
-          }
-          else {
-            this.showWorkSpaceLogin = false;
+           this.showWorkSpaceLogin = false;
+           this.showWorkSpaceToggle = false;
 
-            // Need to know if a cookie exists befor show this box
-            this.showWorkSpaceToggle = this.workspacedisplay.alternate.userDisplay;
-          }
+         }
+         else {
+
+           if (this.workspacedisplay.primary.workspaceName === this.workspaceSubdomain) {
+             this.showWorkSpaceLogin = true;
+             this.showWorkSpaceToggle = false;
+           }
+           else {
+             this.showWorkSpaceLogin = false;
+
+             // Need to know if a cookie exists befor show this box
+             this.showWorkSpaceToggle = this.workspacedisplay.alternate.userDisplay;
+           }
 
 
-          // console.log('data=',this.workspacedisplay.primary.workspaceName);
-        }
+           // console.log('data=',this.workspacedisplay.primary.workspaceName);
+         }
 
-      }
+       }
 
       },
       // The 2nd callback handles errors.
       (err) => { 
-      // The 3rd callback handles the "complete" event.
-      console.log("observable error", err);
+        console.log("observable error", err);
+        // The 3rd callback handles the "complete" event.
       },
       () => {
         console.log("observable complete");
-
       });
 
 

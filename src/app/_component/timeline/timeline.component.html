@@ -1,0 +1,19 @@
+
+    <!-- https://webdesign.tutsplus.com/tutorials/building-a-vertical-timeline-with-css-and-a-touch-of-javascript--cms-26528 -->
+    <section class="intro">
+        <div class="container">
+          <h1>Contact Timeline &darr;</h1>
+        </div>
+      </section>
+
+    <section class="timeline">
+      <ul>
+        <li *ngFor="let c of timeline">
+          <div class="candy-timeline">
+            <time>{{ c.date | date: 'MM/dd/yyyy' }} </time>
+            <!-- {{c.logId}} - -->
+            <p>{{c.content}}</p>
+          </div>
+        </li>
+      </ul>
+    </section>

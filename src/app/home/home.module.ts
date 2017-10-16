@@ -11,10 +11,10 @@ import 'hammerjs';  // If this is not here you will get error: "Could not find H
 //import { MaterialModule } from '@angular/material'; // http://www.mithunvp.com/angular-material-2-angular-cli-webpack/
 import { MyMaterialModule } from '../app.my-material.module'
 
-
-
 import { OlComponent } from '../_component/ol/ol.component';
 import { SearchComponent } from '../_component/search/search.component';
+import { TimelineComponent } from '../_component/timeline/timeline.component'; // https://webdesign.tutsplus.com/tutorials/building-a-vertical-timeline-with-css-and-a-touch-of-javascript--cms-26528
+
 import { ContactsComponent } from '../contacts/contacts.component';
 import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -52,6 +52,7 @@ import { ExpansionPanelsModule } from '../_modules/ng2-expansion-panels.module';
     PollwatchingComponent,
     SearchComponent,
     SearchFilterPipe,
+    TimelineComponent,
     
   ],
   providers: [Title]

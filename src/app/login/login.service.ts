@@ -25,20 +25,23 @@ export class LoginService {
         let urls = GlobalVariable.BASE_API_URL + 'WorkSpace/?wsname=' + workpace + '&wscookie='+ workspaceCookie;
     
         // console.log('1 getAPIWorkSpace.url=' + urls);
-        
+
         return  this.http.get(urls)
           .map((response: Response) => <any>response.json() )
-          .do(response => console.log('debug=',response) )
-          //.catch(this.handleError);
+          //.do(response => console.log('debug=',response) )
           .catch((error: any) => {
             if (error.status === 0) { 
               console.log("getAPIWorkSpace() Server is down...")
               //return Observable.throw(new Error('Custom:' + error.status));
             }
             //return Observable.throw(error);
-            //return Observable.throw(new Error('Custom:' + error.status));
+            //return  Observable.throw(new Error('Custom:' + error.status));
             //return Observable.throw(error.json() || 'Server Error');
+            //return  Observable.of(error);
+            //return Promise.reject(error.message || error);
+
             return  Observable.of(error);
+            
           });
     
       }
